@@ -1,27 +1,38 @@
 'use strict'
 import React from 'react'
-import { View, TouchableHighlight, Image } from 'react-native'
+import { View, TouchableHighlight, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
+import { MapView } from 'expo'
 
-import { Feather } from '@expo/vector-icons';
-
-// const Main = ({ navigation }) => {
-//   return (
-//     <View style={styles.container}>
-//       <View
-//         style={styles.arButton}
-//         onStartShouldSetResponder= {(evt) => true}
-//         onResponderRelease={() => navigation.navigate('AR')}
-//       >
-//         <Text>AR</Text>
-//       </View>
-//     </View>
-//   )
-// }
+// import MapboxGL from '@mapbox/react-native-mapbox-gl';
+import { Feather, EvilIcons } from '@expo/vector-icons';
 
 const Main = ({ navigation }) => {
   return (
     <View style={styles.container}>
+      <MapView
+        style={{ flex: 1 }}
+        initialRegion={{
+          latitude: 37.78825,
+          longitude: -122.4324,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        }}
+      />
+      <TouchableHighlight
+        style={styles.profileButton}
+        underlayColor={'#474787'}
+        activeOpacity={0.9}
+        onPress={() => navigation.navigate('AR')}>
+        <Feather name="user" size={32} color={'#FFFFFF'} />
+      </TouchableHighlight>
+      <TouchableHighlight
+        style={styles.satchelButton}
+        underlayColor={'#474787'}
+        activeOpacity={0.9}
+        onPress={() => navigation.navigate('AR')}>
+        <Feather name="box" size={32} color={'#FFFFFF'} />
+      </TouchableHighlight>
       <TouchableHighlight
         style={styles.arButton}
         underlayColor={'#474787'}
@@ -33,11 +44,10 @@ const Main = ({ navigation }) => {
   )
 }
 
-const styles = {
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'flex-end',
-    marginBottom: 40
   },
   textTitle: {
     fontSize: 20,
@@ -53,9 +63,39 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
-    left: 20
+    left: 20,
+    bottom: 50
+  },
+  profileButton: {
+    backgroundColor: '#706fd3',
+    height: 60,
+    width: 60,
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    left: 20,
+    top: 50
+  },
+  satchelButton: {
+    backgroundColor: '#706fd3',
+    height: 60,
+    width: 60,
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    right: 20,
+    top: 50
   }
-}
+})
+
+// const layerStyles = MapboxGL.StyleSheet.create({
+//   buildings: {
+//     fillColor: MapboxGL.StyleSheet.camera({ 10: 'blue', 20: 'green' }),
+//     fillOpacity: 0.84
+//   }
+// });
 
 export default connect()(Main)
 
