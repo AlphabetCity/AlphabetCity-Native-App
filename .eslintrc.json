@@ -3,10 +3,11 @@
   "extends": "fullstack",
   "parser": "babel-eslint",
 	"rules": {
-		"semi": 0,
+    "semi": 0,
+    "complexity": ["error", 200],
+    "new-cap": [1, { "capIsNewExceptions": ["StackNavigator"] }],
     "no-use-before-define": "off",
     "class-methods-use-this": "off",
-    "complexity": ["error", 200],
-    "new-cap": [1, { "capIsNewExceptions": ["StackNavigator"] }]
+    "no-return-assign": "off"
 	}
 }
