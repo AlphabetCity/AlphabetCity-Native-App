@@ -1,0 +1,12 @@
+{
+  "root": true,
+  "extends": "fullstack",
+  "parser": "babel-eslint",
+	"rules": {
+		"semi": 0,
+    "no-use-before-define": "off",
+    "class-methods-use-this": "off",
+    "complexity": ["error", 200],
+    "new-cap": [1, { "capIsNewExceptions": ["StackNavigator"] }]
+	}
+}
