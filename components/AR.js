@@ -1,7 +1,7 @@
 'use strict'
 import React, { Component } from 'react'
 import { PanResponder} from 'react-native'
-import { connect } from 'react-redux';
+import { connect } from 'react-redux'
 
 import * as THREE from 'three' // Supported builtin module
 import Expo from 'expo'
