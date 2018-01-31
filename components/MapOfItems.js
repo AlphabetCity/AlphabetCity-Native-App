@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { View, TouchableHighlight, StyleSheet } from 'react-native'
 import { MapView } from 'expo'
 import { connect } from 'react-redux'
+import { fetchItemsInWorld } from '../store/items'
 
 
 //we'd get the real data from doing an axios call to heroku via the redux store (once server is deployed to heroku)
@@ -43,6 +44,7 @@ const dummyItemsData = [
   }
 ]
 
+
 class MapOfItems extends Component {
   constructor(props) {
     super(props);
@@ -54,6 +56,10 @@ class MapOfItems extends Component {
       latitudeDelta: 0.0922,
       longitudeDelta: 0.0421
     }
+  }
+
+  componentDidMount() {
+    this.props.fetchItemsInWorld()
   }
 
   render() {
@@ -71,13 +77,10 @@ class MapOfItems extends Component {
         >
         {
             dummyItemsData.map(item => {
-              let lat = item.latitude;
-              let long = item.longitude;
-              console.log('lat: ', item.latitude, 'long: ', item.longitude)
               return (
                 <MapView.Marker
                   key={item.id}
-                  coordinate={{ latitude: lat, longitude: long }}
+                  coordinate={{ latitude: item.latitude, longitude: item.longitude }}
                   image={require('../assets/blurryPin.png')}
                 />
               )
@@ -89,11 +92,19 @@ class MapOfItems extends Component {
   }
 }
 
+const mapDispatchToProps = { fetchItemsInWorld };
+
+const mapStateToProps = state => ({
+  itemsInWorld: state.itemsInWorld,
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(MapOfItems);
+
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'flex-end',
   }
 })
-
-export default connect(mapStateToProps, mapDispatchToProps)(MapOfItems);

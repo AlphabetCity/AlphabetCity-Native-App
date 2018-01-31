@@ -2,7 +2,7 @@
 import React from 'react'
 import { View, TouchableHighlight, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
-import MapOfItems from './MapOfItems'
+import { MapOfItems } from './'
 
 // import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import { Feather, EvilIcons } from '@expo/vector-icons';
