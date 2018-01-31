@@ -6,64 +6,53 @@ import { getHiddenItems } from '../store/item'
 
 
 //we'd get the real data from doing an axios call to heroku via the redux store (once server is deployed to heroku)
-const dummyItemsData = [
-  {
-    id: 1,
-    latitude: 40.704761,
-    longitude: -74.009133,
-  },
-  {
-    id: 2,
-    latitude: 40.704966,
-    longitude: -74.009491
-  },
-  {
-    id: 3,
-    latitude: 40.705976,
-    longitude: -74.004421
-  },
-  {
-    id: 4,
-    latitude: 40.708976,
-    longitude: -74.001421
-  },
-  {
-    id: 5,
-    latitude: 40.708086,
-    longitude: -74.001521
-  },
-  {
-    id: 6,
-    latitude: 40.708086,
-    longitude: -73.900521
-  },
-  {
-    id: 7,
-    latitude: 40.708986,
-    longitude: -73.921928
-  }
-]
+// const dummyItemsData = [
+//   {
+//     id: 1,
+//     latitude: 40.704761,
+//     longitude: -74.009133,
+//   },
+//   {
+//     id: 2,
+//     latitude: 40.704966,
+//     longitude: -74.009491
+//   },
+//   {
+//     id: 3,
+//     latitude: 40.705976,
+//     longitude: -74.004421
+//   },
+//   {
+//     id: 4,
+//     latitude: 40.708976,
+//     longitude: -74.001421
+//   },
+//   {
+//     id: 5,
+//     latitude: 40.708086,
+//     longitude: -74.001521
+//   },
+//   {
+//     id: 6,
+//     latitude: 40.708086,
+//     longitude: -73.900521
+//   },
+//   {
+//     id: 7,
+//     latitude: 40.708986,
+//     longitude: -73.921928
+//   }
+// ]
 
 
 class MapOfItems extends Component {
-  constructor(props) {
-    super(props);
-
-    //this would change based on users location... but we'd probably be getting that from the reduz store...?
-    this.state = {
-      latitude: 40.704761,
-      longitude: -74.009133,
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421
-    }
-  }
 
   componentDidMount() {
-
+    this.props.getHiddenItems()
   }
 
   render() {
-
+    console.log('PROPS', this.props)
     return (
       <View style={styles.container}>
         <MapView
@@ -74,9 +63,9 @@ class MapOfItems extends Component {
           <MapView.Marker
             coordinate={this.props.markerPosition}
           />
-          {/* hidden items' positions */}
-        {
-            dummyItemsData.map(item => {
+        {/* hidden items' positions */}
+          {
+            this.props.hiddenItems.map(item => {
               return (
                 <MapView.Marker
                   key={item.id}
@@ -85,18 +74,20 @@ class MapOfItems extends Component {
                 />
               )
             })
-        }
+          }
         </MapView>
       </View>
     );
   }
 }
 
-const mapDispatchToProps = { getHiddenItems };
+const mapStateToProps = (state) => {
+  return {
+    hiddenItems: state.item
+  }
+}
 
-const mapStateToProps = state => ({
-  hiddenItems: state.hiddenItems,
-});
+const mapDispatchToProps = { getHiddenItems };
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(MapOfItems);
