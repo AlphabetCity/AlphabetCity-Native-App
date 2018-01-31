@@ -1,28 +1,17 @@
 'use strict'
-import { StackNavigator, DrawerNavigator } from 'react-navigation'
-import { Main, AR, Drawer } from './components'
+import { DrawerNavigator } from 'react-navigation'
+import { Main, AR } from './components'
 
 const routes = {
   Main: {
     screen: Main,
     navigationOptions: {
+      drawerLabel: 'Profiles',
       header: null
     }
-  },
-  AR: {
-    screen: AR,
-    navigationOptions: {
-      header: null
-    }
-  },
-  Drawer: {
-    screen: Drawer,
-    navigationOptions: {
-      header: null
-    }
-  },
+  }
 }
 
-const AppNavigator = StackNavigator(routes)
+const ProfileNavigator = DrawerNavigator(routes)
 
-export default AppNavigator
+export default ProfileNavigator

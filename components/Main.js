@@ -1,11 +1,9 @@
 'use strict'
 import React from 'react'
 import { View, TouchableHighlight, StyleSheet} from 'react-native'
-import { StackNavigator, DrawerNavigator  } from 'react-navigation'
 import { connect } from 'react-redux'
 import { MapView } from 'expo'
 
-// import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import { Feather, EvilIcons } from '@expo/vector-icons';
 
 const Main = ({ navigation }) => {
@@ -25,7 +23,8 @@ const Main = ({ navigation }) => {
         style={styles.profileButton}
         underlayColor={'#474787'}
         activeOpacity={0.9}
-        onPress={() => navigation.navigate('Drawer')}
+        onPress={() => navigation.navigate('DrawerOpen')}
+        title="Open drawer"
         >
         <Feather name="user" size={32} color={'#FFFFFF'} />
       </TouchableHighlight>
@@ -46,13 +45,6 @@ const Main = ({ navigation }) => {
     </View>
   )
 }
-
-// Main.navigationOptions = {
-//   drawerLabel: 'Main',
-//   drawerIcon: () => (
-//     <Feather name="user" size={32} color={'#FFFFFF'} />
-//   ),
-// };
 
 const styles = StyleSheet.create({
   container: {
@@ -99,13 +91,6 @@ const styles = StyleSheet.create({
     top: 50
   }
 })
-
-// const layerStyles = MapboxGL.StyleSheet.create({
-//   buildings: {
-//     fillColor: MapboxGL.StyleSheet.camera({ 10: 'blue', 20: 'green' }),
-//     fillOpacity: 0.84
-//   }
-// });
 
 export default connect()(Main)
 

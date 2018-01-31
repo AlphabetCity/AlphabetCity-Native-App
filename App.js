@@ -2,7 +2,8 @@
 import React, { Component } from 'react'
 import { Provider, connect } from 'react-redux'
 
-import AppNavigator from './Router'
+import ProfileNavigator from './Router'
+import AppNavigator from './StackNav'
 import { addNavigationHelpers } from 'react-navigation'
 
 import store from './store'
@@ -10,14 +11,17 @@ import store from './store'
 @connect(state => ({ nav: state.nav }))
 class AppWithNavigationState extends Component {
   render() {
-      return (
-          <AppNavigator
-              navigation={addNavigationHelpers({
-                  dispatch: this.props.dispatch,
-                  state: this.props.nav
-              })}
-          />
-      );
+    return (
+      <ProfileNavigator>
+        <AppNavigator
+          navigation={addNavigationHelpers({
+            dispatch: this.props.dispatch,
+            state: this.props.nav
+          })}
+        >
+        </AppNavigator>
+      </ProfileNavigator>
+    );
   }
 }
 

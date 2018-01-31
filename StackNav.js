@@ -1,6 +1,4 @@
-import React from 'react'
 import { StackNavigator } from 'react-navigation'
-import { Feather, Entypo } from '@expo/vector-icons'
 import { Main, AR } from './components'
 
 const RootNavigator = StackNavigator({
