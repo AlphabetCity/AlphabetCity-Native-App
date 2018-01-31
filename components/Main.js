@@ -2,7 +2,7 @@
 import React from 'react'
 import { View, TouchableHighlight, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
-import { MapView } from 'expo'
+import MapOfItems from './MapOfItems'
 
 // import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import { Feather, EvilIcons } from '@expo/vector-icons';
@@ -10,15 +10,7 @@ import { Feather, EvilIcons } from '@expo/vector-icons';
 const Main = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <MapView
-        style={{ flex: 1 }}
-        initialRegion={{
-          latitude: 37.78825,
-          longitude: -122.4324,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }}
-      />
+      <MapOfItems />
       <TouchableHighlight
         style={styles.profileButton}
         underlayColor={'#474787'}
