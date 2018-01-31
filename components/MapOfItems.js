@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { View, TouchableHighlight, StyleSheet } from 'react-native'
 import { MapView } from 'expo'
 import { connect } from 'react-redux'
-import { fetchItemsInWorld } from '../store/items'
+import { getHiddenItems } from '../store/item'
 
 
 //we'd get the real data from doing an axios call to heroku via the redux store (once server is deployed to heroku)
@@ -59,7 +59,7 @@ class MapOfItems extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchItemsInWorld()
+
   }
 
   render() {
@@ -68,13 +68,13 @@ class MapOfItems extends Component {
       <View style={styles.container}>
         <MapView
           style={{ flex: 1 }}
-          initialRegion={{
-            latitude: this.state.latitude,
-            longitude: this.state.longitude,
-            latitudeDelta: this.state.latitudeDelta,
-            longitudeDelta: this.state.longitudeDelta
-          }}
+          initialRegion={this.props.initialRegion}
         >
+        {/* current user's position */}
+          <MapView.Marker
+            coordinate={this.props.markerPosition}
+          />
+          {/* hidden items' positions */}
         {
             dummyItemsData.map(item => {
               return (
@@ -92,10 +92,10 @@ class MapOfItems extends Component {
   }
 }
 
-const mapDispatchToProps = { fetchItemsInWorld };
+const mapDispatchToProps = { getHiddenItems };
 
 const mapStateToProps = state => ({
-  itemsInWorld: state.itemsInWorld,
+  hiddenItems: state.hiddenItems,
 });
 
 
