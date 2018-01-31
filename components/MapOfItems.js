@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, TouchableHighlight, StyleSheet } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import { MapView } from 'expo'
 import { connect } from 'react-redux'
 import { getHiddenItems } from '../store/item'
@@ -12,7 +12,6 @@ class MapOfItems extends Component {
   }
 
   render() {
-    console.log('PROPS', this.props)
     return (
       <View style={styles.container}>
         <MapView
@@ -37,20 +36,16 @@ class MapOfItems extends Component {
           }
         </MapView>
       </View>
-    );
+    )
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    hiddenItems: state.item
-  }
-}
+const mapStateToProps = state => ({ hiddenItems: state.item })
 
-const mapDispatchToProps = { getHiddenItems };
+const mapDispatchToProps = { getHiddenItems }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(MapOfItems);
+export default connect(mapStateToProps, mapDispatchToProps)(MapOfItems)
 
 
 const styles = StyleSheet.create({
