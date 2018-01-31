@@ -2,14 +2,15 @@
 import React, { Component } from 'react'
 import { View, TouchableHighlight, StyleSheet, Dimensions} from 'react-native'
 import { connect } from 'react-redux'
-import { MapView, Location, Permissions } from 'expo'
+import { Location, Location, Permissions } from 'expo'
 import { Feather, EvilIcons } from '@expo/vector-icons'
+import { MapOfItems } from './'
 import { setUserLocation } from '../store/userLocation'
 
-const { height, width } = Dimensions.get('window');
-const ASPECT_RATIO = width / height;
-const LATITUDE_DELTA = 0.150;
-const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+const { height, width } = Dimensions.get('window')
+const ASPECT_RATIO = width / height
+const LATITUDE_DELTA = 0.150
+const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
 
 class Main extends Component {
 
@@ -50,21 +51,16 @@ class Main extends Component {
       latitudeDelta: LATITUDE_DELTA,
       longitudeDelta: LONGITUDE_DELTA
     }
-    // let latitude = this.props.userLocation.latitude
-    // let longitude = this.props.userLocation.longitude
+
     return (
       <View style={styles.container}>
         {this.props.userLocation.latitude &&
          this.props.userLocation.longitude && (
-          <MapView
-            style={{ flex: 1 }}
-            markerPostion={region}
+          <MapOfItems
+            markerPosition={region}
             initialRegion={region}
-          >
-            <MapView.Marker // current position marker
-              coordinate={region}
-            />
-          </MapView>
+          />
+
         )}
         <TouchableHighlight
           style={styles.profileButton}
@@ -159,4 +155,4 @@ const mapDispatch = dispatch => ({
   }
 })
 
-export default connect(mapState, mapDispatch)(Main);
+export default connect(mapState, mapDispatch)(Main)
