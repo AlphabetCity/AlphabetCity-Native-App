@@ -1,10 +1,10 @@
 'use strict'
 import { combineReducers } from 'redux'
-import base from './base'
+import userLocation from './userLocation'
 
 export default function getRootReducer(nav) {
-    return combineReducers({
-        nav,
-        base
-    })
+  return combineReducers({
+      nav,
+      userLocation
+  })
 }
