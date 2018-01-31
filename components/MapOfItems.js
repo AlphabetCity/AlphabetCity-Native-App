@@ -5,46 +5,6 @@ import { connect } from 'react-redux'
 import { getHiddenItems } from '../store/item'
 
 
-//we'd get the real data from doing an axios call to heroku via the redux store (once server is deployed to heroku)
-// const dummyItemsData = [
-//   {
-//     id: 1,
-//     latitude: 40.704761,
-//     longitude: -74.009133,
-//   },
-//   {
-//     id: 2,
-//     latitude: 40.704966,
-//     longitude: -74.009491
-//   },
-//   {
-//     id: 3,
-//     latitude: 40.705976,
-//     longitude: -74.004421
-//   },
-//   {
-//     id: 4,
-//     latitude: 40.708976,
-//     longitude: -74.001421
-//   },
-//   {
-//     id: 5,
-//     latitude: 40.708086,
-//     longitude: -74.001521
-//   },
-//   {
-//     id: 6,
-//     latitude: 40.708086,
-//     longitude: -73.900521
-//   },
-//   {
-//     id: 7,
-//     latitude: 40.708986,
-//     longitude: -73.921928
-//   }
-// ]
-
-
 class MapOfItems extends Component {
 
   componentDidMount() {
