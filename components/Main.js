@@ -1,6 +1,7 @@
 'use strict'
 import React from 'react'
-import { View, TouchableHighlight, StyleSheet } from 'react-native'
+import { View, TouchableHighlight, StyleSheet} from 'react-native'
+import { StackNavigator, DrawerNavigator  } from 'react-navigation'
 import { connect } from 'react-redux'
 import { MapView } from 'expo'
 
@@ -8,6 +9,7 @@ import { MapView } from 'expo'
 import { Feather, EvilIcons } from '@expo/vector-icons';
 
 const Main = ({ navigation }) => {
+
   return (
     <View style={styles.container}>
       <MapView
@@ -23,7 +25,8 @@ const Main = ({ navigation }) => {
         style={styles.profileButton}
         underlayColor={'#474787'}
         activeOpacity={0.9}
-        onPress={() => navigation.navigate('AR')}>
+        onPress={() => navigation.navigate('Drawer')}
+        >
         <Feather name="user" size={32} color={'#FFFFFF'} />
       </TouchableHighlight>
       <TouchableHighlight
@@ -43,6 +46,13 @@ const Main = ({ navigation }) => {
     </View>
   )
 }
+
+// Main.navigationOptions = {
+//   drawerLabel: 'Main',
+//   drawerIcon: () => (
+//     <Feather name="user" size={32} color={'#FFFFFF'} />
+//   ),
+// };
 
 const styles = StyleSheet.create({
   container: {

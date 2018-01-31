@@ -1,6 +1,6 @@
 'use strict'
-import { StackNavigator } from 'react-navigation'
-import { Main, AR, Settings } from './components'
+import { StackNavigator, DrawerNavigator } from 'react-navigation'
+import { Main, AR, Drawer } from './components'
 
 const routes = {
   Main: {
@@ -15,8 +15,8 @@ const routes = {
       header: null
     }
   },
-  Settings: {
-    screen: Settings,
+  Drawer: {
+    screen: Drawer,
     navigationOptions: {
       header: null
     }
