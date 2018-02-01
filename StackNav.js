@@ -4,21 +4,6 @@ import { StackNavigator, DrawerNavigator, DrawerItems } from 'react-navigation'
 import { Main, AR } from './components'
 import { Text, View, StyleSheet} from 'react-native'
 
-// const RootNavigator = StackNavigator({
-//   Main: {
-//     screen: Main,
-//     navigationOptions: {
-//       header: null
-//     },
-//   AR: {
-//     screen: AR,
-//     navigationOptions: {
-//       header: null
-//     }
-//   }
-//   }
-// })
-
 const Stack = {
   Main: {
     screen: Main,
