@@ -1,10 +1,10 @@
 'use strict'
 import React from 'react'
-import { Text, View} from 'react-native'
-import { DrawerNavigator, DrawerItems, StyleSheet } from 'react-navigation'
+import { Text, View, StyleSheet} from 'react-native'
+import { DrawerNavigator, DrawerItems } from 'react-navigation'
 import { Main } from './components'
 
-let loggedIn = true;
+let loggedIn = true
 
 const UserRoutes = {
   Main: {
@@ -73,7 +73,7 @@ const DrawerContent = (props) => (
   </View>
 )
 
-let routes = loggedIn ? UserRoutes : GuestRoutes;
+let routes = loggedIn ? UserRoutes : GuestRoutes
 
 const ProfileNavigator = DrawerNavigator(routes, {contentComponent: DrawerContent})
 

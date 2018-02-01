@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import { View, TouchableHighlight, StyleSheet, Dimensions} from 'react-native'
 import { connect } from 'react-redux'
-import { Location, Location, Permissions } from 'expo'
+import { MapView, Location, Permissions } from 'expo'
 import { Feather, EvilIcons } from '@expo/vector-icons'
 import { MapOfItems } from './'
 import { setUserLocation } from '../store/userLocation'
@@ -18,9 +18,9 @@ class Main extends Component {
     super(props)
   }
 
-  componentWillMount() {
-    this._getLocationAsync()
-  }
+  // componentWillMount() {
+  //   this._getLocationAsync()
+  // }
 
   _getLocationAsync = async () => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION)
