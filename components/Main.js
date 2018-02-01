@@ -13,7 +13,6 @@ const LATITUDE_DELTA = 0.150
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
 
 class Main extends Component {
-
   componentWillMount() {
     this._getLocationAsync()
   }
@@ -21,19 +20,27 @@ class Main extends Component {
   _getLocationAsync = async () => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION)
     if (status !== 'granted') {
-      this.props.pushUserLocation({})
+      this.props.setUserLocation({})
     }
 
     this.watchId = Location.watchPositionAsync(
       { enableHighAccuracy: true, timeInterval: 1000, distanceInterval: 1 },
       position => {
-        this.props.pushUserLocation({
+        this.props.setUserLocation({
           latitude: position.coords.latitude,
           longitude: position.coords.longitude
         })
       },
-      () => this.props.pushUserLocation({})
+      () => this.props.setUserLocation({})
     )
+  }
+
+  _routeUser = (screen) => {
+    if (Object.keys(this.props.user).length) {
+      this.props.navigation.navigate(screen)
+    } else {
+      this.props.navigation.navigate('Auth')
+    }
   }
 
   componentWillUnmount() {
@@ -79,7 +86,7 @@ class Main extends Component {
           style={styles.arButton}
           underlayColor={'#474787'}
           activeOpacity={0.9}
-          onPress={() => this.props.navigation.navigate('AR')}
+          onPress={() => this._routeUser('AR')}
         >
           <Feather name="eye" size={32} color={'#FFFFFF'} />
         </TouchableHighlight>
@@ -109,9 +116,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 20,
     bottom: 50,
-    shadowOffset: {width: 0, height: 2, },
+    shadowOffset: { width: 0, height: 2 },
     shadowColor: 'black',
-    shadowOpacity: 0.4,
+    shadowOpacity: 0.4
   },
   profileButton: {
     backgroundColor: '#706fd3',
@@ -123,9 +130,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 20,
     top: 50,
-    shadowOffset: {width: 0, height: 2, },
+    shadowOffset: { width: 0, height: 2 },
     shadowColor: 'black',
-    shadowOpacity: 0.4,
+    shadowOpacity: 0.4
   },
   satchelButton: {
     backgroundColor: '#706fd3',
@@ -137,18 +144,13 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 20,
     top: 50,
-    shadowOffset: {width: 0, height: 2, },
+    shadowOffset: { width: 0, height: 2 },
     shadowColor: 'black',
-    shadowOpacity: 0.4,
+    shadowOpacity: 0.4
   }
 })
 
-const mapState = ({ userLocation}) => ({ userLocation })
-
-const mapDispatch = dispatch => ({
-  pushUserLocation: location => {
-    dispatch(setUserLocation(location))
-  }
-})
+const mapState = ({ user, userLocation }) => ({ user, userLocation })
+const mapDispatch = ({ setUserLocation })
 
 export default connect(mapState, mapDispatch)(Main)
