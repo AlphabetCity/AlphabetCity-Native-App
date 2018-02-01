@@ -1,7 +1,7 @@
 'use strict'
 import React from 'react'
 import { StackNavigator, DrawerNavigator, DrawerItems } from 'react-navigation'
-import { Main, AR } from './components'
+import { Main, AR, Satchel } from './components'
 import { View } from 'react-native'
 
 const Stack = {
@@ -17,27 +17,34 @@ const Stack = {
       header: null,
     }
   }
+  ,
+  Satchel: {
+    screen: Satchel,
+    navigationOptions: {
+      header: null,
+    }
+  }
 }
 
 let loggedIn = true
 
 const DrawerUserRoutes = {
   Main: {
-    screen: StackNavigator(Stack, {initialRouteName: 'Main'}),
+    screen: StackNavigator(Stack, { initialRouteName: 'Main' }),
     navigationOptions: {
       drawerLabel: 'Main',
       header: null,
     }
   },
   Profile: {
-    screen: StackNavigator(Stack, {initialRouteName: 'Main'}),
+    screen: StackNavigator(Stack, { initialRouteName: 'Main' }),
     navigationOptions: {
       drawerLabel: 'Profile',
       header: null,
     }
   },
   HighScores: {
-    screen: StackNavigator(Stack, {initialRouteName: 'Main'}),
+    screen: StackNavigator(Stack, { initialRouteName: 'Main' }),
     navigationOptions: {
       drawerLabel: 'HighScores',
       header: null,
@@ -47,14 +54,14 @@ const DrawerUserRoutes = {
 
 const DrawerGuestRoutes = {
   Login: {
-    screen: StackNavigator(Stack, {initialRouteName: 'Main'}),
+    screen: StackNavigator(Stack, { initialRouteName: 'Main' }),
     navigationOptions: {
       drawerLabel: 'Login',
       header: null
     }
   },
   Signup: {
-    screen: StackNavigator(Stack, {initialRouteName: 'Main'}),
+    screen: StackNavigator(Stack, { initialRouteName: 'Main' }),
     navigationOptions: {
       drawerLabel: 'Signup',
       header: null
@@ -71,7 +78,6 @@ const styles = {
   },
   picture: {
     backgroundColor: '#2C2C54',
-    textAlign: 'center',
     height: 150,
     width: 150,
     borderRadius: 100
@@ -93,7 +99,7 @@ let DrawerRoutes = loggedIn ? DrawerUserRoutes : DrawerGuestRoutes
 const RootNavigator = StackNavigator({
   Drawer: {
     name: 'Drawer',
-    screen: DrawerNavigator(DrawerRoutes, {contentComponent: DrawerContent}),
+    screen: DrawerNavigator(DrawerRoutes, { contentComponent: DrawerContent }),
   },
   ...Stack
 },

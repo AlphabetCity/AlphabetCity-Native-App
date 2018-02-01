@@ -10,7 +10,7 @@ const setHiddenItems = hiddenItems => ({ type: SET_HIDDEN_ITEMS, hiddenItems })
 export const getHiddenItems = () => async dispatch => {
   try {
     const res = await axios.get('https://notseek.herokuapp.com/api/items?hidden=true')
-    const hiddenItems = await res.data
+    const hiddenItems = res.data
     dispatch(setHiddenItems(hiddenItems))
   } catch (error) {
     console.error(error)

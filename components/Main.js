@@ -17,6 +17,9 @@ class Main extends Component {
 
   componentWillMount() {
     this._getLocationAsync()
+  }
+
+  componentDidMount() {
     this.props.getSatchel()
   }
 
@@ -73,7 +76,7 @@ class Main extends Component {
           style={styles.satchelButton}
           underlayColor={'#474787'}
           activeOpacity={0.9}
-          onPress={() => this.props.navigation.navigate('AR')}
+          onPress={() => this.props.navigation.navigate('Satchel')}
         >
           <Feather name="box" size={32} color={'#FFFFFF'} />
         </TouchableHighlight>
@@ -151,7 +154,9 @@ const mapDispatch = dispatch => ({
   pushUserLocation: location => {
     dispatch(setUserLocation(location))
   },
-  getSatchel
+  getSatchel: () => {
+    dispatch(getSatchel())
+  }
 })
 
 export default connect(mapState, mapDispatch)(Main)

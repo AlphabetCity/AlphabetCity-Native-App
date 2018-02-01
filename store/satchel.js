@@ -9,8 +9,12 @@ const setSatchel = satchel => ({ type: SET_SATCHEL, satchel })
 // Thunks
 export const getSatchel = () => async dispatch => {
   try {
-    const res = await axios.get('https://notseek.herokuapp.com/api/users/2/items')
-    const satchel = await res.data
+    const res = await axios.get('https://notseek.herokuapp.com/api/users/2/items', {
+      params: {
+        hidden: 'false'
+      }
+    })
+    const satchel = res.data
     dispatch(setSatchel(satchel))
   } catch (error) {
     console.error(error)
