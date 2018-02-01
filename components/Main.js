@@ -41,8 +41,6 @@ class Main extends Component {
   }
 
   _routeUser = (screen) => {
-    console.log('routing user')
-    console.log('user', this.props.user)
     if (Object.keys(this.props.user).length) {
       console.log('in if block')
       this.props.navigation.navigate(screen)
@@ -87,7 +85,7 @@ class Main extends Component {
           style={styles.satchelButton}
           underlayColor={'#474787'}
           activeOpacity={0.9}
-          onPress={() => this.props.route.navigate('AR')}
+          onPress={() => this.props.navigation.navigate('AR')}
         >
           <Feather name="box" size={32} color={'#FFFFFF'} />
         </TouchableHighlight>

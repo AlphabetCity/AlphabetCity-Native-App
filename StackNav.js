@@ -20,10 +20,7 @@ const Stack = {
   Auth: {
     screen: Auth,
     navigationOptions: {
-      title: 'Login or Sign up',
-      transitionConfig: {
-        isModal: true
-      }
+      title: 'Login or Sign up'
     }
   }
 }
