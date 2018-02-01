@@ -18,9 +18,9 @@ class Main extends Component {
     super(props)
   }
 
-  // componentWillMount() {
-  //   this._getLocationAsync()
-  // }
+  componentWillMount() {
+    this._getLocationAsync()
+  }
 
   _getLocationAsync = async () => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION)
@@ -41,7 +41,7 @@ class Main extends Component {
   }
 
   componentWillUnmount() {
-    this.watchId.remove()
+    delete this.watchId
   }
 
   render() {

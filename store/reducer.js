@@ -5,8 +5,8 @@ import item from './item'
 
 export default function getRootReducer(nav) {
   return combineReducers({
-      nav,
+    nav,
     userLocation,
-      item
+    item
   })
 }
