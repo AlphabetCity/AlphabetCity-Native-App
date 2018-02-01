@@ -4,6 +4,7 @@ import { View, TouchableHighlight, StyleSheet, Dimensions } from 'react-native'
 import { connect } from 'react-redux'
 import { Location, Permissions } from 'expo'
 import { Feather } from '@expo/vector-icons'
+
 import { MapOfItems } from './'
 import { setUserLocation } from '../store/userLocation'
 import { getSatchel } from '../store/satchel'
@@ -14,7 +15,6 @@ const LATITUDE_DELTA = 0.150
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
 
 class Main extends Component {
-
   componentWillMount() {
     this._getLocationAsync()
   }
@@ -26,18 +26,18 @@ class Main extends Component {
   _getLocationAsync = async () => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION)
     if (status !== 'granted') {
-      this.props.pushUserLocation({})
+      this.props.setUserLocation({})
     }
 
     this.watchId = Location.watchPositionAsync(
       { enableHighAccuracy: true, timeInterval: 1000, distanceInterval: 1 },
       position => {
-        this.props.pushUserLocation({
+        this.props.setUserLocation({
           latitude: position.coords.latitude,
           longitude: position.coords.longitude
         })
       },
-      () => this.props.pushUserLocation({})
+      () => this.props.setUserLocation({})
     )
   }
 
@@ -67,8 +67,7 @@ class Main extends Component {
           style={styles.profileButton}
           underlayColor={'#474787'}
           activeOpacity={0.9}
-          onPress={() => this.props.navigation.navigate('DrawerOpen')}
-          title="Open drawer"
+          onPress={() => this.props.navigation.navigate('AR')}
         >
           <Feather name="user" size={32} color={'#FFFFFF'} />
         </TouchableHighlight>
@@ -148,15 +147,7 @@ const styles = StyleSheet.create({
   }
 })
 
-const mapState = ({ userLocation }) => ({ userLocation })
-
-const mapDispatch = dispatch => ({
-  pushUserLocation: location => {
-    dispatch(setUserLocation(location))
-  },
-  getSatchel: () => {
-    dispatch(getSatchel())
-  }
-})
+const mapState = ({ user, userLocation }) => ({ user, userLocation })
+const mapDispatch = ({ setUserLocation, getSatchel })
 
 export default connect(mapState, mapDispatch)(Main)

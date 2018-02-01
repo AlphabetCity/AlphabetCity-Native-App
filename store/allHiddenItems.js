@@ -4,10 +4,10 @@ import axios from 'axios'
 const SET_HIDDEN_ITEMS = 'SET_HIDDEN_ITEMS'
 
 // Action Creators
-const setHiddenItems = hiddenItems => ({ type: SET_HIDDEN_ITEMS, hiddenItems })
+const setHiddenItems = allHiddenItems => ({ type: SET_HIDDEN_ITEMS, allHiddenItems })
 
 // Thunks
-export const getHiddenItems = () => async dispatch => {
+export const getAllHiddenItems = () => async dispatch => {
   try {
     const res = await axios.get('https://notseek.herokuapp.com/api/items?hidden=true')
     const hiddenItems = res.data
@@ -21,7 +21,7 @@ export const getHiddenItems = () => async dispatch => {
 const reducer = (state = [], action) => {
   switch (action.type) {
     case SET_HIDDEN_ITEMS:
-      return action.hiddenItems
+      return action.allHiddenItems
     default:
       return state
   }
