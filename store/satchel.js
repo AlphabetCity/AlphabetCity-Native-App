@@ -23,15 +23,13 @@ export const getSatchel = () => async dispatch => {
   }
 }
 
-export const dropItem = (userId, itemId) => async dispatch => {
+export const dropItem = (userId, userItemId, changes) => async dispatch => {
   try {
-    const res = await axios.put(`https://notseek.herokuapp.com/api/${userID}/items/${itemId}`, {
-    })
+    await axios.put(`https://notseek.herokuapp.com/api/${userID}/items/${userItemId}`, changes)
   } catch (error) {
     console.error(error)
   }
 }
-
 
 // Reducer
 const reducer = (state = [], action) => {

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { List, ListItem, ListView } from 'react-native-elements'
 import { View, Text } from 'react-native'
+import { dropItem } from '../store/satchel'
 
 class Satchel extends Component {
   constructor(props) {
@@ -9,12 +10,6 @@ class Satchel extends Component {
 
     this.dropItem = this.dropItem.bind(this)
   }
-
-  dropUserItem = (userItemId, userLocation) => {
-
-
-  }
-
 
   render() {
     return (
@@ -27,7 +22,7 @@ class Satchel extends Component {
                 avatar={{ uri: 'http://dreamicus.com/data/apple/apple-04.jpg' }}
                 key={satchelItem.id}
                 title={(satchelItem.itemId).toString()}
-                onPress={() => console.log('hey')}
+                onPress={() => this.dropItem()}
               />
             ))
           }
@@ -39,8 +34,9 @@ class Satchel extends Component {
 
 
 const mapStateToProps = ({ satchel, userLocation }) => ({ satchel, userLocation })
+const mapDispatchToProps = ({ dropItem })
 
 export default connect(
   mapStateToProps,
-  undefined
+  mapDispatchToProps
 )(Satchel)

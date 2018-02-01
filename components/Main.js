@@ -62,9 +62,9 @@ class Main extends Component {
           this.props.userLocation.longitude &&
           this.props.allHiddenItems.length ? (
             <MapOfItems
-            markerPosition={region}
-            initialRegion={region}
-            allHiddenItems={this.props.allHiddenItems}
+              markerPosition={region}
+              initialRegion={region}
+              allHiddenItems={this.props.allHiddenItems}
             />
           ) :
           null
@@ -153,12 +153,7 @@ const styles = StyleSheet.create({
   }
 })
 
-<<<<<<< HEAD
-const mapState = ({ user, userLocation }) => ({ user, userLocation })
-const mapDispatch = ({ setUserLocation, getSatchel })
-=======
-const mapState = ({ user, userLocation, allHiddenItems }) => ({ user, userLocation, allHiddenItems})
-const mapDispatch = ({ setUserLocation, getAllHiddenItems })
->>>>>>> b57dbacbeab00c3e8264bf6e8a57571da9bb0191
+const mapState = ({ user, userLocation, allHiddenItems }) => ({ user, userLocation, allHiddenItems })
+const mapDispatch = ({ setUserLocation, getSatchel, getAllHiddenItems })
 
 export default connect(mapState, mapDispatch)(Main)
