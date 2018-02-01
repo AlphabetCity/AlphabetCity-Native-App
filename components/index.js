@@ -1,7 +1,6 @@
 'use strict'
 import Main from './Main'
 import AR from './AR'
-import Drawer from './Drawer'
+import MapOfItems from './MapOfItems'
 
-
-export { Main, AR, Drawer }
+export { Main, AR, MapOfItems }
