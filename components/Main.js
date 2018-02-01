@@ -4,6 +4,7 @@ import { View, TouchableHighlight, StyleSheet, Dimensions } from 'react-native'
 import { connect } from 'react-redux'
 import { Location, Permissions } from 'expo'
 import { Feather } from '@expo/vector-icons'
+import { getAllHiddenItems } from '../store/allHiddenItems'
 
 import { MapOfItems } from './'
 import { setUserLocation } from '../store/userLocation'
@@ -15,8 +16,11 @@ const LATITUDE_DELTA = 0.150
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
 
 class Main extends Component {
-  componentWillMount() {
+  constructor(props) {
+    super(props)
+
     this._getLocationAsync()
+    this.props.getAllHiddenItems()
   }
 
   componentDidMount() {
@@ -30,7 +34,7 @@ class Main extends Component {
     }
 
     this.watchId = Location.watchPositionAsync(
-      { enableHighAccuracy: true, timeInterval: 1000, distanceInterval: 1 },
+      { enableHighAccuracy: true, timeInterval: 30000, distanceInterval: 10 },
       position => {
         this.props.setUserLocation({
           latitude: position.coords.latitude,
@@ -52,22 +56,24 @@ class Main extends Component {
       latitudeDelta: LATITUDE_DELTA,
       longitudeDelta: LONGITUDE_DELTA
     }
-
     return (
       <View style={styles.container}>
         {this.props.userLocation.latitude &&
-          this.props.userLocation.longitude && (
+          this.props.userLocation.longitude &&
+          this.props.allHiddenItems.length ? (
             <MapOfItems
-              markerPosition={region}
-              initialRegion={region}
+            markerPosition={region}
+            initialRegion={region}
+            allHiddenItems={this.props.allHiddenItems}
             />
-
-          )}
+          ) :
+          null
+        }
         <TouchableHighlight
           style={styles.profileButton}
           underlayColor={'#474787'}
           activeOpacity={0.9}
-          onPress={() => this.props.navigation.navigate('AR')}
+          onPress={() => this.props.navigation.navigate('DrawerOpen')}
         >
           <Feather name="user" size={32} color={'#FFFFFF'} />
         </TouchableHighlight>
@@ -147,7 +153,12 @@ const styles = StyleSheet.create({
   }
 })
 
+<<<<<<< HEAD
 const mapState = ({ user, userLocation }) => ({ user, userLocation })
 const mapDispatch = ({ setUserLocation, getSatchel })
+=======
+const mapState = ({ user, userLocation, allHiddenItems }) => ({ user, userLocation, allHiddenItems})
+const mapDispatch = ({ setUserLocation, getAllHiddenItems })
+>>>>>>> b57dbacbeab00c3e8264bf6e8a57571da9bb0191
 
 export default connect(mapState, mapDispatch)(Main)
