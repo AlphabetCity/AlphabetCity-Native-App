@@ -6,7 +6,7 @@ import allHiddenItems from './allHiddenItems'
 export default function getRootReducer(nav) {
   return combineReducers({
       nav,
-    userLocation,
+      userLocation,
       allHiddenItems
   })
 }

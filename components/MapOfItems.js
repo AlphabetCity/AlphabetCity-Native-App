@@ -40,9 +40,9 @@ class MapOfItems extends Component {
   }
 }
 
-const mapStateToProps = state => ({ allHiddenItems: state.allHiddenItems })
+const mapStateToProps = ({ allHiddenItems }) => ({ allHiddenItems })
 
-const mapDispatchToProps = { getAllHiddenItems }
+const mapDispatchToProps = ({ getAllHiddenItems })
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(MapOfItems)
