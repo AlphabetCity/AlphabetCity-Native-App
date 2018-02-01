@@ -22,7 +22,7 @@ class AR extends Component {
 
   // React Native Touch event responders
   _handlePanResponderRelease = () => {
-    this.props.navigation.navigate('Main')
+    this.props.navigation.goBack()
   }
 
   // ARKit/Three.js functions
