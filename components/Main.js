@@ -45,6 +45,15 @@ class Main extends Component {
     )
   }
 
+  _routeUser = (screen) => {
+    if (Object.keys(this.props.user).length) {
+      console.log('in if block')
+      this.props.navigation.navigate(screen)
+    } else {
+      this.props.navigation.navigate('Auth')
+    }
+  }
+
   componentWillUnmount() {
     delete this.watchId
   }
@@ -89,7 +98,7 @@ class Main extends Component {
           style={styles.arButton}
           underlayColor={'#474787'}
           activeOpacity={0.9}
-          onPress={() => this.props.navigation.navigate('AR')}
+          onPress={() => this._routeUser('AR')}
         >
           <Feather name="eye" size={32} color={'#FFFFFF'} />
         </TouchableHighlight>
@@ -101,13 +110,13 @@ class Main extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
   },
   textTitle: {
     fontSize: 20,
     fontWeight: 'bold',
     color: '#3B3B98',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   arButton: {
     backgroundColor: '#706fd3',
