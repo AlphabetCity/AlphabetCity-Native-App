@@ -1,7 +1,6 @@
 'use strict'
 import React, { Component } from 'react'
 import { Provider, connect } from 'react-redux'
-// import ProfileNavigator from './Router'
 import AppNavigator from './StackNav'
 import { addNavigationHelpers } from 'react-navigation'
 import { Main } from './components'
