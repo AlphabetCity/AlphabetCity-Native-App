@@ -78,7 +78,11 @@ class Main extends Component {
           style={styles.satchelButton}
           underlayColor={'#474787'}
           activeOpacity={0.9}
+<<<<<<< HEAD
           onPress={() => {}}
+=======
+          onPress={() => this.props.navigation.navigate('AR')}
+>>>>>>> bf80f3331167cfea3b07f37ecaa18a3fc3f3f467
         >
           <Feather name="box" size={32} color={'#FFFFFF'} />
         </TouchableHighlight>
@@ -86,7 +90,11 @@ class Main extends Component {
           style={styles.arButton}
           underlayColor={'#474787'}
           activeOpacity={0.9}
+<<<<<<< HEAD
           onPress={() => this._routeUser('AR')}
+=======
+          onPress={() => this.props.navigation.navigate('AR')}
+>>>>>>> bf80f3331167cfea3b07f37ecaa18a3fc3f3f467
         >
           <Feather name="eye" size={32} color={'#FFFFFF'} />
         </TouchableHighlight>
