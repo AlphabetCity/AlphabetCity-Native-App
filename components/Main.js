@@ -2,8 +2,8 @@
 import React, { Component } from 'react'
 import { View, TouchableHighlight, StyleSheet, Dimensions} from 'react-native'
 import { connect } from 'react-redux'
-import { MapView, Location, Permissions } from 'expo'
-import { Feather, EvilIcons } from '@expo/vector-icons'
+import { Location, Permissions } from 'expo'
+import { Feather } from '@expo/vector-icons'
 import { MapOfItems } from './'
 import { setUserLocation } from '../store/userLocation'
 
@@ -13,10 +13,6 @@ const LATITUDE_DELTA = 0.150
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
 
 class Main extends Component {
-
-  constructor(props){
-    super(props)
-  }
 
   componentWillMount() {
     this._getLocationAsync()
