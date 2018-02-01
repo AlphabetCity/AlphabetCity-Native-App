@@ -42,7 +42,6 @@ class Main extends Component {
 
   componentWillUnmount() {
     delete this.watchId
-    console.log('will UNmount')
   }
 
   render() {
@@ -52,7 +51,6 @@ class Main extends Component {
       latitudeDelta: LATITUDE_DELTA,
       longitudeDelta: LONGITUDE_DELTA
     }
-console.log('I RENDERED!', this.props.allHiddenItems.length)
     return (
       <View style={styles.container}>
         {this.props.userLocation.latitude &&

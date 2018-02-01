@@ -22,7 +22,6 @@ class AR extends Component {
 
   // React Native Touch event responders
   _handlePanResponderRelease = () => {
-    console.log('pan responder pan responded')
     this.props.navigation.navigate('Main')
   }
 

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { View, StyleSheet } from 'react-native'
 import { MapView } from 'expo'
 import blurryPin from '../assets/blurryPin.png'
@@ -18,7 +18,6 @@ const MapOfItems = (props) => {
         {/* hidden items' positions */}
           {
             props.allHiddenItems.map(item => {
-              console.log(item)
               return (
                 <MapView.Marker
                   key={item.id}
