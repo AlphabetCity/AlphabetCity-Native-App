@@ -1,7 +1,7 @@
 'use strict'
 import React from 'react'
 import { StackNavigator, DrawerNavigator, DrawerItems } from 'react-navigation'
-import { Main, AR } from './components'
+import { Main, AR, Auth } from './components'
 import { View } from 'react-native'
 
 const Stack = {
@@ -15,6 +15,12 @@ const Stack = {
     screen: AR,
     navigationOptions: {
       header: null,
+    }
+  },
+  Auth: {
+    screen: Auth,
+    navigationOptions: {
+      title: 'Login or Sign up'
     }
   }
 }
