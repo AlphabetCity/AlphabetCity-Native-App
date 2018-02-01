@@ -15,26 +15,34 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
 
 class Main extends Component {
   componentWillMount() {
-    this._getLocationAsync();
+    this._getLocationAsync()
   }
 
   _getLocationAsync = async () => {
-    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    let { status } = await Permissions.askAsync(Permissions.LOCATION)
     if (status !== 'granted') {
-      this.props.pushUserLocation({});
+      this.props.setUserLocation({})
     }
 
     this.watchId = Location.watchPositionAsync(
       { enableHighAccuracy: true, timeInterval: 1000, distanceInterval: 1 },
       position => {
-        this.props.pushUserLocation({
+        this.props.setUserLocation({
           latitude: position.coords.latitude,
           longitude: position.coords.longitude
-        });
+        })
       },
-      () => this.props.pushUserLocation({})
-    );
-  };
+      () => this.props.setUserLocation({})
+    )
+  }
+
+  _routeUser = (screen) => {
+    if (Object.keys(this.props.user).length) {
+      this.props.navigation.navigate(screen)
+    } else {
+      this.props.navigation.navigate('Auth')
+    }
+  }
 
   componentWillUnmount() {
     delete this.watchId
@@ -70,7 +78,7 @@ class Main extends Component {
           style={styles.satchelButton}
           underlayColor={'#474787'}
           activeOpacity={0.9}
-          onPress={() => this.props.navigation.navigate('AR')}
+          onPress={() => {}}
         >
           <Feather name="box" size={32} color={'#FFFFFF'} />
         </TouchableHighlight>
@@ -78,12 +86,12 @@ class Main extends Component {
           style={styles.arButton}
           underlayColor={'#474787'}
           activeOpacity={0.9}
-          onPress={() => this.props.navigation.navigate('AR')}
+          onPress={() => this._routeUser('AR')}
         >
           <Feather name="eye" size={32} color={'#FFFFFF'} />
         </TouchableHighlight>
       </View>
-    );
+    )
   }
 }
 
@@ -140,14 +148,9 @@ const styles = StyleSheet.create({
     shadowColor: 'black',
     shadowOpacity: 0.4
   }
-});
+})
 
-const mapState = ({ userLocation }) => ({ userLocation });
-
-const mapDispatch = dispatch => ({
-  pushUserLocation: location => {
-    dispatch(setUserLocation(location));
-  }
-});
+const mapState = ({ user, userLocation }) => ({ user, userLocation })
+const mapDispatch = ({ setUserLocation })
 
 export default connect(mapState, mapDispatch)(Main)
