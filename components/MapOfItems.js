@@ -2,13 +2,13 @@ import React, { Component } from 'react'
 import { View, StyleSheet } from 'react-native'
 import { MapView } from 'expo'
 import { connect } from 'react-redux'
-import { getHiddenItems } from '../store/item'
+import { getAllHiddenItems } from '../store/allHiddenItems'
 
 
 class MapOfItems extends Component {
 
   componentDidMount() {
-    this.props.getHiddenItems()
+    this.props.getAllHiddenItems()
   }
 
   render() {
@@ -24,7 +24,7 @@ class MapOfItems extends Component {
           />
         {/* hidden items' positions */}
           {
-            this.props.hiddenItems.map(item => {
+            this.props.allHiddenItems.map(item => {
               return (
                 <MapView.Marker
                   key={item.id}
@@ -40,9 +40,9 @@ class MapOfItems extends Component {
   }
 }
 
-const mapStateToProps = state => ({ hiddenItems: state.item })
+const mapStateToProps = ({ allHiddenItems }) => ({ allHiddenItems })
 
-const mapDispatchToProps = { getHiddenItems }
+const mapDispatchToProps = ({ getAllHiddenItems })
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(MapOfItems)

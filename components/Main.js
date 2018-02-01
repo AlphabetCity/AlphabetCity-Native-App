@@ -1,9 +1,10 @@
 'use strict'
 import React, { Component } from 'react'
-import { View, TouchableHighlight, StyleSheet, Dimensions} from 'react-native'
+import { View, TouchableHighlight, StyleSheet, Dimensions } from 'react-native'
 import { connect } from 'react-redux'
 import { Location, Permissions } from 'expo'
 import { Feather } from '@expo/vector-icons'
+
 import { MapOfItems } from './'
 import { setUserLocation } from '../store/userLocation'
 
@@ -58,19 +59,18 @@ class Main extends Component {
     return (
       <View style={styles.container}>
         {this.props.userLocation.latitude &&
-         this.props.userLocation.longitude && (
-          <MapOfItems
-            markerPosition={region}
-            initialRegion={region}
-          />
+          this.props.userLocation.longitude && (
+            <MapOfItems
+              markerPosition={region}
+              initialRegion={region}
+            />
 
-        )}
+          )}
         <TouchableHighlight
           style={styles.profileButton}
           underlayColor={'#474787'}
           activeOpacity={0.9}
-          onPress={() => this.props.navigation.navigate('DrawerOpen')}
-          title="Open drawer"
+          onPress={() => this.props.navigation.navigate('AR')}
         >
           <Feather name="user" size={32} color={'#FFFFFF'} />
         </TouchableHighlight>
@@ -78,11 +78,7 @@ class Main extends Component {
           style={styles.satchelButton}
           underlayColor={'#474787'}
           activeOpacity={0.9}
-<<<<<<< HEAD
-          onPress={() => {}}
-=======
           onPress={() => this.props.navigation.navigate('AR')}
->>>>>>> bf80f3331167cfea3b07f37ecaa18a3fc3f3f467
         >
           <Feather name="box" size={32} color={'#FFFFFF'} />
         </TouchableHighlight>
@@ -90,11 +86,7 @@ class Main extends Component {
           style={styles.arButton}
           underlayColor={'#474787'}
           activeOpacity={0.9}
-<<<<<<< HEAD
-          onPress={() => this._routeUser('AR')}
-=======
           onPress={() => this.props.navigation.navigate('AR')}
->>>>>>> bf80f3331167cfea3b07f37ecaa18a3fc3f3f467
         >
           <Feather name="eye" size={32} color={'#FFFFFF'} />
         </TouchableHighlight>
