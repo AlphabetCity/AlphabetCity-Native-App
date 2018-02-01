@@ -1,11 +1,12 @@
 'use strict'
 import React, { Component } from 'react'
-import { View, TouchableHighlight, StyleSheet, Dimensions} from 'react-native'
+import { View, TouchableHighlight, StyleSheet, Dimensions } from 'react-native'
 import { connect } from 'react-redux'
 import { Location, Permissions } from 'expo'
 import { Feather } from '@expo/vector-icons'
 import { MapOfItems } from './'
 import { setUserLocation } from '../store/userLocation'
+import { getSatchel } from '../store/satchel'
 
 const { height, width } = Dimensions.get('window')
 const ASPECT_RATIO = width / height
@@ -16,6 +17,10 @@ class Main extends Component {
 
   componentWillMount() {
     this._getLocationAsync()
+  }
+
+  componentDidMount() {
+    this.getSatchel()
   }
 
   _getLocationAsync = async () => {
@@ -51,13 +56,13 @@ class Main extends Component {
     return (
       <View style={styles.container}>
         {this.props.userLocation.latitude &&
-         this.props.userLocation.longitude && (
-          <MapOfItems
-            markerPosition={region}
-            initialRegion={region}
-          />
+          this.props.userLocation.longitude && (
+            <MapOfItems
+              markerPosition={region}
+              initialRegion={region}
+            />
 
-        )}
+          )}
         <TouchableHighlight
           style={styles.profileButton}
           underlayColor={'#474787'}
@@ -71,7 +76,7 @@ class Main extends Component {
           style={styles.satchelButton}
           underlayColor={'#474787'}
           activeOpacity={0.9}
-          onPress={() => this.props.navigation.navigate('AR')}
+          onPress={() => this.props.navigation.navigate('Satchel')}
         >
           <Feather name="box" size={32} color={'#FFFFFF'} />
         </TouchableHighlight>
@@ -109,7 +114,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 20,
     bottom: 50,
-    shadowOffset: {width: 0, height: 2, },
+    shadowOffset: { width: 0, height: 2, },
     shadowColor: 'black',
     shadowOpacity: 0.4,
   },
@@ -123,7 +128,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 20,
     top: 50,
-    shadowOffset: {width: 0, height: 2, },
+    shadowOffset: { width: 0, height: 2, },
     shadowColor: 'black',
     shadowOpacity: 0.4,
   },
@@ -137,18 +142,19 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 20,
     top: 50,
-    shadowOffset: {width: 0, height: 2, },
+    shadowOffset: { width: 0, height: 2, },
     shadowColor: 'black',
     shadowOpacity: 0.4,
   }
 })
 
-const mapState = ({ userLocation}) => ({ userLocation })
+const mapState = ({ userLocation }) => ({ userLocation })
 
 const mapDispatch = dispatch => ({
   pushUserLocation: location => {
     dispatch(setUserLocation(location))
-  }
+  },
+  getSatchel
 })
 
 export default connect(mapState, mapDispatch)(Main)

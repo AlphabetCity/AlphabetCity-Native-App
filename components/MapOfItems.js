@@ -4,7 +4,6 @@ import { MapView } from 'expo'
 import { connect } from 'react-redux'
 import { getHiddenItems } from '../store/item'
 
-
 class MapOfItems extends Component {
 
   componentDidMount() {
@@ -18,11 +17,11 @@ class MapOfItems extends Component {
           style={{ flex: 1 }}
           initialRegion={this.props.initialRegion}
         >
-        {/* current user's position */}
+          {/* current user's position */}
           <MapView.Marker
             coordinate={this.props.markerPosition}
           />
-        {/* hidden items' positions */}
+          {/* hidden items' positions */}
           {
             this.props.hiddenItems.map(item => {
               return (
