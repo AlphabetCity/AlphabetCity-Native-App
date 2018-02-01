@@ -9,7 +9,11 @@ const setHiddenItems = allHiddenItems => ({ type: SET_HIDDEN_ITEMS, allHiddenIte
 // Thunks
 export const getAllHiddenItems = () => async dispatch => {
   try {
-    const res = await axios.get('https://notseek.herokuapp.com/api/items?hidden=true')
+    const res = await axios.get('https://notseek.herokuapp.com/api/items', {
+      params: {
+        hidden: 'true'
+      }
+    })
     const hiddenItems = await res.data
     dispatch(setHiddenItems(hiddenItems))
   } catch (error) {
