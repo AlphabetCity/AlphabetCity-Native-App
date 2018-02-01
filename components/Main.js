@@ -36,14 +36,6 @@ class Main extends Component {
     )
   }
 
-  _routeUser = (screen) => {
-    if (Object.keys(this.props.user).length) {
-      this.props.navigation.navigate(screen)
-    } else {
-      this.props.navigation.navigate('Auth')
-    }
-  }
-
   componentWillUnmount() {
     delete this.watchId
   }
@@ -116,9 +108,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 20,
     bottom: 50,
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: { width: 0, height: 2, },
     shadowColor: 'black',
-    shadowOpacity: 0.4
+    shadowOpacity: 0.4,
   },
   profileButton: {
     backgroundColor: '#706fd3',
@@ -130,9 +122,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 20,
     top: 50,
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: { width: 0, height: 2, },
     shadowColor: 'black',
-    shadowOpacity: 0.4
+    shadowOpacity: 0.4,
   },
   satchelButton: {
     backgroundColor: '#706fd3',
@@ -144,9 +136,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 20,
     top: 50,
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: { width: 0, height: 2, },
     shadowColor: 'black',
-    shadowOpacity: 0.4
+    shadowOpacity: 0.4,
   }
 })
 
