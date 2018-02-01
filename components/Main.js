@@ -4,7 +4,6 @@ import { View, TouchableHighlight, StyleSheet, Dimensions} from 'react-native'
 import { connect } from 'react-redux'
 import { Location, Permissions } from 'expo'
 import { Feather } from '@expo/vector-icons'
-
 import { MapOfItems } from './'
 import { setUserLocation } from '../store/userLocation'
 
@@ -70,7 +69,8 @@ class Main extends Component {
           style={styles.profileButton}
           underlayColor={'#474787'}
           activeOpacity={0.9}
-          onPress={() => this.props.navigation.navigate('AR')}
+          onPress={() => this.props.navigation.navigate('DrawerOpen')}
+          title="Open drawer"
         >
           <Feather name="user" size={32} color={'#FFFFFF'} />
         </TouchableHighlight>

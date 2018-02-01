@@ -3,7 +3,7 @@ import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 
 import getRootReducer from './reducer'
-import AppNavigator from '../Router'
+import AppNavigator from '../StackNav'
 
 const navReducer = (state, action) => {
   const newState = AppNavigator.router.getStateForAction(action, state)
