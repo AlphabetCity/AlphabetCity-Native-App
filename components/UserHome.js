@@ -7,7 +7,6 @@ import { connect } from 'react-redux'
 class UserHome extends Component {
 
   render() {
-    console.log(this.props)
 
     return (
       <View style={styles.container}>
@@ -53,14 +52,6 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
   },
-  // avatar: {
-  //   marginTop: 50,
-  //   borderRadius: 100,
-  //   borderWidth: 2,
-  //   borderColor: '#474787',
-  //   width: 100,
-  //   height: 100
-  // },
   score: {
     marginTop: 50,
     marginBottom: 20,
