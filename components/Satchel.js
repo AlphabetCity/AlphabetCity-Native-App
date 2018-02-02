@@ -19,8 +19,8 @@ class Satchel extends Component {
                 roundAvatar
                 avatar={{ uri: 'http://dreamicus.com/data/apple/apple-04.jpg' }}
                 key={satchelItem.id}
-                title={(satchelItem.itemId).toString()}
-                onPress={() => this.props.dropItem(this.props.user.id, satchelItem.id, { latitude: this.props.userLocation.latitude, longitude: this.props.userLocation.longitude })}
+                title={(satchelItem.itemCategory.name).toString()}
+                onPress={() => this.props.dropItem(satchelItem.id, { latitude: this.props.userLocation.latitude, longitude: this.props.userLocation.longitude })}
               />
             ))
           }
