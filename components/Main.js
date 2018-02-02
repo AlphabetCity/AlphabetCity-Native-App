@@ -8,6 +8,7 @@ import { getAllHiddenItems } from '../store/allHiddenItems'
 
 import { MapOfItems } from './'
 import { setUserLocation } from '../store/userLocation'
+import { getSatchel } from '../store/satchel'
 
 const { height, width } = Dimensions.get('window')
 const ASPECT_RATIO = width / height
@@ -17,7 +18,6 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
 class Main extends Component {
   constructor(props) {
     super(props)
-
     this._getLocationAsync()
     this.props.getAllHiddenItems()
   }
@@ -40,9 +40,9 @@ class Main extends Component {
     )
   }
 
-  _routeUser = (screen) => {
-    if (Object.keys(this.props.user).length) {
-      console.log('in if block')
+  _routeUser = (screen, cb) => {
+    if (this.props.user && this.props.user.id) {
+      if (cb) cb()
       this.props.navigation.navigate(screen)
     } else {
       this.props.navigation.navigate('Auth')
@@ -66,9 +66,9 @@ class Main extends Component {
           this.props.userLocation.longitude &&
           this.props.allHiddenItems.length ? (
             <MapOfItems
-            markerPosition={region}
-            initialRegion={region}
-            allHiddenItems={this.props.allHiddenItems}
+              markerPosition={region}
+              initialRegion={region}
+              allHiddenItems={this.props.allHiddenItems}
             />
           ) :
           null
@@ -85,7 +85,9 @@ class Main extends Component {
           style={styles.satchelButton}
           underlayColor={'#474787'}
           activeOpacity={0.9}
-          onPress={() => this.props.navigation.navigate('AR')}
+          onPress={() => {
+            this._routeUser('Satchel', () => this.props.getSatchel(this.props.user.id))
+          }}
         >
           <Image
             source={require('../assets/packIcon.png')}
@@ -101,7 +103,7 @@ class Main extends Component {
         >
           <Feather name="eye" size={32} color={'#FFFFFF'} />
         </TouchableHighlight>
-      </View>
+      </View >
     )
   }
 }
@@ -161,7 +163,7 @@ const styles = StyleSheet.create({
   }
 })
 
-const mapState = ({ user, userLocation, allHiddenItems }) => ({ user, userLocation, allHiddenItems})
-const mapDispatch = ({ setUserLocation, getAllHiddenItems })
+const mapState = ({ user, userLocation, allHiddenItems }) => ({ user, userLocation, allHiddenItems })
+const mapDispatch = ({ setUserLocation, getSatchel, getAllHiddenItems })
 
 export default connect(mapState, mapDispatch)(Main)

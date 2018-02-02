@@ -12,10 +12,8 @@ const loginUser = user => ({ type: LOGIN_USER, user })
 // Thunks
 export const createUser = user => async dispatch => {
   try {
-    console.log(user)
     const res = await axios.post('https://notseek.herokuapp.com/auth/signup', user)
     const userData = await res.data
-    console.log('returned server data', userData)
     dispatch(signupUser(userData))
   } catch (error) {
     console.warn(error)
@@ -24,7 +22,6 @@ export const createUser = user => async dispatch => {
 
 export const getUser = user => async dispatch => {
   try {
-    console.log(user)
     const res = await axios.post('https://notseek.herokuapp.com/auth/login', user)
     const userData = await res.data
     console.log('returned server data', userData)
