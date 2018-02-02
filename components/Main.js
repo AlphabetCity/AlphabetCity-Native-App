@@ -88,7 +88,7 @@ class Main extends Component {
           onPress={() => this.props.navigation.navigate('AR')}
         >
           <Image
-            source={require('../assets/pack_icon.png')}
+            source={require('../assets/packIcon.png')}
             fadeDuration={0}
             style={{width: 32, height: 32}}
           />
