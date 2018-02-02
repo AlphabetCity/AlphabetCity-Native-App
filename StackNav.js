@@ -1,7 +1,7 @@
 'use strict'
 import React from 'react'
 import { StackNavigator, DrawerNavigator, DrawerItems } from 'react-navigation'
-import { Main, AR, Satchel, Auth } from './components'
+import { Main, AR, Satchel, Auth, UserHome } from './components'
 import { View } from 'react-native'
 
 const Stack = {
@@ -29,7 +29,13 @@ const Stack = {
     navigationOptions: {
       header: null,
     }
-  }
+  },
+  UserHome: {
+    screen: UserHome,
+    navigationOptions: {
+      title: 'Profile',
+    }
+  },
 }
 
 let loggedIn = true
@@ -43,7 +49,7 @@ const DrawerUserRoutes = {
     }
   },
   Profile: {
-    screen: StackNavigator(Stack, { initialRouteName: 'Main' }),
+    screen: StackNavigator(Stack, { initialRouteName: 'UserHome' }),
     navigationOptions: {
       drawerLabel: 'Profile',
       header: null,
