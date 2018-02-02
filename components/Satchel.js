@@ -10,7 +10,6 @@ class Satchel extends Component {
   }
 
   render() {
-    console.log("I am the REAL satchel", this.props.satchel)
     return (
       <View>
         <List containerStyle={{ marginBottom: 20 }}>
@@ -21,7 +20,7 @@ class Satchel extends Component {
                 avatar={{ uri: 'http://dreamicus.com/data/apple/apple-04.jpg' }}
                 key={satchelItem.id}
                 title={(satchelItem.itemId).toString()}
-                onPress={() => this.props.dropItem(this.props.user.id, satchelItem.id, { latitude: this.props.user.latitude, longitude: this.props.user.longitude })}
+                onPress={() => this.props.dropItem(this.props.user.id, satchelItem.id, { latitude: this.props.userLocation.latitude, longitude: this.props.userLocation.longitude })}
               />
             ))
           }
