@@ -1,5 +1,17 @@
 {
   "expo": {
-    "sdkVersion": "25.0.0"
+    "name": "not-seek",
+    "description": "Flood your room with plums and peaches!",
+    "slug": "not-seek",
+    "privacy": "public",
+    "sdkVersion": "25.0.0",
+    "orientation": "portrait",
+    "primaryColor": "#cccccc",
+    "packagerOpts": {
+      "assetExts": ["ttf", "mp4", "obj", "mtl"]
+    },
+    "ios": {
+      "supportsTablet": true
+    }
   }
 }
