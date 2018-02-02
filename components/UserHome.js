@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { View } from 'react-native'
 import { Text, Avatar } from 'react-native-elements'
+import { Image } from 'react-native'
 import { connect } from 'react-redux'
 
 class UserHome extends Component {
@@ -12,21 +13,21 @@ class UserHome extends Component {
       <View style={styles.container}>
         {this.props.user.userName
         ?
-          <View>
+          <View style={styles.wrap}>
             <Avatar
               xlarge
               rounded
               source={{uri: this.props.user.icon}}
               activeOpacity={0.7}
-              containerStyle={styles.avatar}
+              containerStyle={{justifyContent: 'center',alignItems: 'center',}}
             />
             <Text style={styles.score}>
               SCORE: {this.props.user.score}
             </Text>
-            <Text>
+            <Text style={styles.username}>
               USERNAME: {this.props.user.userName}
             </Text>
-            <Text>
+            <Text style={styles.email}>
               EMAIL: {this.props.user.email}
             </Text>
           </View>
@@ -42,27 +43,42 @@ class UserHome extends Component {
 const styles = {
   container: {
     flex: 1,
-    backgroundColor: '#F7F1E3',
+    justifyContent: 'center',
+    backgroundColor: '#474787',
     alignItems: 'center',
     padding: 10,
   },
-  avatar: {
-    marginTop: 50
+  wrap: {
+    textAlign: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
+  // avatar: {
+  //   marginTop: 50,
+  //   borderRadius: 100,
+  //   borderWidth: 2,
+  //   borderColor: '#474787',
+  //   width: 100,
+  //   height: 100
+  // },
   score: {
+    marginTop: 50,
+    marginBottom: 20,
     color: '#33d9b2',
     fontSize: 40,
     fontWeight: 'bold',
     textAlign: 'center'
   },
   username: {
+    color: '#218c74',
     textAlign: 'center',
-    fontSize: 20,
+    fontSize: 30,
     fontWeight: 'bold',
   },
   email: {
+    color: '#218c74',
     textAlign: 'center',
-    fontSize: 20,
+    fontSize: 30,
     fontWeight: 'bold',
   }
 }
