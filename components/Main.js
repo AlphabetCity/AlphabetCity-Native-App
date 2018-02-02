@@ -12,8 +12,8 @@ import { getSatchel } from '../store/satchel'
 
 const { height, width } = Dimensions.get('window')
 const ASPECT_RATIO = width / height
-const LATITUDE_DELTA = 0.150
-const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
+const LATITUDE_DELTA = 0.002
+const LONGITUDE_DELTA = 0.002
 
 class Main extends Component {
   constructor(props) {
