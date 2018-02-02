@@ -30,7 +30,7 @@ const Stack = {
       header: null,
     }
   },
-  UserHome: {
+  Profile: {
     screen: UserHome,
     navigationOptions: {
       title: 'Profile',
@@ -49,7 +49,7 @@ const DrawerUserRoutes = {
     }
   },
   Profile: {
-    screen: StackNavigator(Stack, { initialRouteName: 'UserHome' }),
+    screen: StackNavigator(Stack, { initialRouteName: 'Profile' }),
     navigationOptions: {
       drawerLabel: 'Profile',
       header: null,

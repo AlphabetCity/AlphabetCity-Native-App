@@ -103,7 +103,7 @@ class Main extends Component {
         >
           <Feather name="eye" size={32} color={'#FFFFFF'} />
         </TouchableHighlight>
-      </View >
+      </View>
     )
   }
 }
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 20,
     bottom: 50,
-    shadowOffset: { width: 0, height: 2, },
+    shadowOffset: { width: 0, height: 2 },
     shadowColor: 'black',
     shadowOpacity: 0.4,
   },
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 20,
     top: 50,
-    shadowOffset: { width: 0, height: 2, },
+    shadowOffset: { width: 0, height: 2 },
     shadowColor: 'black',
     shadowOpacity: 0.4,
   },
@@ -157,13 +157,14 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 20,
     top: 50,
-    shadowOffset: { width: 0, height: 2, },
+    shadowOffset: { width: 0, height: 2 },
     shadowColor: 'black',
     shadowOpacity: 0.4,
   }
 })
 
 const mapState = ({ user, userLocation, allHiddenItems }) => ({ user, userLocation, allHiddenItems })
+
 const mapDispatch = ({ setUserLocation, getSatchel, getAllHiddenItems })
 
 export default connect(mapState, mapDispatch)(Main)

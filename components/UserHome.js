@@ -1,53 +1,72 @@
 import React, { Component } from 'react'
-import { View, StyleSheet } from 'react-native'
-import { FormLabel, FormInput, Button, Text } from 'react-native-elements'
+import { View } from 'react-native'
+import { Text, Avatar } from 'react-native-elements'
 import { connect } from 'react-redux'
 
 class UserHome extends Component {
 
-  render = () => (
-    <View style={styles.container}>
-      <Text>hola!</Text>
-    </View>
-  )
+  render() {
+    console.log(this.props)
+
+    return (
+      <View style={styles.container}>
+        {this.props.user.userName
+        ?
+          <View>
+            <Avatar
+              xlarge
+              rounded
+              source={{uri: this.props.user.icon}}
+              activeOpacity={0.7}
+              containerStyle={styles.avatar}
+            />
+            <Text style={styles.score}>
+              SCORE: {this.props.user.score}
+            </Text>
+            <Text>
+              USERNAME: {this.props.user.userName}
+            </Text>
+            <Text>
+              EMAIL: {this.props.user.email}
+            </Text>
+          </View>
+        :
+          <Text>no user</Text>
+        }
+
+      </View>
+    )
+  }
 }
 
 const styles = {
   container: {
     flex: 1,
-    backgroundColor: 'transparent',
+    backgroundColor: '#F7F1E3',
     alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
+    padding: 10,
   },
-  title: {
-    fontSize: 34,
+  avatar: {
+    marginTop: 50
+  },
+  score: {
+    color: '#33d9b2',
+    fontSize: 40,
     fontWeight: 'bold',
-    color: 'white',
+    textAlign: 'center'
+  },
+  username: {
     textAlign: 'center',
-    marginTop: 10,
+    fontSize: 20,
+    fontWeight: 'bold',
   },
-  logoContainer: {
-    alignItems: 'center',
-    flexGrow: 1,
-    justifyContent: 'center',
-  },
-  input: {
-    height: 35,
-    backgroundColor: 'rgba(192,192,192,0.3)',
-    marginBottom: 15,
-  },
-  buttonStyle: {
-    padding: 10,
-  },
-  labelContainerStyle: {
-    marginTop: 8,
-  },
-  formContainer: {
-    padding: 10,
+  email: {
+    textAlign: 'center',
+    fontSize: 20,
+    fontWeight: 'bold',
   }
 }
 
-const mapDispatch = ({})
+const mapState = ({ user }) => ({ user })
 
-export default connect(null, mapDispatch)(UserHome)
+export default connect(mapState)(UserHome)
