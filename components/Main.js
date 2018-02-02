@@ -1,6 +1,6 @@
 'use strict'
 import React, { Component } from 'react'
-import { View, TouchableHighlight, StyleSheet, Dimensions } from 'react-native'
+import { View, Image, TouchableHighlight, StyleSheet, Dimensions } from 'react-native'
 import { connect } from 'react-redux'
 import { Location, Permissions } from 'expo'
 import { Feather } from '@expo/vector-icons'
@@ -87,7 +87,11 @@ class Main extends Component {
           activeOpacity={0.9}
           onPress={() => this.props.navigation.navigate('AR')}
         >
-          <Feather name="box" size={32} color={'#FFFFFF'} />
+          <Image
+            source={require('../assets/pack_icon.png')}
+            fadeDuration={0}
+            style={{width: 32, height: 32}}
+          />
         </TouchableHighlight>
         <TouchableHighlight
           style={styles.arButton}
