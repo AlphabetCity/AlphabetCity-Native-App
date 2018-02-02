@@ -103,7 +103,7 @@ class Main extends Component {
         >
           <Feather name="eye" size={32} color={'#FFFFFF'} />
         </TouchableHighlight>
-      </View >
+      </View>
     )
   }
 }
@@ -164,6 +164,7 @@ const styles = StyleSheet.create({
 })
 
 const mapState = ({ user, userLocation, allHiddenItems }) => ({ user, userLocation, allHiddenItems })
+
 const mapDispatch = ({ setUserLocation, getSatchel, getAllHiddenItems })
 
 export default connect(mapState, mapDispatch)(Main)
