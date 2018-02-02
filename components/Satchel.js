@@ -7,11 +7,10 @@ import { dropItem } from '../store/satchel'
 class Satchel extends Component {
   constructor(props) {
     super(props)
-
-    this.dropItem = this.dropItem.bind(this)
   }
 
   render() {
+    console.log("I am the REAL satchel", this.props.satchel)
     return (
       <View>
         <List containerStyle={{ marginBottom: 20 }}>
@@ -22,7 +21,7 @@ class Satchel extends Component {
                 avatar={{ uri: 'http://dreamicus.com/data/apple/apple-04.jpg' }}
                 key={satchelItem.id}
                 title={(satchelItem.itemId).toString()}
-                onPress={() => this.dropItem()}
+                onPress={() => this.props.dropItem(this.props.user.id, satchelItem.id, { latitude: this.props.user.latitude, longitude: this.props.user.longitude })}
               />
             ))
           }
@@ -33,7 +32,7 @@ class Satchel extends Component {
 }
 
 
-const mapStateToProps = ({ satchel, userLocation }) => ({ satchel, userLocation })
+const mapStateToProps = ({ user, satchel, userLocation }) => ({ user, satchel, userLocation })
 const mapDispatchToProps = ({ dropItem })
 
 export default connect(

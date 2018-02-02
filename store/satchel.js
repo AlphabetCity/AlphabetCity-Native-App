@@ -6,12 +6,11 @@ const DROP_ITEM = 'DROP_ITEM'
 
 // Action Creators
 const setSatchel = satchel => ({ type: SET_SATCHEL, satchel })
-const updateItem = item => ({ type: DROP_ITEM, item })
 
 // Thunks
-export const getSatchel = () => async dispatch => {
+export const getSatchel = (userId) => async dispatch => {
   try {
-    const res = await axios.get('https://notseek.herokuapp.com/api/users/2/items', {
+    const res = await axios.get(`https://notseek.herokuapp.com/api/users/${userId}/items`, {
       params: {
         hidden: 'false'
       }
@@ -25,7 +24,7 @@ export const getSatchel = () => async dispatch => {
 
 export const dropItem = (userId, userItemId, changes) => async dispatch => {
   try {
-    await axios.put(`https://notseek.herokuapp.com/api/${userID}/items/${userItemId}`, changes)
+    await axios.put(`https://notseek.herokuapp.com/api/users/${userId}/items/${userItemId}`, changes)
   } catch (error) {
     console.error(error)
   }
