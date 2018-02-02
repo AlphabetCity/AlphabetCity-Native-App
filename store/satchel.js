@@ -24,7 +24,6 @@ export const getSatchel = (userId) => async dispatch => {
 
 export const dropItem = (userId, userItemId, changes) => async dispatch => {
   try {
-    console.log("dropping an item:", userItemId, changes)
     await axios.put(`https://notseek.herokuapp.com/api/users/${userId}/items/${userItemId}`, changes)
   } catch (error) {
     console.error(error)
