@@ -5,7 +5,6 @@ import axios from 'axios'
 const SIGNUP_USER = 'SIGNUP_USER'
 const LOGIN_USER = 'LOGIN_USER'
 
-
 // Action Creators
 const signupUser = user => ({ type: SIGNUP_USER, user })
 const loginUser = user => ({ type: LOGIN_USER, user })
