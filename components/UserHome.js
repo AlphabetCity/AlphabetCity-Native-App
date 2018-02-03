@@ -49,7 +49,6 @@ const styles = {
     padding: 10,
   },
   wrap: {
-    textAlign: 'center',
     justifyContent: 'center',
     alignItems: 'center',
   },
