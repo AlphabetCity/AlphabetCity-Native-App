@@ -12,7 +12,6 @@ import { connect } from 'react-redux'
 import { Location, Permissions } from 'expo'
 import { Feather } from '@expo/vector-icons'
 import { getAllHiddenItems } from '../store/allHiddenItems'
-
 import { MapOfItems } from './'
 import { setUserLocation } from '../store/userLocation'
 import { getSatchel } from '../store/satchel'
