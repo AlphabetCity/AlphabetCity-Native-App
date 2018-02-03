@@ -1,7 +1,7 @@
 'use strict'
 import React from 'react'
 import { StackNavigator, DrawerNavigator, DrawerItems } from 'react-navigation'
-import { Main, AR, Satchel, Auth, UserHome } from './components'
+import { Main, AR, Satchel, Auth, UserHome, Highscores } from './components'
 import { View } from 'react-native'
 
 const Stack = {
@@ -27,13 +27,19 @@ const Stack = {
   Satchel: {
     screen: Satchel,
     navigationOptions: {
-      header: null,
+      header: 'Satchel',
     }
   },
   Profile: {
     screen: UserHome,
     navigationOptions: {
       title: 'Profile',
+    }
+  },
+  Highscores: {
+    screen: Highscores,
+    navigationOptions: {
+      title: 'Highscores',
     }
   },
 }
@@ -55,10 +61,10 @@ const DrawerUserRoutes = {
       header: null,
     }
   },
-  HighScores: {
-    screen: StackNavigator(Stack, { initialRouteName: 'Main' }),
+  Highscores: {
+    screen: StackNavigator(Stack, { initialRouteName: 'Highscores' }),
     navigationOptions: {
-      drawerLabel: 'HighScores',
+      drawerLabel: 'Highscores',
       header: null,
     }
   },
