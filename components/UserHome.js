@@ -1,3 +1,4 @@
+'use strict'
 import React, { Component } from 'react'
 import { View } from 'react-native'
 import { Text, Avatar } from 'react-native-elements'
@@ -11,14 +12,14 @@ class UserHome extends Component {
     return (
       <View style={styles.container}>
         {this.props.user.userName
-        ?
+          ?
           <View style={styles.wrap}>
             <Avatar
               xlarge
               rounded
-              source={{uri: this.props.user.icon}}
+              source={{ uri: this.props.user.icon }}
               activeOpacity={0.7}
-              containerStyle={{justifyContent: 'center',alignItems: 'center',}}
+              containerStyle={{ justifyContent: 'center', alignItems: 'center', }}
             />
             <Text style={styles.score}>
               SCORE: {this.props.user.score}
@@ -30,7 +31,7 @@ class UserHome extends Component {
               EMAIL: {this.props.user.email}
             </Text>
           </View>
-        :
+          :
           <Text>no user</Text>
         }
 

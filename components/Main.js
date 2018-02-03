@@ -5,7 +5,6 @@ import { connect } from 'react-redux'
 import { Location, Permissions } from 'expo'
 import { Feather } from '@expo/vector-icons'
 import { getAllHiddenItems } from '../store/allHiddenItems'
-
 import { MapOfItems } from './'
 import { setUserLocation } from '../store/userLocation'
 import { getSatchel } from '../store/satchel'
@@ -92,7 +91,7 @@ class Main extends Component {
           <Image
             source={require('../assets/packIcon.png')}
             fadeDuration={0}
-            style={{width: 32, height: 32}}
+            style={{ width: 32, height: 32 }}
           />
         </TouchableHighlight>
         <TouchableHighlight
