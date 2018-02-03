@@ -1,6 +1,13 @@
 'use strict'
 import React, { Component } from 'react'
-import { View, Image, TouchableHighlight, StyleSheet, Dimensions } from 'react-native'
+import {
+  View,
+  Text,
+  Image,
+  TouchableHighlight,
+  StyleSheet,
+  Dimensions
+} from 'react-native'
 import { connect } from 'react-redux'
 import { Location, Permissions } from 'expo'
 import { Feather } from '@expo/vector-icons'
@@ -9,16 +16,25 @@ import { MapOfItems } from './'
 import { setUserLocation } from '../store/userLocation'
 import { getSatchel } from '../store/satchel'
 
+import geolib from 'geolib'
+
 const { height, width } = Dimensions.get('window')
-const ASPECT_RATIO = width / height
+
 const LATITUDE_DELTA = 0.002
 const LONGITUDE_DELTA = 0.002
+const DEFAULT_DISTANCE = Infinity
 
 class Main extends Component {
   constructor(props) {
     super(props)
     this._getLocationAsync()
     this.props.getAllHiddenItems()
+
+    this.count = 0
+
+    this.state = {
+      shortestDistance: DEFAULT_DISTANCE
+    }
   }
 
   _getLocationAsync = async () => {
@@ -28,15 +44,37 @@ class Main extends Component {
     }
 
     this.watchId = Location.watchPositionAsync(
-      { enableHighAccuracy: true, timeInterval: 30000, distanceInterval: 10 },
+      { enableHighAccuracy: true, timeInterval: 1000, distanceInterval: 10 },
       position => {
         this.props.setUserLocation({
           latitude: position.coords.latitude,
           longitude: position.coords.longitude
         })
+        this._getShortestDistance()
       },
       () => this.props.setUserLocation({})
     )
+  }
+
+  _getShortestDistance = () => {
+    if (this.props.allHiddenItems && this.props.userLocation.latitude) {
+      let currentLocLat = this.props.userLocation.latitude
+      let currentLocLng = this.props.userLocation.longitude
+
+      let shortestDistance = DEFAULT_DISTANCE
+      this.props.allHiddenItems.forEach(item => {
+        let compareDist = geolib.getDistance(
+          { latitude: currentLocLat, longitude: currentLocLng },
+          { latitude: item.latitude, longitude: item.longitude },
+          1,
+          1
+        )
+        if (compareDist < shortestDistance) {
+          shortestDistance = compareDist
+        }
+      })
+      this.setState({ shortestDistance })
+    }
   }
 
   _routeUser = (screen, cb) => {
@@ -50,6 +88,7 @@ class Main extends Component {
 
   componentWillUnmount() {
     delete this.watchId
+    clearInterval(this._interval)
   }
 
   render() {
@@ -62,16 +101,14 @@ class Main extends Component {
     return (
       <View style={styles.container}>
         {this.props.userLocation.latitude &&
-          this.props.userLocation.longitude &&
-          this.props.allHiddenItems.length ? (
-            <MapOfItems
-              markerPosition={region}
-              initialRegion={region}
-              allHiddenItems={this.props.allHiddenItems}
-            />
-          ) :
-          null
-        }
+        this.props.userLocation.longitude &&
+        this.props.allHiddenItems.length ? (
+          <MapOfItems
+            markerPosition={region}
+            initialRegion={region}
+            allHiddenItems={this.props.allHiddenItems}
+          />
+        ) : null}
         <TouchableHighlight
           style={styles.profileButton}
           underlayColor={'#474787'}
@@ -85,7 +122,9 @@ class Main extends Component {
           underlayColor={'#474787'}
           activeOpacity={0.9}
           onPress={() => {
-            this._routeUser('Satchel', () => this.props.getSatchel(this.props.user.id))
+            this._routeUser('Satchel', () =>
+              this.props.getSatchel(this.props.user.id)
+            )
           }}
         >
           <Image
@@ -94,14 +133,34 @@ class Main extends Component {
             style={{ width: 32, height: 32 }}
           />
         </TouchableHighlight>
-        <TouchableHighlight
-          style={styles.arButton}
-          underlayColor={'#474787'}
-          activeOpacity={0.9}
-          onPress={() => this._routeUser('AR')}
-        >
-          <Feather name="eye" size={32} color={'#FFFFFF'} />
-        </TouchableHighlight>
+        {this.state.shortestDistance < 10 && (
+          <TouchableHighlight
+            style={styles.arButton}
+            underlayColor={'#474787'}
+            activeOpacity={0.9}
+            onPress={() => this._routeUser('AR')}
+          >
+            <View
+              style={{
+                flex: 1,
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: (width - 40) / 2
+              }}
+            >
+              <Feather
+                name="eye"
+                size={32}
+                color={'#FFFFFF'}
+                style={{ flexBasis: 1, flexGrow: 1 }}
+              />
+              <Text style={{ flexBasis: 1, flexGrow: 1, color: '#FFFFFF' }}>
+                Distance = {this.state.shortestDistance}
+              </Text>
+            </View>
+          </TouchableHighlight>
+        )}
       </View>
     )
   }
@@ -110,7 +169,7 @@ class Main extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'flex-end',
+    justifyContent: 'flex-end'
   },
   textTitle: {
     fontSize: 20,
@@ -127,7 +186,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     position: 'absolute',
     left: 20,
-    bottom: 50,
+    bottom: 24,
     shadowOffset: { width: 0, height: 2, },
     shadowColor: 'black',
     shadowOpacity: 0.4,
@@ -162,8 +221,12 @@ const styles = StyleSheet.create({
   }
 })
 
-const mapState = ({ user, userLocation, allHiddenItems }) => ({ user, userLocation, allHiddenItems })
+const mapState = ({ user, userLocation, allHiddenItems }) => ({
+  user,
+  userLocation,
+  allHiddenItems
+})
 
-const mapDispatch = ({ setUserLocation, getSatchel, getAllHiddenItems })
+const mapDispatch = { setUserLocation, getSatchel, getAllHiddenItems }
 
 export default connect(mapState, mapDispatch)(Main)

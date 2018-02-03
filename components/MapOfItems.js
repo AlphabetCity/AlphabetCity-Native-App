@@ -6,31 +6,42 @@ import blurryPin from '../assets/blurryPin.png'
 
 const MapOfItems = (props) => {
 
-  return (
-    <View style={styles.container}>
-      <MapView
-        style={{ flex: 1 }}
-        initialRegion={props.initialRegion}
-      >
-        {/* current user's position */}
-        <MapView.Marker
-          coordinate={props.markerPosition}
-        />
+    return (
+      <View style={styles.container}>
+        <MapView.Animated
+          style={{ flex: 1 }}
+          initialRegion={new MapView.AnimatedRegion(props.initialRegion)}
+          showsUserLocation
+          pitchEnabled={false}
+          showsPointsOfInterest={false}
+          showsCompass={false}
+          showsTraffic={false}
+          legalLabelInsets={{
+            top: 50,
+            left: -50,
+            bottom: 50,
+            right: 50
+          }}
+        >
         {/* hidden items' positions */}
-        {
-          props.allHiddenItems.map(item => {
-            return (
-              <MapView.Marker
-                key={item.id}
-                coordinate={{ latitude: item.latitude, longitude: item.longitude }}
-                image={blurryPin}
-              />
-            )
-          })
-        }
-      </MapView>
-    </View>
-  )
+          {
+            props.allHiddenItems.map(item => {
+              return (
+                <MapView.Circle
+                  key={item.id}
+                  center={{ latitude: item.latitude, longitude: item.longitude }}
+                  radius={10 * Math.random() * 3}
+                  strokeWidth={0.5}
+                  strokeColor={'rgba(112, 111, 211, 0.0)'}
+                  fillColor={'rgba(112, 111, 211, 0.1)'}
+
+                />
+              )
+            })
+          }
+        </MapView.Animated>
+      </View>
+    )
 }
 
 
