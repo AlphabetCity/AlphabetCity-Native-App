@@ -27,7 +27,7 @@ const Stack = {
   Satchel: {
     screen: Satchel,
     navigationOptions: {
-      header: 'Satchel',
+      title: 'Satchel',
     }
   },
   Profile: {
