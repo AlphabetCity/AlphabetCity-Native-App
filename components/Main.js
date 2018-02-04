@@ -6,7 +6,8 @@ import {
   Image,
   TouchableHighlight,
   StyleSheet,
-  Dimensions
+  Dimensions,
+  Animated
 } from 'react-native'
 import { connect } from 'react-redux'
 import { Location, Permissions } from 'expo'
@@ -35,6 +36,17 @@ class Main extends Component {
     this.state = {
       shortestDistance: DEFAULT_DISTANCE
     }
+  }
+
+  _spring () {
+    this.springValue.setValue(0.3)
+    Animated.spring(
+      this.springValue,
+      {
+        toValue: 1,
+        friction: 1
+      }
+    ).start()
   }
 
   _getLocationAsync = async () => {
@@ -133,7 +145,7 @@ class Main extends Component {
             style={{ width: 32, height: 32 }}
           />
         </TouchableHighlight>
-        {this.state.shortestDistance < 10 && (
+        {this.state.shortestDistance < Infinity && (
           <TouchableHighlight
             style={styles.arButton}
             underlayColor={'#474787'}

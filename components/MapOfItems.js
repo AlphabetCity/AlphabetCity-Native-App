@@ -30,10 +30,10 @@ const MapOfItems = (props) => {
                 <MapView.Circle
                   key={item.id}
                   center={{ latitude: item.latitude, longitude: item.longitude }}
-                  radius={10 * Math.random() * 3}
+                  radius={50}
                   strokeWidth={0.5}
                   strokeColor={'rgba(112, 111, 211, 0.0)'}
-                  fillColor={'rgba(112, 111, 211, 0.1)'}
+                  fillColor={'rgba(112, 111, 211, 0.3)'}
 
                 />
               )
