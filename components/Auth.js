@@ -1,3 +1,4 @@
+'use strict'
 import React, { Component } from 'react'
 import { View, StyleSheet } from 'react-native'
 import { FormLabel, FormInput, Button, Text } from 'react-native-elements'
@@ -41,7 +42,7 @@ class Auth extends Component {
       <FormInput
         style={styles.input}
         placeholder="Username"
-        onChangeText={text => this.setState({userName: text.replace(/\s/g, '')})}
+        onChangeText={text => this.setState({ userName: text.replace(/\s/g, '') })}
       />
       <FormLabel>
         Email
@@ -49,7 +50,7 @@ class Auth extends Component {
       <FormInput
         style={styles.input}
         placeholder="Email"
-        onChangeText={text => this.setState({email: text})}
+        onChangeText={text => this.setState({ email: text })}
       />
       <FormLabel>
         PW
@@ -57,7 +58,7 @@ class Auth extends Component {
       <FormInput
         style={styles.input}
         secureTextEntry
-        onChangeText={text => this.setState({password: text})}
+        onChangeText={text => this.setState({ password: text })}
       />
       <Button
         style={styles.buttonStyle}
