@@ -2,7 +2,7 @@ import axios from 'axios'
 
 // Action Type
 const SET_SATCHEL = 'SET_SATCHEL'
-const DROP_ITEM = 'DROP_ITEM'
+const UPDATE_ITEM = 'UPDATE_ITEM'
 
 // Action Creators
 const setSatchel = satchel => ({ type: SET_SATCHEL, satchel })
@@ -22,7 +22,7 @@ export const getSatchel = (userId) => async dispatch => {
   }
 }
 
-export const dropItem = (userItemId, changes) => async dispatch => {
+export const updateItem = (userItemId, changes) => async dispatch => {
   try {
     await axios.put(`https://notseek.herokuapp.com/api/items/${userItemId}`, changes)
   } catch (error) {

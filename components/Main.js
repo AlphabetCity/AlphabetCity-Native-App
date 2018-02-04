@@ -14,7 +14,8 @@ import { Feather } from '@expo/vector-icons'
 import { getAllHiddenItems } from '../store/allHiddenItems'
 import { MapOfItems } from './'
 import { setUserLocation } from '../store/userLocation'
-import { getSatchel } from '../store/satchel'
+import { getSatchel, updateItem } from '../store/satchel'
+import { updateUser } from '../store/user'
 
 import geolib from 'geolib'
 
@@ -33,8 +34,15 @@ class Main extends Component {
     this.count = 0
 
     this.state = {
-      shortestDistance: DEFAULT_DISTANCE
+      shortestDistance: DEFAULT_DISTANCE,
+      nearestItem: null
     }
+  }
+
+  _pickUpItem = () => {
+    this.props.updateItem(this.state.nearestItem.id, { userId: this.props.user.id, latitude: null, longitude: null })
+    this.props.updateUser(this.props.user.id, { score: (this.props.user.score + this.state.nearestItem.itemCategory.points) })
+    this._getShortestDistance()
   }
 
   _getLocationAsync = async () => {
@@ -60,7 +68,7 @@ class Main extends Component {
     if (this.props.allHiddenItems && this.props.userLocation.latitude) {
       let currentLocLat = this.props.userLocation.latitude
       let currentLocLng = this.props.userLocation.longitude
-
+      let nearestItem
       let shortestDistance = DEFAULT_DISTANCE
       this.props.allHiddenItems.forEach(item => {
         let compareDist = geolib.getDistance(
@@ -71,9 +79,10 @@ class Main extends Component {
         )
         if (compareDist < shortestDistance) {
           shortestDistance = compareDist
+          nearestItem = item
         }
       })
-      this.setState({ shortestDistance })
+      this.setState({ shortestDistance, nearestItem })
     }
   }
 
@@ -101,14 +110,14 @@ class Main extends Component {
     return (
       <View style={styles.container}>
         {this.props.userLocation.latitude &&
-        this.props.userLocation.longitude &&
-        this.props.allHiddenItems.length ? (
-          <MapOfItems
-            markerPosition={region}
-            initialRegion={region}
-            allHiddenItems={this.props.allHiddenItems}
-          />
-        ) : null}
+          this.props.userLocation.longitude &&
+          this.props.allHiddenItems.length ? (
+            <MapOfItems
+              markerPosition={region}
+              initialRegion={region}
+              allHiddenItems={this.props.allHiddenItems}
+            />
+          ) : null}
         <TouchableHighlight
           style={styles.profileButton}
           underlayColor={'#474787'}
@@ -138,7 +147,8 @@ class Main extends Component {
             style={styles.arButton}
             underlayColor={'#474787'}
             activeOpacity={0.9}
-            onPress={() => this._routeUser('AR')}
+            onPress={() => this._pickUpItem()
+            }
           >
             <View
               style={{
@@ -227,6 +237,6 @@ const mapState = ({ user, userLocation, allHiddenItems }) => ({
   allHiddenItems
 })
 
-const mapDispatch = { setUserLocation, getSatchel, getAllHiddenItems }
+const mapDispatch = { setUserLocation, getSatchel, getAllHiddenItems, updateItem, updateUser }
 
 export default connect(mapState, mapDispatch)(Main)

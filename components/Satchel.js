@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { List, ListItem, ListView } from 'react-native-elements'
 import { View, Text } from 'react-native'
-import { dropItem } from '../store/satchel'
+import { updateItem } from '../store/satchel'
 
 class Satchel extends Component {
   constructor(props) {
@@ -22,7 +22,7 @@ class Satchel extends Component {
                 key={satchelItem.id}
                 title={(satchelItem.itemCategory.name).toString()}
                 onPress={() => {
-                  this.props.dropItem(satchelItem.id, { latitude: this.props.userLocation.latitude, longitude: this.props.userLocation.longitude })
+                  this.props.updateItem(satchelItem.id, { latitude: this.props.userLocation.latitude, longitude: this.props.userLocation.longitude })
                   this.props.navigation.goBack()
                 }
                 }
@@ -37,7 +37,7 @@ class Satchel extends Component {
 
 
 const mapStateToProps = ({ user, satchel, userLocation }) => ({ user, satchel, userLocation })
-const mapDispatchToProps = ({ dropItem })
+const mapDispatchToProps = ({ updateItem })
 
 export default connect(
   mapStateToProps,
