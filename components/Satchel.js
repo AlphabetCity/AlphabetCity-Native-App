@@ -6,6 +6,17 @@ import { View, Text, Button } from 'react-native'
 import { updateLetter } from '../store/satchel'
 
 class Satchel extends Component {
+  constructor(props) {
+    super(props)
+
+    this.dropItem.bind(this)
+  }
+
+  dropItem = (satchelLetter) => {
+    this.props.updateLetter(satchelLetter.id, { latitude: this.props.userLocation.latitude, longitude: this.props.userLocation.longitude })
+    this.props.navigation.goBack()
+  }
+
 
   render() {
     return (
@@ -19,9 +30,8 @@ class Satchel extends Component {
                 key={satchelLetter.id}
                 title={`Drop the letter ${satchelLetter.letterCategory.name}`}
                 onPress={() => {
-                  this.props.updateLetter(satchelLetter.id, { latitude: this.props.userLocation.latitude, longitude: this.props.userLocation.longitude })
-                  this.props.navigation.goBack()
-                  }
+                  this.dropItem(satchelLetter)
+                }
                 }
               />
             ))

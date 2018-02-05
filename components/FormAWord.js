@@ -3,30 +3,40 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { List, ListItem, ListView } from 'react-native-elements'
 import { View, Text } from 'react-native'
+import { FormLabel, FormInput } from 'react-native-elements'
+import dictionary from '../assets/dictionary'
 
 
 class FormAWord extends Component {
 
+  constructor() {
+    super()
+
+    this.state = {
+      word: ''
+    }
+
+    this.handleWordSubmit = this.handleWordSubmit.bind(this)
+  }
+
+  handleWordSubmit() {
+    console.log(dictionary.has(this.state.word))
+    // return dictionary.has(this.state.word)
+  }
+
+
+
   render() {
     return (
       <View>
-        <List containerStyle={{ marginBottom: 20 }}>
-          {
-            this.props.satchel.map((satchelLetter) => (
-              <ListItem
-                roundAvatar
-                avatar={{ uri: 'http://dreamicus.com/data/apple/apple-04.jpg' }}
-                key={satchelLetter.id}
-                title={`Drop the letter ${satchelLetter.letterCategory.name}`}
-                onPress={() => {
-                  this.props.updateLetter(satchelLetter.id, { latitude: this.props.userLocation.latitude, longitude: this.props.userLocation.longitude })
-                  this.props.navigation.goBack()
-                }
-                }
-              />
-            ))
-          }
-        </List>
+        <FormLabel>Input a Word</FormLabel>
+        <FormInput onChangeText={text => this.setState({ word: text })} />
+        <Button
+          style={styles.buttonStyle}
+          small
+          onPress={this.handleWordSubmit}
+          title="Submit Word"
+        />
       </View>
     )
   }
