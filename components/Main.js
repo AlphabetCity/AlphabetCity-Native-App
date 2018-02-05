@@ -11,10 +11,10 @@ import {
 import { connect } from 'react-redux'
 import { Location, Permissions } from 'expo'
 import { Feather } from '@expo/vector-icons'
-import { getAllHiddenItems } from '../store/allHiddenItems'
-import { MapOfItems } from './'
+import { getAllHiddenLetters } from '../store/allHiddenLetters'
+import { MapOfLetters } from './'
 import { setUserLocation } from '../store/userLocation'
-import { getSatchel, updateItem } from '../store/satchel'
+import { getSatchel, updateLetter } from '../store/satchel'
 import { updateUser } from '../store/user'
 
 import geolib from 'geolib'
@@ -29,20 +29,24 @@ class Main extends Component {
   constructor(props) {
     super(props)
     this._getLocationAsync()
-    this.props.getAllHiddenItems()
+    this.props.getAllHiddenLetters()
 
     this.count = 0
 
     this.state = {
       shortestDistance: DEFAULT_DISTANCE,
-      nearestItem: null
+      nearestLetter: null
     }
   }
 
-  _pickUpItem = () => {
-    this.props.updateItem(this.state.nearestItem.id, { userId: this.props.user.id, latitude: null, longitude: null })
-    this.props.updateUser(this.props.user.id, { score: (this.props.user.score + this.state.nearestItem.itemCategory.points) })
+  _pickUpLetter = async () => {
+    this.props.updateLetter(this.state.nearestLetter.id, { userId: this.props.user.id, latitude: null, longitude: null })
+    this.props.updateUser(this.props.user.id, { score: (this.props.user.score + this.state.nearestLetter.letterCategory.points) })
+    await this.props.getAllHiddenLetters()
     this._getShortestDistance()
+    this._routeUser('Satchel', () =>
+      this.props.getSatchel(this.props.user.id)
+    )
   }
 
   _getLocationAsync = async () => {
@@ -65,24 +69,24 @@ class Main extends Component {
   }
 
   _getShortestDistance = () => {
-    if (this.props.allHiddenItems && this.props.userLocation.latitude) {
+    if (this.props.allHiddenLetters && this.props.userLocation.latitude) {
       let currentLocLat = this.props.userLocation.latitude
       let currentLocLng = this.props.userLocation.longitude
-      let nearestItem
+      let nearestLetter
       let shortestDistance = DEFAULT_DISTANCE
-      this.props.allHiddenItems.forEach(item => {
+      this.props.allHiddenLetters.forEach(letter => {
         let compareDist = geolib.getDistance(
           { latitude: currentLocLat, longitude: currentLocLng },
-          { latitude: item.latitude, longitude: item.longitude },
+          { latitude: letter.latitude, longitude: letter.longitude },
           1,
           1
         )
         if (compareDist < shortestDistance) {
           shortestDistance = compareDist
-          nearestItem = item
+          nearestLetter = letter
         }
       })
-      this.setState({ shortestDistance, nearestItem })
+      this.setState({ shortestDistance, nearestLetter })
     }
   }
 
@@ -111,11 +115,11 @@ class Main extends Component {
       <View style={styles.container}>
         {this.props.userLocation.latitude &&
           this.props.userLocation.longitude &&
-          this.props.allHiddenItems.length ? (
-            <MapOfItems
+          this.props.allHiddenLetters.length ? (
+            <MapOfLetters
               markerPosition={region}
               initialRegion={region}
-              allHiddenItems={this.props.allHiddenItems}
+              allHiddenLetters={this.props.allHiddenLetters}
             />
           ) : null}
         <TouchableHighlight
@@ -142,12 +146,12 @@ class Main extends Component {
             style={{ width: 32, height: 32 }}
           />
         </TouchableHighlight>
-        {this.state.shortestDistance < 10 && (
+        {this.state.shortestDistance < 10000000000000000000000000 && (
           <TouchableHighlight
             style={styles.arButton}
             underlayColor={'#474787'}
             activeOpacity={0.9}
-            onPress={() => this._pickUpItem()
+            onPress={() => this._pickUpLetter()
             }
           >
             <View
@@ -166,7 +170,7 @@ class Main extends Component {
                 style={{ flexBasis: 1, flexGrow: 1 }}
               />
               <Text style={{ flexBasis: 1, flexGrow: 1, color: '#FFFFFF' }}>
-                Distance = {this.state.shortestDistance}
+                Pick up {this.state.nearestLetter.letterCategory.name}?
               </Text>
             </View>
           </TouchableHighlight>
@@ -231,12 +235,12 @@ const styles = StyleSheet.create({
   }
 })
 
-const mapState = ({ user, userLocation, allHiddenItems }) => ({
+const mapState = ({ user, userLocation, allHiddenLetters }) => ({
   user,
   userLocation,
-  allHiddenItems
+  allHiddenLetters
 })
 
-const mapDispatch = { setUserLocation, getSatchel, getAllHiddenItems, updateItem, updateUser }
+const mapDispatch = { setUserLocation, getSatchel, getAllHiddenLetters, updateLetter, updateUser }
 
 export default connect(mapState, mapDispatch)(Main)

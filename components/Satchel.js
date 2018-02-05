@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { List, ListItem, ListView } from 'react-native-elements'
 import { View, Text } from 'react-native'
-import { updateItem } from '../store/satchel'
+import { updateLetter } from '../store/satchel'
 
 class Satchel extends Component {
   constructor(props) {
@@ -15,14 +15,14 @@ class Satchel extends Component {
       <View>
         <List containerStyle={{ marginBottom: 20 }}>
           {
-            this.props.satchel.map((satchelItem, idx) => (
+            this.props.satchel.map((satchelLetter, idx) => (
               <ListItem
                 roundAvatar
                 avatar={{ uri: 'http://dreamicus.com/data/apple/apple-04.jpg' }}
-                key={satchelItem.id}
-                title={(satchelItem.itemCategory.name).toString()}
+                key={satchelLetter.id}
+                title={(satchelLetter.letterCategory.name).toString()}
                 onPress={() => {
-                  this.props.updateItem(satchelItem.id, { latitude: this.props.userLocation.latitude, longitude: this.props.userLocation.longitude })
+                  this.props.updateLetter(satchelLetter.id, { latitude: this.props.userLocation.latitude, longitude: this.props.userLocation.longitude })
                   this.props.navigation.goBack()
                 }
                 }
@@ -37,7 +37,7 @@ class Satchel extends Component {
 
 
 const mapStateToProps = ({ user, satchel, userLocation }) => ({ user, satchel, userLocation })
-const mapDispatchToProps = ({ updateItem })
+const mapDispatchToProps = ({ updateLetter })
 
 export default connect(
   mapStateToProps,
