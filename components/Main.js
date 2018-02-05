@@ -151,8 +151,9 @@ class Main extends Component {
             style={styles.arButton}
             underlayColor={'#474787'}
             activeOpacity={0.9}
-            onPress={() => this._pickUpLetter()
-            }
+            onPress={() => {
+              this._routeUser('AR', () => this._pickUpLetter())
+            }}
           >
             <View
               style={{
