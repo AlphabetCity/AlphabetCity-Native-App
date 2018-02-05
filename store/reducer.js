@@ -1,12 +1,18 @@
 'use strict'
 import { combineReducers } from 'redux'
+import user from './user'
 import userLocation from './userLocation'
-import item from './item'
+import satchel from './satchel'
+import allHiddenLetters from './allHiddenLetters'
+import highscores from './highscores'
 
 export default function getRootReducer(nav) {
   return combineReducers({
     nav,
+    user,
     userLocation,
-    item
+    allHiddenLetters,
+    satchel,
+    highscores
   })
 }
