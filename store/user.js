@@ -11,8 +11,6 @@ const signupUser = user => ({ type: SIGNUP_USER, user })
 const loginUser = user => ({ type: LOGIN_USER, user })
 const editUser = user => ({ type: EDIT_USER, user })
 
-
-
 // Thunks
 export const createUser = user => async dispatch => {
   try {
@@ -38,7 +36,7 @@ export const updateUser = (userId, changes) => async dispatch => {
   try {
     const res = await axios.put(`https://notseek.herokuapp.com/api/users/${userId}`, changes)
     const userData = await res.data
-    dispatch(loginUser(userData))
+    dispatch(editUser(userData))
   } catch (error) {
     console.error(error)
   }

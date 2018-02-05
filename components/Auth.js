@@ -35,7 +35,6 @@ class Auth extends Component {
 
   render = () => (
     <View style={styles.container}>
-      <Text>Hello World!</Text>
       <FormLabel>
         Username
       </FormLabel>

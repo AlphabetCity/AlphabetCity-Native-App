@@ -2,7 +2,7 @@ import axios from 'axios'
 
 // Action Type
 const SET_SATCHEL = 'SET_SATCHEL'
-const UPDATE_ITEM = 'UPDATE_ITEM'
+const UPDATE_LETTER = 'UPDATE_LETTER'
 
 // Action Creators
 const setSatchel = satchel => ({ type: SET_SATCHEL, satchel })
@@ -10,7 +10,7 @@ const setSatchel = satchel => ({ type: SET_SATCHEL, satchel })
 // Thunks
 export const getSatchel = (userId) => async dispatch => {
   try {
-    const res = await axios.get(`https://notseek.herokuapp.com/api/users/${userId}/items`, {
+    const res = await axios.get(`https://notseek.herokuapp.com/api/users/${userId}/letters`, {
       params: {
         hidden: 'false'
       }
@@ -22,9 +22,9 @@ export const getSatchel = (userId) => async dispatch => {
   }
 }
 
-export const updateItem = (userItemId, changes) => async dispatch => {
+export const updateLetter = (userLetterId, changes) => async dispatch => {
   try {
-    await axios.put(`https://notseek.herokuapp.com/api/items/${userItemId}`, changes)
+    await axios.put(`https://notseek.herokuapp.com/api/Letters/${userLetterId}`, changes)
   } catch (error) {
     console.error(error)
   }

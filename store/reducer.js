@@ -3,7 +3,7 @@ import { combineReducers } from 'redux'
 import user from './user'
 import userLocation from './userLocation'
 import satchel from './satchel'
-import allHiddenItems from './allHiddenItems'
+import allHiddenLetters from './allHiddenLetters'
 import highscores from './highscores'
 
 export default function getRootReducer(nav) {
@@ -11,7 +11,7 @@ export default function getRootReducer(nav) {
     nav,
     user,
     userLocation,
-    allHiddenItems,
+    allHiddenLetters,
     satchel,
     highscores
   })
