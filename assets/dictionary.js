@@ -173143,5 +173143,4 @@ let setDictionary = new Set();
 arrayOfStrings.forEach(function (word) {
   setDictionary.add(word.toUpperCase())
 }
-
 )
