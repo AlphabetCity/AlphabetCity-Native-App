@@ -13,21 +13,18 @@ class UserWords extends Component {
   }
 
   componentDidMount(props){
-    console.log('PROPS', this.props)
-    console.log('user id: ', this.props.user.id)
     this.props.loadUserWords(this.props.user.id)
   }
 
   render(props) {
     return (
       <View>
-      {console.log('WORDS: ',   this.props.words)}
         { this.props.words
           ?
           <Leaderboard
           data={this.props.words}
-          sortBy='createdAt' //should be score ...???
-          labelBy='name'
+          sortBy='createdAt' //should be score ...!!
+          labelBy='word'
         />
         :
           <Text>...loading</Text>

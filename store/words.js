@@ -7,11 +7,10 @@ const GET_USER_WORDS = 'GET_USER_WORDS'
 const getUserWords = words => ({ type: GET_USER_WORDS, words })
 
 // Thunks
-export const loadUserWords = userId => async dispatch => {
+export const loadUserWords = (userId) => async dispatch => {
   try {
-    const res = await axios.get(`https://notseek.herokuapp.com/api/users/${userId}/words`)
+    const res = await axios.get(`https://alphabetcity.herokuapp.com/api/users/${userId}/words`)
     const words = res.data
-    console.log('words froms store', words)
     dispatch(getUserWords(words))
   } catch (error) {
     console.error(error)
