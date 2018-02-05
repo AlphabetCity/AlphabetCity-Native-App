@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "not-seek",
+    "name": "not-orchard",
     "description": "Flood your room with plums and peaches!",
     "slug": "not-seek",
     "privacy": "public",
@@ -8,7 +8,7 @@
     "orientation": "portrait",
     "primaryColor": "#cccccc",
     "packagerOpts": {
-      "assetExts": ["ttf", "mp4", "obj", "mtl"]
+      "assetExts": ["ttf", "mp4", "obj", "json"]
     },
     "ios": {
       "supportsTablet": true

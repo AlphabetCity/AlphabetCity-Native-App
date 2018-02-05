@@ -2,7 +2,6 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
 import { MapView } from 'expo'
-import blurryPin from '../assets/blurryPin.png'
 
 const MapOfItems = (props) => {
 
@@ -10,7 +9,7 @@ const MapOfItems = (props) => {
       <View style={styles.container}>
         <MapView.Animated
           style={{ flex: 1 }}
-          initialRegion={new MapView.AnimatedRegion(props.initialRegion)}
+          initialRegion={props.initialRegion}
           showsUserLocation
           pitchEnabled={false}
           showsPointsOfInterest={false}

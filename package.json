@@ -23,11 +23,14 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "@davidmarkclements/hsl-to-hex": "^1.0.2",
     "axios": "^0.17.1",
     "cannon": "^0.6.2",
     "expo": "^25.0.0",
+    "expo-graphics": "0.0.2",
     "expo-three": "^2.2.2-alpha.0",
     "geolib": "^2.0.24",
+    "prop-types": "^15.6.0",
     "react": "16.2.0",
     "react-native": "0.52.0",
     "react-native-elements": "^0.19.0",

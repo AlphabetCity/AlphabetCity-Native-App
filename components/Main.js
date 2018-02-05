@@ -58,6 +58,7 @@ class Main extends Component {
           latitude: position.coords.latitude,
           longitude: position.coords.longitude
         })
+        console.log('ran')
         this._getShortestDistance()
       },
       () => this.props.setUserLocation({})
@@ -142,12 +143,12 @@ class Main extends Component {
             style={{ width: 32, height: 32 }}
           />
         </TouchableHighlight>
-        {this.state.shortestDistance < 10 && (
+        {(
           <TouchableHighlight
             style={styles.arButton}
             underlayColor={'#474787'}
             activeOpacity={0.9}
-            onPress={() => this._pickUpItem()
+            onPress={() => this.props.navigation.navigate('AR')
             }
           >
             <View
