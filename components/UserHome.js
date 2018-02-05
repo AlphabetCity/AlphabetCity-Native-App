@@ -5,11 +5,14 @@ import { Avatar } from 'react-native-elements'
 import { Image } from 'react-native'
 import { connect } from 'react-redux'
 import { Auth } from './'
+import { deleteUser } from '../store/user'
 
 class UserHome extends Component {
+  constructor(props) {
+    super(props)
+  }
 
   render() {
-
     return (
         this.props.user.userName
           ?
@@ -36,7 +39,11 @@ class UserHome extends Component {
               color="#F7F1E3"
             />
             <Button
-              onPress={()=>console.log('logout')}
+              onPress={() => {
+                this.props.deleteUser(this.props.user.id)
+                console.log('delete')
+                this.props.navigation.navigate('Main')
+              }}
               title="Logout"
               color="#F7F1E3"
             />
@@ -49,12 +56,6 @@ class UserHome extends Component {
           :
           <Auth profileNav={this.props.navigation}/>
     )
-    // return (
-    //   this.props.user.userName ?
-    //     <Text>user</Text>
-    //   :
-    //     <Auth />
-    // )
   }
 }
 
@@ -66,10 +67,6 @@ const styles = {
     alignItems: 'center',
     padding: 10,
   },
-  // wrap: {
-  //   justifyContent: 'center',
-  //   alignItems: 'center',
-  // },
   score: {
     marginTop: 50,
     marginBottom: 20,
@@ -102,4 +99,6 @@ const styles = {
 
 const mapState = ({ user }) => ({ user })
 
-export default connect(mapState)(UserHome)
+const mapDispatch = ({ deleteUser })
+
+export default connect(mapState, mapDispatch)(UserHome)
