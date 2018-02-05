@@ -34,27 +34,31 @@ class UserHome extends Component {
               EMAIL: {this.props.user.email}
             </Text>
             <Button
-              onPress={()=>console.log('navigate to MyWords')}
+              onPress={()=>{
+                this.props.navigation.navigate('UserWords')
+              }}
               title="My Words"
               color="#F7F1E3"
             />
             <Button
               onPress={() => {
                 this.props.deleteUser(this.props.user.id)
-                console.log('delete')
                 this.props.navigation.navigate('Main')
               }}
-              title="Logout"
+              title="Delete User"
               color="#F7F1E3"
             />
             <Button
-              onPress={()=> console.log('update')}
+              onPress={()=> {
+                //need update component, wait for it
+                this.props.navigation.navigate('Main')
+              }}
               title="Update Profile"
               color="#F7F1E3"
             />
           </View>
           :
-          <Auth profileNav={this.props.navigation}/>
+          <Auth navigation={this.props.navigation}/>
     )
   }
 }

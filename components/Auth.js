@@ -23,16 +23,21 @@ class Auth extends Component {
   handleSignup() {
     const { userName, email, password } = this.state
     this.props.createUser({ userName, email, password })
-    this.props.navigation.goBack()
+    console.log(this.props)
+    // this.props.navigation.navigate('Main')
+    this.props.profileNav ?
+      this.props.profileNav.navigate('Main')
+    :
+      this.props.navigation.navigate('Main')
   }
 
   handleLogin() {
     const { userName, email, password } = this.state
     this.props.getUser({ userName, email, password })
-    this.props.profileNav ?
-      this.props.profileNav.navigate('Profile')
-    :
-      this.props.navigation.navigate('Main')
+    // this.props.profileNav ?
+    //   this.props.profileNav.navigate('Profile')
+    // :
+      this.props.navigation.navigate('Profile')
   }
 
   render = () => (
