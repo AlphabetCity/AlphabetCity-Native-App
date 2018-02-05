@@ -173138,12 +173138,11 @@ var arrayOfStrings = ["aa",
 "zymurgy",
 "zyzzyva"]
 
-let setDictionary = new Set();
+let setDictionary = new Set()
 
 arrayOfStrings.forEach(function (word) {
   setDictionary.add(word.toUpperCase())
   }
 )
 
-export default setDictionary;
-
+export default setDictionary
