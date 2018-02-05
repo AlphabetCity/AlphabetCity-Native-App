@@ -173141,11 +173141,10 @@ var arrayOfStrings = ["aa",
 let setDictionary = new Set();
 
 
-setDictionary.add('EETAI')
-// arrayOfStrings.forEach(function (word) {
-//   setDictionary.add(word.toUpperCase())
-//   }
-// )
+arrayOfStrings.forEach(function (word) {
+  setDictionary.add(word.toUpperCase())
+  }
+)
 
 export default setDictionary;
 
