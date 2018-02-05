@@ -8,6 +8,7 @@
     "new-cap": [1, { "capIsNewExceptions": ["StackNavigator"] }],
     "no-use-before-define": "off",
     "class-methods-use-this": "off",
-    "no-return-assign": "off"
+    "no-return-assign": "off",
+    "react/prefer-stateless-function": "off"
 	}
 }

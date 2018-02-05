@@ -10,7 +10,7 @@ const setSatchel = satchel => ({ type: SET_SATCHEL, satchel })
 // Thunks
 export const getSatchel = (userId) => async dispatch => {
   try {
-    const res = await axios.get(`https://notseek.herokuapp.com/api/users/${userId}/letters`, {
+    const res = await axios.get(`https://alphabetcity.herokuapp.com/api/users/${userId}/letters`, {
       params: {
         hidden: 'false'
       }
@@ -24,7 +24,7 @@ export const getSatchel = (userId) => async dispatch => {
 
 export const updateLetter = (userLetterId, changes) => async dispatch => {
   try {
-    await axios.put(`https://notseek.herokuapp.com/api/Letters/${userLetterId}`, changes)
+    await axios.put(`https://alphabetcity.herokuapp.com/api/Letters/${userLetterId}`, changes)
   } catch (error) {
     console.error(error)
   }

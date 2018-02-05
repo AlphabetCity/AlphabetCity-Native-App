@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { List, ListItem, ListView } from 'react-native-elements'
-import { View, Text } from 'react-native'
+import { View, Text, Button } from 'react-native'
 import { updateLetter } from '../store/satchel'
 
 class Satchel extends Component {
@@ -23,12 +23,12 @@ class Satchel extends Component {
       <View>
         <List containerStyle={{ marginBottom: 20 }}>
           {
-            this.props.satchel.map((satchelLetter, idx) => (
+            this.props.satchel.map((satchelLetter) => (
               <ListItem
                 roundAvatar
                 avatar={{ uri: 'http://dreamicus.com/data/apple/apple-04.jpg' }}
                 key={satchelLetter.id}
-                title={(satchelLetter.letterCategory.name).toString()}
+                title={`Drop the letter ${satchelLetter.letterCategory.name}`}
                 onPress={() => {
                   this.dropItem(satchelLetter)
                 }
@@ -37,6 +37,10 @@ class Satchel extends Component {
             ))
           }
         </List>
+        <Button
+          onPress={() => this.props.navigation.navigate('FormAWord')}
+          title="Form a word"
+        />
       </View>
     )
   }
