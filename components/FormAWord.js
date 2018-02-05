@@ -37,6 +37,22 @@ class FormAWord extends Component {
     return true
   }
 
+      // if realWord && canMakeWord, we want to update each of the letters that you are using from your satchel with a location and update your score based on the sum of those letters' point
+  _getSatchelObjsForUpdating(letterObjArr, word) {
+    let wordArr = word.split('')
+    let usedLetters = []
+
+    wordArr.forEach((character) => {
+      usedLetters.push(letterObjArr.find((obj, idx) => {
+        if (obj.letterCategory.name.toLowerCase() === character) {
+          letterObjArr.splice(idx, 1)
+          return obj
+        }
+      })
+      )
+    })
+  }
+
 
   handleWordSubmit() {
     let word = this.state.word.toLowerCase()
@@ -45,15 +61,23 @@ class FormAWord extends Component {
     console.log('real word?', realWord)
     console.log('in your letters? 222', this._canMakeWord(yourLetters, word))
 
-    // if (realWord && this._canMakeWord(yourLetters, word)) {
-    //   wordLetterArr.forEach((wordLetter) => {
-    //     this.props.satchel.map((yourLetter) => {
-    //       if (yourLetter.letterCategory.name.toLowerCase() === wordLetter) {
-    //       this.props.updateLetter(yourLetter.id, { latitude: userLocation.latitude, longitude: userLocation.longitude })
-    //       }
-    //     })
-    //   })
-    // }
+
+    let letterObjArr = this.props.satchel
+
+    if (realWord && this._canMakeWord(yourLetters, word)) {
+      let satchelObjsForUpdating = this._getSatchelObjsForUpdating(letterObjArr, word);
+
+      let pointsToAdd = 0;
+
+      satchelObjsForUpdating.forEach((obj) => {
+        pointsToAdd += obj.letterCategory.points
+        this.props.updateLetter(obj.id, { latitude: userLocation.latitude, longitude: userLocation.longitude })
+      })
+
+      this.props.updateUser(this.props.user.id, {score: this.props.user.score + pointsToAdd})
+
+    }
+
   }
 
   render() {
@@ -73,7 +97,7 @@ class FormAWord extends Component {
 
 
 const mapStateToProps = ({ user, satchel, userLocation }) => ({ user, satchel, userLocation })
-const mapDispatchToProps = ({ getSatchel, updateLetter })
+const mapDispatchToProps = ({ getSatchel, updateLetter, updateUser })
 
 export default connect(
   mapStateToProps,
