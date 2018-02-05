@@ -121,7 +121,7 @@ class Main extends Component {
               initialRegion={region}
               allHiddenLetters={this.props.allHiddenLetters}
             />
-          ) : null}
+          ) : null }
         <TouchableHighlight
           style={styles.profileButton}
           underlayColor={'#474787'}

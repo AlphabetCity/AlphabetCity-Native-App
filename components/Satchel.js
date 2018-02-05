@@ -29,6 +29,7 @@ class Satchel extends Component {
         </List>
         <Button
           onPress={() => this.props.navigation.navigate('FormAWord')}
+          title="Form a word"
         />
       </View>
     )

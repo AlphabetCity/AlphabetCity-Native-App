@@ -6,6 +6,7 @@ import Satchel from './Satchel'
 import Auth from './Auth'
 import UserHome from './UserHome'
 import Highscores from './Highscores'
+import FormAWord from './FormAWord'
 
 export {
   Main,
@@ -14,5 +15,6 @@ export {
   Satchel,
   Auth,
   UserHome,
-  Highscores
+  Highscores,
+  FormAWord
 }
