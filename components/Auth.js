@@ -3,13 +3,12 @@ import React, { Component } from 'react'
 import { View, StyleSheet } from 'react-native'
 import { FormLabel, FormInput, Button, Text } from 'react-native-elements'
 import { connect } from 'react-redux'
-
 import { createUser, getUser } from '../store/user'
 
 class Auth extends Component {
 
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
 
     this.state = {
       userName: '',
@@ -30,7 +29,10 @@ class Auth extends Component {
   handleLogin() {
     const { userName, email, password } = this.state
     this.props.getUser({ userName, email, password })
-    this.props.navigation.navigate('Main')
+    this.props.profileNav ?
+      this.props.profileNav.navigate('Profile')
+    :
+      this.props.navigation.navigate('Main')
   }
 
   render = () => (

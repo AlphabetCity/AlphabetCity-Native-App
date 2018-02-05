@@ -1,19 +1,19 @@
 'use strict'
 import React, { Component } from 'react'
-import { View } from 'react-native'
-import { Text, Avatar } from 'react-native-elements'
+import { View, Text, Button} from 'react-native'
+import { Avatar } from 'react-native-elements'
 import { Image } from 'react-native'
 import { connect } from 'react-redux'
+import { Auth } from './'
 
 class UserHome extends Component {
 
   render() {
 
     return (
-      <View style={styles.container}>
-        {this.props.user.userName
+        this.props.user.userName
           ?
-          <View style={styles.wrap}>
+          <View style={styles.container}>
             <Avatar
               xlarge
               rounded
@@ -30,13 +30,31 @@ class UserHome extends Component {
             <Text style={styles.email}>
               EMAIL: {this.props.user.email}
             </Text>
+            <Button
+              onPress={()=>console.log('navigate to MyWords')}
+              title="My Words"
+              color="#F7F1E3"
+            />
+            <Button
+              onPress={()=>console.log('logout')}
+              title="Logout"
+              color="#F7F1E3"
+            />
+            <Button
+              onPress={()=> console.log('update')}
+              title="Update Profile"
+              color="#F7F1E3"
+            />
           </View>
           :
-          <Text>no user</Text>
-        }
-
-      </View>
+          <Auth profileNav={this.props.navigation}/>
     )
+    // return (
+    //   this.props.user.userName ?
+    //     <Text>user</Text>
+    //   :
+    //     <Auth />
+    // )
   }
 }
 
@@ -48,10 +66,10 @@ const styles = {
     alignItems: 'center',
     padding: 10,
   },
-  wrap: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+  // wrap: {
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  // },
   score: {
     marginTop: 50,
     marginBottom: 20,
@@ -71,7 +89,15 @@ const styles = {
     textAlign: 'center',
     fontSize: 30,
     fontWeight: 'bold',
-  }
+  },
+  // button: {
+  //   width: '90%',
+  //   color: 'black',
+  //   backgroundColor: "#F7F1E3",
+  //   textAlign: 'center',
+  //   fontSize: 30,
+  //   fontWeight: 'bold',
+  // }
 }
 
 const mapState = ({ user }) => ({ user })
