@@ -39,7 +39,6 @@ class Main extends Component {
 
   _pickUpLetter = async () => {
     this.props.updateLetter(this.state.nearestLetter.id, { userId: this.props.user.id, latitude: null, longitude: null })
-    this.props.updateUser(this.props.user.id, { score: (this.props.user.score + this.state.nearestLetter.letterCategory.points) })
     await this.props.getAllHiddenLetters()
     this._getShortestDistance()
     this._routeUser('Satchel', () =>
