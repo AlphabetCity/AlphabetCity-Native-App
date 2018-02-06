@@ -24,14 +24,25 @@ const { height, width } = Dimensions.get('window')
 const LATITUDE_DELTA = 0.002
 const LONGITUDE_DELTA = 0.002
 const DEFAULT_DISTANCE = Infinity
+const AR_RADIUS = 10000000000000000000000000000
 
 class Main extends Component {
   constructor(props) {
     super(props)
-    this._getLocationAsync()
-    this.props.getAllHiddenLetters()
+    // this._getLocationAsync()
 
-    this.count = 0
+    this.location = Location.getCurrentPositionAsync()
+    .then(position => {
+      this.props.setUserLocation({
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
+      })
+    })
+    .then(() => {
+      this.props.getAllHiddenLetters()
+      .then(this._getShortestDistance)
+      .catch(console.error)
+    })
 
     this.state = {
       shortestDistance: DEFAULT_DISTANCE,
@@ -58,6 +69,7 @@ class Main extends Component {
     this.watchId = Location.watchPositionAsync(
       { enableHighAccuracy: true, timeInterval: 1000, distanceInterval: 10 },
       position => {
+        console.log('postion changed')
         this.props.setUserLocation({
           latitude: position.coords.latitude,
           longitude: position.coords.longitude
@@ -86,6 +98,7 @@ class Main extends Component {
           nearestLetter = letter
         }
       })
+      console.log('shortestDistance', shortestDistance)
       this.setState({ shortestDistance, nearestLetter })
     }
   }
@@ -101,7 +114,6 @@ class Main extends Component {
 
   componentWillUnmount() {
     delete this.watchId
-    clearInterval(this._interval)
   }
 
   render() {
@@ -146,13 +158,12 @@ class Main extends Component {
             style={{ width: 32, height: 32 }}
           />
         </TouchableHighlight>
-        {this.state.shortestDistance < 10000000000000000000000000 && (
+        {this.state.shortestDistance < AR_RADIUS && (
           <TouchableHighlight
             style={styles.arButton}
             underlayColor={'#474787'}
             activeOpacity={0.9}
-            onPress={() => this._pickUpLetter()
-            }
+            onPress={() => this.props.navigation.navigate('AR')}
           >
             <View
               style={{

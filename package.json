@@ -23,6 +23,7 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "@davidmarkclements/hsl-to-hex": "^1.0.2",
     "axios": "^0.17.1",
     "expo": "^25.0.0",
     "expo-three": "^2.2.2-alpha.0",
