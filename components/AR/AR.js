@@ -177,6 +177,7 @@ class AR extends React.Component {
   loadFont = async ({ name, weight }) => {
     const uri = `${name}_${weight}`
     const asset = Expo.Asset.fromModule(Files.three_fonts[uri])
+    console.log('asset', asset)
 
     const loader = new THREE.FontLoader()
     return await (new Promise((res, rej) => loader.load(asset.localUri, res, (() => { }), rej)))

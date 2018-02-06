@@ -1,13 +1,14 @@
 export default function arrayFromObject(object) {
-  let images = []
+  let images = [];
   Object.keys(object).map(key => {
-    let item = object[key]
+    let item = object[key];
 
     if (typeof item === 'object') {
-      images = images.concat(arrayFromObject(item))
+      console.log('isObj')
+      images = images.concat(arrayFromObject(item));
     } else {
-      images.push(item)
+      images.push(item);
     }
-  })
-  return images
+  });
+  return images;
 }
