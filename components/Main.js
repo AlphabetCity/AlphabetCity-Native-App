@@ -111,6 +111,13 @@ class Main extends Component {
     }
   }
 
+  componentDidMount() {
+    if (this.props.user && this.props.user.id) {
+      this.props.getSatchel(this.props.user.id)
+    }
+    console.log('user', this.props.user.id)
+  }
+
   componentWillUnmount() {
     delete this.watchId
   }
@@ -161,6 +168,17 @@ class Main extends Component {
             style={{ width: 32, height: 32 }}
           />
         </TouchableHighlight>
+        <View style={styles.satchelDropDown}>
+          <View style={{ flex: 1, marginTop: 20 }}>
+            <Text style={{ color: '#706FD3', fontSize: 18 }}>
+              Select an Item to Drop
+            </Text>
+            {this.props.satchel &&
+              this.props.satchel.map(letter => (
+                <Text key={letter.id}>{letter.letterCategory.name}</Text>
+              ))}
+          </View>
+        </View>
         {this.state.shortestDistance < AR_RADIUS && (
           <TouchableHighlight
             style={styles.arButton}
@@ -197,16 +215,16 @@ class Main extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'flex-end',
+    justifyContent: 'flex-end'
   },
   textTitle: {
     fontSize: 20,
     fontWeight: 'bold',
     color: '#3B3B98',
-    textAlign: 'center',
+    textAlign: 'center'
   },
   arButton: {
-    backgroundColor: '#706fd3',
+    backgroundColor: '#706FD3',
     height: 60,
     width: width - 40,
     borderRadius: 30,
@@ -215,12 +233,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 20,
     bottom: 24,
-    shadowOffset: { width: 0, height: 2, },
+    shadowOffset: { width: 0, height: 2 },
     shadowColor: 'black',
-    shadowOpacity: 0.4,
+    shadowOpacity: 0.2
   },
   profileButton: {
-    backgroundColor: '#706fd3',
+    backgroundColor: '#706FD3',
     height: 60,
     width: 60,
     borderRadius: 30,
@@ -229,12 +247,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 20,
     top: 50,
-    shadowOffset: { width: 0, height: 2, },
+    shadowOffset: { width: 0, height: 2 },
     shadowColor: 'black',
-    shadowOpacity: 0.4,
+    shadowOpacity: 0.2
   },
   satchelButton: {
-    backgroundColor: '#706fd3',
+    backgroundColor: '#706FD3',
     height: 60,
     width: 60,
     borderRadius: 30,
@@ -243,16 +261,31 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 20,
     top: 50,
-    shadowOffset: { width: 0, height: 2, },
+    shadowOffset: { width: 0, height: 2 },
     shadowColor: 'black',
-    shadowOpacity: 0.4,
+    shadowOpacity: 0.2
+  },
+  satchelDropDown: {
+    backgroundColor: '#FFFFFF',
+    height: 300,
+    width: width / 2,
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    right: 20,
+    top: 130,
+    shadowOffset: { width: 4, height: 4 },
+    shadowColor: 'black',
+    shadowOpacity: 0.1
   }
 })
 
-const mapState = ({ user, userLocation, allHiddenLetters }) => ({
+const mapState = ({ user, userLocation, allHiddenLetters, satchel }) => ({
   user,
   userLocation,
-  allHiddenLetters
+  allHiddenLetters,
+  satchel
 })
 
 const mapDispatch = {
