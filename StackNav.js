@@ -1,7 +1,7 @@
 'use strict'
 import React from 'react'
 import { StackNavigator, DrawerNavigator, DrawerItems } from 'react-navigation'
-import { Main, AR, Satchel, Auth, UserHome, Highscores, UserWords, Update } from './components'
+import { Main, ARContainer, Satchel, Auth, UserHome, Highscores, UserWords, Update } from './components'
 import { View } from 'react-native'
 
 const Stack = {
@@ -12,7 +12,7 @@ const Stack = {
     }
   },
   AR: {
-    screen: AR,
+    screen: ARContainer,
     navigationOptions: {
       header: null,
     }
