@@ -22,13 +22,11 @@ const { height, width } = Dimensions.get('window')
 const LATITUDE_DELTA = 0.002
 const LONGITUDE_DELTA = 0.002
 const DEFAULT_DISTANCE = Infinity
-const AR_RADIUS = 10000000000000000000000000000
+const AR_RADIUS = 40
 
 class Main extends Component {
   constructor(props) {
     super(props)
-
-    console.log('CONSTRUCTOR RAN')
 
     this.location = Location.getCurrentPositionAsync()
       .then(position => {
@@ -41,6 +39,7 @@ class Main extends Component {
         this.props
           .getAllHiddenLetters()
           .then(this._getShortestDistance)
+          .then(this._getLocationAsync)
           .catch(console.error)
       })
 
@@ -74,7 +73,6 @@ class Main extends Component {
     this.watchId = Location.watchPositionAsync(
       { enableHighAccuracy: true, timeInterval: 1000, distanceInterval: 10 },
       position => {
-        console.log('postion changed')
         this.props.setUserLocation({
           latitude: position.coords.latitude,
           longitude: position.coords.longitude
@@ -103,15 +101,14 @@ class Main extends Component {
           nearestLetter = letter
         }
       })
-      console.log('shortestDistance', shortestDistance)
       this.setState({ shortestDistance, nearestLetter })
     }
   }
 
-  _routeUser = (screen, cb) => {
+  _routeUser = (screen, cb, props) => {
     if (this.props.user && this.props.user.id) {
       if (cb) cb()
-      this.props.navigation.navigate(screen)
+      this.props.navigation.navigate(screen, props)
     } else {
       this.props.navigation.navigate('Auth')
     }
@@ -145,11 +142,11 @@ class Main extends Component {
           activeOpacity={0.9}
           onPress={() => this.props.navigation.navigate('DrawerOpen')}
         >
-        <Image
-          source={require('../assets/icons/user.png')}
-          fadeDuration={0}
-          style={{ width: 32, height: 32 }}
-        />
+          <Image
+            source={require('../assets/icons/user.png')}
+            fadeDuration={0}
+            style={{ width: 32, height: 32 }}
+          />
         </TouchableHighlight>
         <TouchableHighlight
           style={styles.satchelButton}
@@ -173,8 +170,7 @@ class Main extends Component {
             underlayColor={'#474787'}
             activeOpacity={0.9}
             onPress={() => {
-              this._pickUpLetter()
-              this.props.navigation.navigate('AR', {
+              this._routeUser('AR', this._pickUpLetter, {
                 nearestLetter: this.state.nearestLetter
               })
             }}
@@ -191,7 +187,7 @@ class Main extends Component {
               <Image
                 source={require('../assets/icons/eye.png')}
                 fadeDuration={0}
-                style={{height: 32, width: 32 }}
+                style={{ height: 32, width: 32 }}
               />
             </View>
           </TouchableHighlight>
