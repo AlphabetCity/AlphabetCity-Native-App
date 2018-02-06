@@ -22,10 +22,6 @@ class Auth extends Component {
     this.handleLogin = this.handleLogin.bind(this)
   }
 
-  handleErrorNavigate(){
-    this.setState({message: 'user not found'})
-  }
-
   handleSignup() {
     this.setState({message: ''})
     const { userName, email, password } = this.state
