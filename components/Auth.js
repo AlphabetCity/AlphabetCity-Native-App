@@ -15,11 +15,15 @@ class Auth extends Component {
       email: '',
       password: '',
       message: '',
-      user: {}
+      user: undefined
     }
 
     this.handleSignup = this.handleSignup.bind(this)
     this.handleLogin = this.handleLogin.bind(this)
+  }
+
+  handleErrorNavigate(){
+    this.setState({message: 'user not found'})
   }
 
   handleSignup() {
@@ -41,13 +45,16 @@ class Auth extends Component {
       this.setState({user: user})
     })
 
-    if(this.state.user === {}
+    if(!this.state.user
       || !this.state.userName
       || !this.state.email
       || !this.state.password
     ){
+      console.log('USER if', this.state.user)
       this.setState({message: 'user not found'})
+
     }else{
+      console.log('USER else', this.state.user)
       this.setState({message: ''})
       this.props.navigation.navigate('Profile')
     }

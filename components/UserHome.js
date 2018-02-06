@@ -14,50 +14,50 @@ class UserHome extends Component {
 
   render() {
     return (
-        this.props.user.userName
-          ?
-          <View style={styles.container}>
-            <Avatar
-              xlarge
-              rounded
-              source={{ uri: this.props.user.icon }}
-              activeOpacity={0.7}
-              containerStyle={{ justifyContent: 'center', alignItems: 'center', }}
-            />
-            <Text style={styles.score}>
-              SCORE: {this.props.user.score}
-            </Text>
-            <Text style={styles.username}>
-              USERNAME: {this.props.user.userName}
-            </Text>
-            <Text style={styles.email}>
-              EMAIL: {this.props.user.email}
-            </Text>
-            <Button
-              onPress={()=>{
-                this.props.navigation.navigate('UserWords')
-              }}
-              title="My Words"
-              color="#F7F1E3"
-            />
-            <Button
-            onPress={()=> {
-              this.props.navigation.navigate('UpdateUser')
-            }}
-            title="Update Profile"
-            color="#F7F1E3"
-            />
-            <Button
-              onPress={() => {
-                this.props.deleteUser(this.props.user.id)
-                this.props.navigation.navigate('Main')
-              }}
-              title="Delete User"
-              color="#FF5252"
-            />
-          </View>
-          :
-          <Auth navigation={this.props.navigation}/>
+      this.props.user && this.props.user.userName
+      ?
+      <View style={styles.container}>
+        <Avatar
+          xlarge
+          rounded
+          source={{ uri: this.props.user.icon }}
+          activeOpacity={0.7}
+          containerStyle={{ justifyContent: 'center', alignItems: 'center', }}
+        />
+        <Text style={styles.score}>
+          SCORE: {this.props.user.score}
+        </Text>
+        <Text style={styles.username}>
+          USERNAME: {this.props.user.userName}
+        </Text>
+        <Text style={styles.email}>
+          EMAIL: {this.props.user.email}
+        </Text>
+        <Button
+          onPress={()=>{
+            this.props.navigation.navigate('UserWords')
+          }}
+          title="My Words"
+          color="#F7F1E3"
+        />
+        <Button
+        onPress={()=> {
+        this.props.navigation.navigate('UpdateUser')
+        }}
+        title="Update Profile"
+        color="#F7F1E3"
+        />
+        <Button
+          onPress={() => {
+            this.props.deleteUser(this.props.user.id)
+            this.props.navigation.navigate('Main')
+          }}
+          title="Delete User"
+          color="#FF5252"
+        />
+      </View>
+      :
+      <Auth navigation={this.props.navigation}/>
     )
   }
 }
