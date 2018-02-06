@@ -1,5 +1,22 @@
 {
   "expo": {
-    "sdkVersion": "25.0.0"
+    "name": "Alphabet City",
+    "description": "Word game in AR",
+    "slug": "alphabet-city",
+    "privacy": "public",
+    "sdkVersion": "25.0.0",
+    "version": "1.0.0",
+    "primaryColor": "#ccccf8",
+    "icon": "./assets/icons/app-icon.png",
+    "loading": {
+      "icon": "./assets/icons/loading-icon.png",
+      "hideExponentText": false
+    },
+    "packagerOpts": {
+      "assetExts": ["mp4", "obj", "json", "ttf"]
+    },
+    "ios": {
+      "supportsTablet": false
+    }
   }
 }
