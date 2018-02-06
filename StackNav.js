@@ -32,7 +32,7 @@ const Stack = {
   },
   Profile: {
     screen: UserHome,
-    navigationOptions: ({navigation, screenProps}) => ({
+    navigationOptions: ({navigation}) => ({
       title: 'Profile',
       headerLeft: (
         <Button

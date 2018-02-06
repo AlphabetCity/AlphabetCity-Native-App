@@ -34,7 +34,6 @@ class Auth extends Component {
 
   handleLogin() {
     this.setState({message: ''})
-
     const { userName, email, password } = this.state
     this.props.getUser({ userName, email, password })
     .then(user => {
@@ -46,11 +45,8 @@ class Auth extends Component {
       || !this.state.email
       || !this.state.password
     ){
-      console.log('USER if', this.state.user)
       this.setState({message: 'user not found'})
-
     }else{
-      console.log('USER else', this.state.user)
       this.setState({message: ''})
       this.props.navigation.navigate('Profile')
     }
