@@ -2,7 +2,7 @@
 import React from 'react'
 import { StackNavigator, DrawerNavigator, DrawerItems } from 'react-navigation'
 import { Main, AR, Satchel, Auth, UserHome, Highscores, UserWords, Update } from './components'
-import { View } from 'react-native'
+import { View, Button } from 'react-native'
 
 const Stack = {
   Main: {
@@ -27,14 +27,23 @@ const Stack = {
   Satchel: {
     screen: Satchel,
     navigationOptions: {
-      title: 'Satchel',
+      title: 'Satchel'
     }
   },
   Profile: {
     screen: UserHome,
-    navigationOptions: {
+    navigationOptions: ({navigation, screenProps}) => ({
       title: 'Profile',
-    }
+      headerLeft: (
+        <Button
+          title='< Main'
+          navigation={navigation}
+          onPress={
+            () => {navigation.navigate('Main')}
+          }
+        />
+      )
+    })
   },
   Highscores: {
     screen: Highscores,
