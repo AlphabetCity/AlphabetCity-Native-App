@@ -5,6 +5,7 @@ import userLocation from './userLocation'
 import satchel from './satchel'
 import allHiddenLetters from './allHiddenLetters'
 import highscores from './highscores'
+import words from './words'
 
 export default function getRootReducer(nav) {
   return combineReducers({
@@ -13,6 +14,7 @@ export default function getRootReducer(nav) {
     userLocation,
     allHiddenLetters,
     satchel,
-    highscores
+    highscores,
+    words
   })
 }

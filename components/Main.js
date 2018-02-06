@@ -16,7 +16,6 @@ import { MapOfLetters } from './'
 import { setUserLocation } from '../store/userLocation'
 import { getSatchel, updateLetter } from '../store/satchel'
 import { updateUser } from '../store/user'
-
 import geolib from 'geolib'
 
 const { height, width } = Dimensions.get('window')
@@ -30,7 +29,6 @@ class Main extends Component {
     super(props)
     this._getLocationAsync()
     this.props.getAllHiddenLetters()
-
     this.count = 0
 
     this.state = {
@@ -150,8 +148,9 @@ class Main extends Component {
             style={styles.arButton}
             underlayColor={'#474787'}
             activeOpacity={0.9}
-            onPress={() => this._pickUpLetter()
-            }
+            onPress={() => {
+              this._routeUser('AR', () => this._pickUpLetter())
+            }}
           >
             <View
               style={{
