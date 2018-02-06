@@ -58,9 +58,6 @@ class Main extends Component {
     })
     await this.props.getAllHiddenLetters()
     this._getShortestDistance()
-    // this._routeUser('Satchel', () =>
-    //   this.props.getSatchel(this.props.user.id)
-    // )
     this.props.getSatchel(this.props.user.id)
   }
 
@@ -200,13 +197,13 @@ class Main extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
   },
   textTitle: {
     fontSize: 20,
     fontWeight: 'bold',
     color: '#3B3B98',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   arButton: {
     backgroundColor: '#706fd3',
@@ -218,9 +215,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 20,
     bottom: 24,
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: { width: 0, height: 2, },
     shadowColor: 'black',
-    shadowOpacity: 0.4
+    shadowOpacity: 0.4,
   },
   profileButton: {
     backgroundColor: '#706fd3',
@@ -232,9 +229,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 20,
     top: 50,
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: { width: 0, height: 2, },
     shadowColor: 'black',
-    shadowOpacity: 0.4
+    shadowOpacity: 0.4,
   },
   satchelButton: {
     backgroundColor: '#706fd3',
@@ -246,9 +243,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 20,
     top: 50,
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: { width: 0, height: 2, },
     shadowColor: 'black',
-    shadowOpacity: 0.4
+    shadowOpacity: 0.4,
   }
 })
 

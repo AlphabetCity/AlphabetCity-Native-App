@@ -21,8 +21,6 @@ class ARContainer extends Component {
       onStartShouldSetPanResponderCapture: () => true,
       onMoveShouldSetPanResponder: () => true,
       onMoveShouldSetPanResponderCapture: () => true,
-      // onPanResponderGrant: this._handleOnPanResponderGrant.bind(this),
-      // onPanResponderMove: this._handleOnPanResponderMove.bind(this),
       onPanResponderRelease: this._handlePanResponderRelease.bind(this)
     })
   }
