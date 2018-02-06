@@ -8,7 +8,7 @@ import { updateUser } from '../store/user'
 import dictionary from '../assets/dictionary'
 
 
-const dummyDictionary = new Set(['cat', 'dog', 'iguana', 'do', 'hi', 'dragon', 'at', 'had', 'zyl'])
+// const dummyDictionary = new Set(['cat', git'dog', 'iguana', 'do', 'hi', 'dragon', 'at', 'had', 'zyl'])
 
 
 class FormAWord extends Component {
@@ -56,7 +56,7 @@ class FormAWord extends Component {
   }
 
   _isRealWord(word) {
-    console.log('dictionary has word? ', dictionary.has(word) )
+    console.log(word, 'dictionary has word? ', dictionary.has(word) )
     return dictionary.has(word);
   }
 
@@ -67,7 +67,7 @@ class FormAWord extends Component {
 
     let letterObjArr = this.props.satchel
 
-    if (_realWord(word) && this._canMakeWord(yourLetters, word)) {
+    if (this._isRealWord(word) && this._canMakeWord(yourLetters, word)) {
       let satchelObjsForUpdating = this._getSatchelObjsForUpdating(letterObjArr, word)
 
       let pointsToAdd = 0
