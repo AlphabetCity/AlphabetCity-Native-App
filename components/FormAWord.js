@@ -4,10 +4,10 @@ import { connect } from 'react-redux'
 import { List, ListItem, ListView, FormLabel, FormInput, Button } from 'react-native-elements'
 import { View, Text } from 'react-native'
 import { getSatchel, updateLetter } from '../store/satchel'
-import userLocation from '../store/userLocation';
+import { updateUser } from '../store/user'
 
 
-const dummyDictionary = new Set(['CAT', 'DOG', 'IGUANA', 'DO', 'HI', 'DRAGON'])
+const dummyDictionary = new Set(['cat', 'dog', 'iguana', 'do', 'hi', 'dragon', 'at', 'had', 'zyl'])
 
 
 class FormAWord extends Component {
@@ -51,33 +51,28 @@ class FormAWord extends Component {
       })
       )
     })
+    return usedLetters
   }
 
 
   handleWordSubmit() {
     let word = this.state.word.toLowerCase()
     let yourLetters = this.props.satchel.map((yourLetter) => yourLetter.letterCategory.name.toLowerCase())
-    let realWord = dummyDictionary.has(this.state.word)
-    console.log('real word?', realWord)
-    console.log('in your letters? 222', this._canMakeWord(yourLetters, word))
-
+    let realWord = dummyDictionary.has(this.state.word.toLowerCase())
 
     let letterObjArr = this.props.satchel
 
     if (realWord && this._canMakeWord(yourLetters, word)) {
-      let satchelObjsForUpdating = this._getSatchelObjsForUpdating(letterObjArr, word);
+      let satchelObjsForUpdating = this._getSatchelObjsForUpdating(letterObjArr, word)
 
-      let pointsToAdd = 0;
+      let pointsToAdd = 0
 
       satchelObjsForUpdating.forEach((obj) => {
         pointsToAdd += obj.letterCategory.points
-        this.props.updateLetter(obj.id, { latitude: userLocation.latitude, longitude: userLocation.longitude })
+        this.props.updateLetter(obj.id, { latitude: this.props.userLocation.latitude, longitude: this.props.userLocation.longitude })
       })
-
       this.props.updateUser(this.props.user.id, {score: this.props.user.score + pointsToAdd})
-
     }
-
   }
 
   render() {
