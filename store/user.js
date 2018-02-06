@@ -36,7 +36,7 @@ export const getUser = user => async dispatch => {
 
 export const deleteUser = userId => async dispatch => {
   try {
-    await axios.delete(`https://notseek.herokuapp.com/api/users/${userId}`)
+    await axios.delete(`https://alphabetcity.herokuapp.com/api/users/${userId}`)
     dispatch(removeUser())
   } catch (error) {
     console.warn(error)
