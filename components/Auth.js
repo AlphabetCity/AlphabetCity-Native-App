@@ -32,7 +32,7 @@ class Auth extends Component {
   handleLogin() {
     const { userName, email, password } = this.state
     this.props.getUser({ userName, email, password })
-      this.props.navigation.navigate('Profile')
+    this.props.navigation.navigate('Profile')
   }
 
   render = () => (
