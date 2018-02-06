@@ -23,8 +23,6 @@ class Auth extends Component {
   handleSignup() {
     const { userName, email, password } = this.state
     this.props.createUser({ userName, email, password })
-    console.log(this.props)
-    // this.props.navigation.navigate('Main')
     this.props.profileNav ?
       this.props.profileNav.navigate('Main')
     :
