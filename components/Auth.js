@@ -27,9 +27,9 @@ class Auth extends Component {
     const { userName, email, password } = this.state
     this.props.createUser({ userName, email, password })
     this.props.profileNav ?
-      this.props.profileNav.navigate('Main')
+      this.props.profileNav.navigate('Profile')
     :
-      this.props.navigation.navigate('Main')
+      this.props.navigation.navigate('Profile')
   }
 
   handleLogin() {
@@ -46,7 +46,7 @@ class Auth extends Component {
       || !this.state.email
       || !this.state.password
     ){
-      this.setState({message: 'nop nop nop'})
+      this.setState({message: 'user not found'})
     }else{
       this.setState({message: ''})
       this.props.navigation.navigate('Profile')
