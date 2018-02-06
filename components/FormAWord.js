@@ -5,6 +5,7 @@ import { List, ListItem, ListView, FormLabel, FormInput, Button } from 'react-na
 import { View, Text } from 'react-native'
 import { getSatchel, updateLetter } from '../store/satchel'
 import { updateUser } from '../store/user'
+import dictionary from '../assets/dictionary'
 
 
 const dummyDictionary = new Set(['cat', 'dog', 'iguana', 'do', 'hi', 'dragon', 'at', 'had', 'zyl'])
@@ -54,15 +55,19 @@ class FormAWord extends Component {
     return usedLetters
   }
 
+  _isRealWord(word) {
+    console.log('dictionary has word? ', dictionary.has(word) )
+    return dictionary.has(word);
+  }
 
   handleWordSubmit() {
     let word = this.state.word.toLowerCase()
     let yourLetters = this.props.satchel.map((yourLetter) => yourLetter.letterCategory.name.toLowerCase())
-    let realWord = dummyDictionary.has(this.state.word.toLowerCase())
+
 
     let letterObjArr = this.props.satchel
 
-    if (realWord && this._canMakeWord(yourLetters, word)) {
+    if (_realWord(word) && this._canMakeWord(yourLetters, word)) {
       let satchelObjsForUpdating = this._getSatchelObjsForUpdating(letterObjArr, word)
 
       let pointsToAdd = 0
