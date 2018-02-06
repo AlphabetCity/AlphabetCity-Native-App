@@ -41,20 +41,19 @@ class UserHome extends Component {
               color="#F7F1E3"
             />
             <Button
+            onPress={()=> {
+              this.props.navigation.navigate('UpdateUser')
+            }}
+            title="Update Profile"
+            color="#F7F1E3"
+            />
+            <Button
               onPress={() => {
                 this.props.deleteUser(this.props.user.id)
                 this.props.navigation.navigate('Main')
               }}
               title="Delete User"
-              color="#F7F1E3"
-            />
-            <Button
-              onPress={()=> {
-                //need update component, wait for it
-                this.props.navigation.navigate('Main')
-              }}
-              title="Update Profile"
-              color="#F7F1E3"
+              color="#FF5252"
             />
           </View>
           :
@@ -91,14 +90,6 @@ const styles = {
     fontSize: 30,
     fontWeight: 'bold',
   },
-  // button: {
-  //   width: '90%',
-  //   color: 'black',
-  //   backgroundColor: "#F7F1E3",
-  //   textAlign: 'center',
-  //   fontSize: 30,
-  //   fontWeight: 'bold',
-  // }
 }
 
 const mapState = ({ user }) => ({ user })
