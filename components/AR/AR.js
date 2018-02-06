@@ -176,7 +176,6 @@ class AR extends Component {
       name: fontName,
       weight: fontWeights[FONT_INDEX]
     })
-    console.log('fontdata made')
     await this.createText(this.text)
   }
 

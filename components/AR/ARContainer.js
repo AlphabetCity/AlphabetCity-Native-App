@@ -47,7 +47,6 @@ class ARContainer extends Component {
         'There was an error caching assets (see: app.js), perhaps due to a ' +
           'network timeout, so we skipped caching. Reload the app to try again.'
       )
-      console.log(e.message)
     } finally {
       this.setState({ assetsLoaded: true })
     }
@@ -56,7 +55,6 @@ class ARContainer extends Component {
   renderLoading = () => <ARLoading />
 
   render() {
-    console.log('chosen letter', this.props.navigation.state.params.nearestLetter)
     const { assetsLoaded, sceneLoaded } = this.state
     if (!assetsLoaded) {
       return this.renderLoading()

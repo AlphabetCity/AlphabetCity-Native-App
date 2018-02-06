@@ -14,7 +14,6 @@ function cacheFiles(files) {
     if (typeof file === 'string') {
       return Image.prefetch(file)
     } else {
-      console.log('file processing', typeof file)
       return Asset.fromModule(file).downloadAsync()
     }
   })
