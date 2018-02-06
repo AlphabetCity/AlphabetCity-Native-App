@@ -7,6 +7,7 @@ import Auth from './Auth'
 import UserHome from './UserHome'
 import Highscores from './Highscores'
 import UserWords from './UserWords'
+import Update from './Update'
 
 export {
   Main,
@@ -16,5 +17,6 @@ export {
   Auth,
   UserHome,
   Highscores,
-  UserWords
+  UserWords,
+  Update
 }

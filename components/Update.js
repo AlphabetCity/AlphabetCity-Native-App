@@ -3,36 +3,26 @@ import React, { Component } from 'react'
 import { View, StyleSheet } from 'react-native'
 import { FormLabel, FormInput, Button, Text } from 'react-native-elements'
 import { connect } from 'react-redux'
-import { createUser, getUser } from '../store/user'
+import { updateUser } from '../store/user'
 
-class Auth extends Component {
+class Update extends Component {
 
   constructor(props) {
     super(props)
 
     this.state = {
-      userName: '',
-      email: '',
-      password: ''
+      userName: this.props.user.userName,
+      email: this.props.user.email,
+      password: this.props.user.password
     }
 
-    this.handleSignup = this.handleSignup.bind(this)
-    this.handleLogin = this.handleLogin.bind(this)
+    this.handleUpdate = this.handleUpdate.bind(this)
   }
 
-  handleSignup() {
+  handleUpdate() {
     const { userName, email, password } = this.state
-    this.props.createUser({ userName, email, password })
-    this.props.profileNav ?
-      this.props.profileNav.navigate('Main')
-    :
-      this.props.navigation.navigate('Main')
-  }
-
-  handleLogin() {
-    const { userName, email, password } = this.state
-    this.props.getUser({ userName, email, password })
-      this.props.navigation.navigate('Profile')
+    this.props.updateUser(this.props.user.id, { userName, email, password })
+    this.props.navigation.navigate('Profile')
   }
 
   render = () => (
@@ -43,6 +33,7 @@ class Auth extends Component {
       <FormInput
         style={styles.input}
         placeholder="Username"
+        value={this.state.userName}
         onChangeText={text => this.setState({ userName: text.replace(/\s/g, '') })}
       />
       <FormLabel>
@@ -51,6 +42,7 @@ class Auth extends Component {
       <FormInput
         style={styles.input}
         placeholder="Email"
+        value={this.state.email}
         onChangeText={text => this.setState({ email: text })}
       />
       <FormLabel>
@@ -58,20 +50,15 @@ class Auth extends Component {
       </FormLabel>
       <FormInput
         style={styles.input}
-        secureTextEntry
+        secureTextEntry={true}
+        value={this.state.password}
         onChangeText={text => this.setState({ password: text })}
       />
       <Button
         style={styles.buttonStyle}
         small
-        onPress={this.handleLogin.bind(this)}
-        title="Login"
-      />
-      <Button
-        style={styles.buttonStyle}
-        small
-        onPress={this.handleSignup.bind(this)}
-        title="Sign Up"
+        onPress={this.handleUpdate.bind(this)}
+        title="Update"
       />
     </View>
   )
@@ -113,6 +100,8 @@ const styles = {
   }
 }
 
-const mapDispatch = ({ createUser, getUser })
+const mapState = ({ user }) => ({ user })
 
-export default connect(null, mapDispatch)(Auth)
+const mapDispatch = ({ updateUser })
+
+export default connect(mapState, mapDispatch)(Update)
