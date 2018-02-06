@@ -1,18 +1,13 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { StyleSheet, View, Text } from 'react-native'
 
-export default class Loading extends Component {
-  static defaultProps = {
-    text: 'Loading...'
-  }
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.text}>{this.props.text}</Text>
-      </View>
-    )
-  }
-}
+// AR letter code adapted from https://github.com/EvanBacon/expo-three-text
+// by Evan Bacon
+const ARLoading = () => (
+  <View style={styles.container}>
+    <Text style={styles.text}>Your new letter is...</Text>
+  </View>
+)
 
 const styles = StyleSheet.create({
   container: {
@@ -23,9 +18,13 @@ const styles = StyleSheet.create({
     right: 0,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'white'
+    backgroundColor: '#706fd3'
   },
   text: {
-    textAlign: 'center'
+    textAlign: 'center',
+    color: '#FFFFFF',
+    fontSize: 20
   }
 })
+
+export default ARLoading

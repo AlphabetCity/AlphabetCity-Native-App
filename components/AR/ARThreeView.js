@@ -1,21 +1,15 @@
 import Expo from 'expo'
 import React from 'react'
 import { Platform, View, Text, StyleSheet } from 'react-native'
-// import PropTypes from 'prop-types'; // 15.6.0
 const ErrorMessage = {
   simulator: `Can't Run GLView in Simulator :(`,
   aNine: `ARKit can only run on iOS devices with A9 (2015) or greater chips! This is a`,
   notIosAR: `ARKit can only run on an iOS device! This is a`
 }
 
+// AR letter code adapted from https://github.com/EvanBacon/expo-three-text
+// by Evan Bacon
 export default class ARThreeView extends React.Component {
-  // static propTypes = {
-  //     style: View.propTypes.style,
-  //     onContextCreate: PropTypes.func.isRequired,
-  //     render: PropTypes.func.isRequired,
-  //     enableAR: PropTypes.bool,
-  // };
-
   _renderErrorView = error => (
     <View style={styles.errorContainer}>
       <Text>{error}</Text>
@@ -49,10 +43,10 @@ export default class ARThreeView extends React.Component {
 
   _onGLContextCreate = async gl => {
     // Stubbed out methods for shadow rendering
-    // gl.createRenderbuffer = () => {}
-    // gl.bindRenderbuffer = () => {}
-    // gl.renderbufferStorage = () => {}
-    // gl.framebufferRenderbuffer = () => {}
+    gl.createRenderbuffer = () => {}
+    gl.bindRenderbuffer = () => {}
+    gl.renderbufferStorage = () => {}
+    gl.framebufferRenderbuffer = () => {}
 
     let arSession = await this._glView.startARSessionAsync()
     await this.props.onContextCreate(gl, arSession)

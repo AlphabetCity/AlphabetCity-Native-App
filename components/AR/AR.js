@@ -2,23 +2,25 @@ import Expo from 'expo'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import ExpoTHREE from 'expo-three'
-import { View, TextInput } from 'react-native'
+import { View } from 'react-native'
 import { ARThreeView } from './'
 const hsl = require('@davidmarkclements/hsl-to-hex')
 
 import Files from '../../Files'
 
+console.disableYellowBox = true
+
 // AR letter code adapted from https://github.com/EvanBacon/expo-three-text
 // by Evan Bacon
 
 // 3D letter properties
-let height = 0.5,
+let height = 1,
   size = 1,
-  hover = 0,
+  hover = -0.5,
   curveSegments = 50
 
 // font parsing
-let fontIndex = 3
+const FONT_INDEX = 2
 const fontWeights = ['thin', 'regular', 'medium', 'black']
 const fontName = 'neue_haas_unica_pro'
 
@@ -28,7 +30,7 @@ class AR extends Component {
     onFinishedLoading: () => {}
   }
 
-  _font = fontWeights[fontIndex]
+  _font = fontWeights[FONT_INDEX]
   set fontWeight(value) {
     if (this.fontWeight === value) {
       return
@@ -40,13 +42,10 @@ class AR extends Component {
   }
 
   nextFont = async () => {
-    fontIndex = (fontIndex + 1) % fontWeights.length
-    console.log('loading font')
     this.fontData = await this.loadFont({
       name: fontName,
-      weight: fontWeights[fontIndex]
+      weight: fontWeights[FONT_INDEX]
     })
-    console.log('font loaded, creating text')
     this.createText(this.text)
   }
 
@@ -61,8 +60,6 @@ class AR extends Component {
   get text() {
     return this._text
   }
-
-  AR = true
 
   shouldComponentUpdate(nextProps, nextState) {
     const { props, state } = this
@@ -117,22 +114,21 @@ class AR extends Component {
     light = new THREE.PointLight(0xffffff, 1.5)
     light.position.set(0, 100, 90)
     this.scene.add(light)
-    // light = new THREE.DirectionalLight(0x002288);
-    // light.position.set(-1, -1, -1);
-    // this.scene.add(light);
 
-    // light = new THREE.AmbientLight(0x222222);
-    // this.scene.add(light);
+    light = new THREE.DirectionalLight(0x002288)
+    light.position.set(-1, -1, -1)
+    this.scene.add(light)
+
+    light = new THREE.AmbientLight(0x222222)
+    this.scene.add(light)
   }
 
   loadFont = async ({ name, weight }) => {
     const uri = `${name}_${weight}`
     const asset = Expo.Asset.fromModule(Files.three_fonts[uri])
-    console.log('asset', asset)
 
     const loader = new THREE.FontLoader()
     return await (new Promise((res, rej) => loader.load(asset.localUri, res, (() => { }), rej)))
-
   }
 
   textGroup = new THREE.Group()
@@ -153,22 +149,16 @@ class AR extends Component {
     this.textGeo.computeVertexNormals()
 
     if (!this.textMesh) {
-      const mirrorMaterial = new THREE.MeshPhongMaterial({
-        emissive: 0x111111,
-        envMap: this.camera.renderTarget
-      })
-
       const materials = [
-        new THREE.MeshPhongMaterial({ color: 0x2188ff, flatShading: false }), // front
-        new THREE.MeshPhongMaterial({ color: 0x2188ff }) // side
+        new THREE.MeshPhongMaterial({ color: 0x706fd3, flatShading: false }), // front
+        new THREE.MeshPhongMaterial({ color: 0x706fd3 }) // side
       ]
       this.textMesh = new THREE.Mesh(this.textGeo, materials)
       this.textMesh.position.y = hover
       this.textMesh.position.z = -3
       this.textMesh.rotation.x = 0
-      this.textMesh.rotation.y = Math.PI * 2
+      this.textMesh.rotation.y = 0
       this.textGroup.add(this.textMesh)
-      // console.warn('', this.textMesh.material)
     } else {
       this.textMesh.geometry = this.textGeo
     }
@@ -182,43 +172,25 @@ class AR extends Component {
     this.textGroup.scale.set(0.2, 0.2, 0.2)
     this.scene.add(this.textGroup)
     this.setupLights()
-    console.log('configuring font')
-    await this.nextFont()
-
-    console.log('font configured')
-    // this.scene.add(new THREE.GridHelper(20, 10))
-
-    // window.document.addEventListener('touchstart', e => {
-    //   this.nextFont()
-    // })
+    this.fontData = await this.loadFont({
+      name: fontName,
+      weight: fontWeights[FONT_INDEX]
+    })
+    console.log('fontdata made')
+    await this.createText(this.text)
   }
 
-  // onWindowResize = () => {
-  //   const {
-  //     innerWidth: width,
-  //     innerHeight: height,
-  //     devicePixelRatio: scale
-  //   } = window
-
-  //   this.camera.aspect = width / height
-  //   this.camera.updateProjectionMatrix()
-  //   this.renderer.setPixelRatio(scale)
-  //   this.renderer.setSize(width, height)
-  // }
-
-  hue = 0
+  hue = 241
   animate = delta => {
     if (this.textGroup) {
-      // this.textGroup.rotation.y += 0.5 * delta;
-
-      // if (this.textMesh.material) {
-      //   this.hue = (this.hue + 1) % 360
-      //   const saturation = 40
-      //   const luminosity = 60
-      //   const hex = hsl(this.hue, saturation, luminosity)
-      //   const numHex = parseInt(hex.replace(/^#/, ''), 16)
-      //   this.textMesh.material.map(material => material.color.setHex(numHex))
-      // }
+      if (this.textMesh.material) {
+        this.hue = (this.hue + 1) % 360
+        const saturation = 53
+        const luminosity = 63
+        const hex = hsl(this.hue, saturation, luminosity)
+        const numHex = parseInt(hex.replace(/^#/, ''), 16)
+        this.textMesh.material.map(material => material.color.setHex(numHex))
+      }
     }
 
     // Render the scene

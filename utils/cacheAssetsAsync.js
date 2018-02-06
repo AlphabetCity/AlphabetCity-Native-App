@@ -4,7 +4,9 @@ import { Asset, Font } from 'expo'
 // From https://github.com/EvanBacon/expo-three-text/
 // by Evan Bacon
 export default function cacheAssetsAsync({ files = [], fonts = [] }) {
-  return Promise.all([...cacheFiles(files), ...cacheFonts(fonts)]).catch(e => console.log('cacheError: ', e))
+  return Promise.all([...cacheFiles(files), ...cacheFonts(fonts)]).catch(e =>
+    console.log('cacheError: ', e)
+  )
 }
 
 function cacheFiles(files) {

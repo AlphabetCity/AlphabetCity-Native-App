@@ -10,7 +10,6 @@ import {
 } from 'react-native'
 import { connect } from 'react-redux'
 import { Location, Permissions } from 'expo'
-import { Feather } from '@expo/vector-icons'
 import { getAllHiddenLetters } from '../store/allHiddenLetters'
 import { MapOfLetters } from './'
 import { setUserLocation } from '../store/userLocation'
@@ -28,7 +27,8 @@ const AR_RADIUS = 10000000000000000000000000000
 class Main extends Component {
   constructor(props) {
     super(props)
-    // this._getLocationAsync()
+
+    console.log('CONSTRUCTOR RAN')
 
     this.location = Location.getCurrentPositionAsync()
       .then(position => {
@@ -58,7 +58,6 @@ class Main extends Component {
       longitude: null
     })
     await this.props.getAllHiddenLetters()
-    this.state.hiddenLettersFetched = true
     this._getShortestDistance()
     // this._routeUser('Satchel', () =>
     //   this.props.getSatchel(this.props.user.id)
@@ -140,19 +139,17 @@ class Main extends Component {
             allHiddenLetters={this.props.allHiddenLetters}
           />
         ) : null}
-        {this.state.hiddenLettersFetched &&
-          !this.props.allHiddenLetters.length && (
-            <Text style={styles.textTitle}>
-              Sorry, no letters availabe nearby right now. Check back later!
-            </Text>
-          )}
         <TouchableHighlight
           style={styles.profileButton}
           underlayColor={'#474787'}
           activeOpacity={0.9}
           onPress={() => this.props.navigation.navigate('DrawerOpen')}
         >
-          <Feather name="user" size={32} color={'#FFFFFF'} />
+        <Image
+          source={require('../assets/icons/user.png')}
+          fadeDuration={0}
+          style={{ width: 32, height: 32 }}
+        />
         </TouchableHighlight>
         <TouchableHighlight
           style={styles.satchelButton}
@@ -165,7 +162,7 @@ class Main extends Component {
           }}
         >
           <Image
-            source={require('../assets/packIcon.png')}
+            source={require('../assets/icons/packIcon.png')}
             fadeDuration={0}
             style={{ width: 32, height: 32 }}
           />
@@ -191,15 +188,11 @@ class Main extends Component {
                 width: (width - 40) / 2
               }}
             >
-              <Feather
-                name="eye"
-                size={32}
-                color={'#FFFFFF'}
-                style={{ flexBasis: 1, flexGrow: 1 }}
+              <Image
+                source={require('../assets/icons/eye.png')}
+                fadeDuration={0}
+                style={{height: 32, width: 32 }}
               />
-              <Text style={{ flexBasis: 1, flexGrow: 1, color: '#FFFFFF' }}>
-                Pick up {this.state.nearestLetter.letterCategory.name}?
-              </Text>
             </View>
           </TouchableHighlight>
         )}

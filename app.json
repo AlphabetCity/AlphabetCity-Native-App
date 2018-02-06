@@ -13,7 +13,7 @@
       "hideExponentText": false
     },
     "packagerOpts": {
-      "assetExts": ["ttf", "mp4", "obj", "json"]
+      "assetExts": ["mp4", "obj", "json", "ttf"]
     },
     "ios": {
       "supportsTablet": false

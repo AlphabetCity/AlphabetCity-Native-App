@@ -1,14 +1,16 @@
+// AR letter code adapted from https://github.com/EvanBacon/expo-three-text
+// by Evan Bacon
 export default function arrayFromObject(object) {
-  let images = [];
+  let images = []
   Object.keys(object).map(key => {
-    let item = object[key];
+    let item = object[key]
 
     if (typeof item === 'object') {
       console.log('isObj')
-      images = images.concat(arrayFromObject(item));
+      images = images.concat(arrayFromObject(item))
     } else {
-      images.push(item);
+      images.push(item)
     }
-  });
-  return images;
+  })
+  return images
 }
