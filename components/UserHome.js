@@ -1,19 +1,22 @@
 'use strict'
 import React, { Component } from 'react'
-import { View } from 'react-native'
-import { Text, Avatar } from 'react-native-elements'
+import { View, Text, Button} from 'react-native'
+import { Avatar } from 'react-native-elements'
 import { Image } from 'react-native'
 import { connect } from 'react-redux'
+import { Auth } from './'
+import { deleteUser } from '../store/user'
 
 class UserHome extends Component {
+  constructor(props) {
+    super(props)
+  }
 
   render() {
-
     return (
-      <View style={styles.container}>
-        {this.props.user.userName
+        this.props.user.userName
           ?
-          <View style={styles.wrap}>
+          <View style={styles.container}>
             <Avatar
               xlarge
               rounded
@@ -30,12 +33,31 @@ class UserHome extends Component {
             <Text style={styles.email}>
               EMAIL: {this.props.user.email}
             </Text>
+            <Button
+              onPress={()=>{
+                this.props.navigation.navigate('UserWords')
+              }}
+              title="My Words"
+              color="#F7F1E3"
+            />
+            <Button
+            onPress={()=> {
+              this.props.navigation.navigate('UpdateUser')
+            }}
+            title="Update Profile"
+            color="#F7F1E3"
+            />
+            <Button
+              onPress={() => {
+                this.props.deleteUser(this.props.user.id)
+                this.props.navigation.navigate('Main')
+              }}
+              title="Delete User"
+              color="#FF5252"
+            />
           </View>
           :
-          <Text>no user</Text>
-        }
-
-      </View>
+          <Auth navigation={this.props.navigation}/>
     )
   }
 }
@@ -47,10 +69,6 @@ const styles = {
     backgroundColor: '#474787',
     alignItems: 'center',
     padding: 10,
-  },
-  wrap: {
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   score: {
     marginTop: 50,
@@ -71,9 +89,11 @@ const styles = {
     textAlign: 'center',
     fontSize: 30,
     fontWeight: 'bold',
-  }
+  },
 }
 
 const mapState = ({ user }) => ({ user })
 
-export default connect(mapState)(UserHome)
+const mapDispatch = ({ deleteUser })
+
+export default connect(mapState, mapDispatch)(UserHome)

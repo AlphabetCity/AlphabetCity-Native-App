@@ -1,6 +1,6 @@
 import Expo from 'expo'
 import React from 'react'
-import { findNodeHandle, Platform, NativeModules, View, Text, StyleSheet } from 'react-native'
+import { Platform, View, Text, StyleSheet } from 'react-native'
 // import PropTypes from 'prop-types'; // 15.6.0
 const ErrorMessage = {
   simulator: `Can't Run GLView in Simulator :(`,
@@ -40,32 +40,21 @@ export default class ARThreeView extends React.Component {
 
     return (
       <Expo.GLView
-        nativeRef_EXPERIMENTAL={this._setNativeGLView}
-        style={styles.container}
+        ref={(ref) => this._glView = ref}
+        style={{ flex: 1 }}
         onContextCreate={this._onGLContextCreate}
       />
     )
   }
 
-  _setNativeGLView = ref => {
-    this._nativeGLView = ref
-  }
-
   _onGLContextCreate = async gl => {
     // Stubbed out methods for shadow rendering
-    gl.createRenderbuffer = () => {}
-    gl.bindRenderbuffer = () => {}
-    gl.renderbufferStorage = () => {}
-    gl.framebufferRenderbuffer = () => {}
+    // gl.createRenderbuffer = () => {}
+    // gl.bindRenderbuffer = () => {}
+    // gl.renderbufferStorage = () => {}
+    // gl.framebufferRenderbuffer = () => {}
 
-    let arSession
-    if (this.props.enableAR) {
-      // Start AR session
-      arSession = await NativeModules.ExponentGLViewManager.startARSession(
-        findNodeHandle(this._nativeGLView)
-      )
-    }
-
+    let arSession = await this._glView.startARSessionAsync()
     await this.props.onContextCreate(gl, arSession)
     let lastFrameTime
     const render = () => {

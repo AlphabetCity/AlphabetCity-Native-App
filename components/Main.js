@@ -16,7 +16,6 @@ import { MapOfLetters } from './'
 import { setUserLocation } from '../store/userLocation'
 import { getSatchel, updateLetter } from '../store/satchel'
 import { updateUser } from '../store/user'
-
 import geolib from 'geolib'
 
 const { height, width } = Dimensions.get('window')
@@ -32,32 +31,39 @@ class Main extends Component {
     // this._getLocationAsync()
 
     this.location = Location.getCurrentPositionAsync()
-    .then(position => {
-      this.props.setUserLocation({
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude
+      .then(position => {
+        this.props.setUserLocation({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude
+        })
       })
-    })
-    .then(() => {
-      this.props.getAllHiddenLetters()
-      .then(this._getShortestDistance)
-      .catch(console.error)
-    })
+      .then(() => {
+        this.props
+          .getAllHiddenLetters()
+          .then(this._getShortestDistance)
+          .catch(console.error)
+      })
 
     this.state = {
+      hiddenLettersFetched: false,
       shortestDistance: DEFAULT_DISTANCE,
       nearestLetter: null
     }
   }
 
   _pickUpLetter = async () => {
-    this.props.updateLetter(this.state.nearestLetter.id, { userId: this.props.user.id, latitude: null, longitude: null })
-    this.props.updateUser(this.props.user.id, { score: (this.props.user.score + this.state.nearestLetter.letterCategory.points) })
+    this.props.updateLetter(this.state.nearestLetter.id, {
+      userId: this.props.user.id,
+      latitude: null,
+      longitude: null
+    })
     await this.props.getAllHiddenLetters()
+    this.state.hiddenLettersFetched = true
     this._getShortestDistance()
-    this._routeUser('Satchel', () =>
-      this.props.getSatchel(this.props.user.id)
-    )
+    // this._routeUser('Satchel', () =>
+    //   this.props.getSatchel(this.props.user.id)
+    // )
+    this.props.getSatchel(this.props.user.id)
   }
 
   _getLocationAsync = async () => {
@@ -126,14 +132,20 @@ class Main extends Component {
     return (
       <View style={styles.container}>
         {this.props.userLocation.latitude &&
-          this.props.userLocation.longitude &&
-          this.props.allHiddenLetters.length ? (
-            <MapOfLetters
-              markerPosition={region}
-              initialRegion={region}
-              allHiddenLetters={this.props.allHiddenLetters}
-            />
-          ) : null}
+        this.props.userLocation.longitude &&
+        this.props.allHiddenLetters.length ? (
+          <MapOfLetters
+            markerPosition={region}
+            initialRegion={region}
+            allHiddenLetters={this.props.allHiddenLetters}
+          />
+        ) : null}
+        {this.state.hiddenLettersFetched &&
+          !this.props.allHiddenLetters.length && (
+            <Text style={styles.textTitle}>
+              Sorry, no letters availabe nearby right now. Check back later!
+            </Text>
+          )}
         <TouchableHighlight
           style={styles.profileButton}
           underlayColor={'#474787'}
@@ -163,7 +175,12 @@ class Main extends Component {
             style={styles.arButton}
             underlayColor={'#474787'}
             activeOpacity={0.9}
-            onPress={() => this.props.navigation.navigate('AR')}
+            onPress={() => {
+              this._pickUpLetter()
+              this.props.navigation.navigate('AR', {
+                nearestLetter: this.state.nearestLetter
+              })
+            }}
           >
             <View
               style={{
@@ -200,7 +217,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     color: '#3B3B98',
-    textAlign: 'center',
+    textAlign: 'center'
   },
   arButton: {
     backgroundColor: '#706fd3',
@@ -212,9 +229,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 20,
     bottom: 24,
-    shadowOffset: { width: 0, height: 2, },
+    shadowOffset: { width: 0, height: 2 },
     shadowColor: 'black',
-    shadowOpacity: 0.4,
+    shadowOpacity: 0.4
   },
   profileButton: {
     backgroundColor: '#706fd3',
@@ -226,9 +243,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 20,
     top: 50,
-    shadowOffset: { width: 0, height: 2, },
+    shadowOffset: { width: 0, height: 2 },
     shadowColor: 'black',
-    shadowOpacity: 0.4,
+    shadowOpacity: 0.4
   },
   satchelButton: {
     backgroundColor: '#706fd3',
@@ -240,9 +257,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 20,
     top: 50,
-    shadowOffset: { width: 0, height: 2, },
+    shadowOffset: { width: 0, height: 2 },
     shadowColor: 'black',
-    shadowOpacity: 0.4,
+    shadowOpacity: 0.4
   }
 })
 
@@ -252,6 +269,12 @@ const mapState = ({ user, userLocation, allHiddenLetters }) => ({
   allHiddenLetters
 })
 
-const mapDispatch = { setUserLocation, getSatchel, getAllHiddenLetters, updateLetter, updateUser }
+const mapDispatch = {
+  setUserLocation,
+  getSatchel,
+  getAllHiddenLetters,
+  updateLetter,
+  updateUser
+}
 
 export default connect(mapState, mapDispatch)(Main)

@@ -1,21 +1,38 @@
 'use strict'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { StatusBar, StyleSheet, View } from 'react-native'
+import { StyleSheet, View, PanResponder } from 'react-native'
 import { AR, ARLoading } from './'
 import cacheAssetsAsync from '../../utils/cacheAssetsAsync'
 import arrayFromObject from '../../utils/arrayFromObject'
 
 import '../../utils/THREE'
-// import './window/domElement'
-// import './window/resize'
 
 import Files from '../../Files'
 
 // Code adapted from https://github.com/EvanBacon/expo-three-text
 // by Evan EvanBacon
 class ARContainer extends Component {
+  constructor(){
+    super()
+
+    this.panResponder = PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onStartShouldSetPanResponderCapture: () => true,
+      onMoveShouldSetPanResponder: () => true,
+      onMoveShouldSetPanResponderCapture: () => true,
+      // onPanResponderGrant: this._handleOnPanResponderGrant.bind(this),
+      // onPanResponderMove: this._handleOnPanResponderMove.bind(this),
+      onPanResponderRelease: this._handlePanResponderRelease.bind(this)
+    })
+  }
+
+  _handlePanResponderRelease() {
+    this.props.navigation.goBack()
+  }
+
   state = { assetsLoaded: false, sceneLoaded: false }
+
   async componentDidMount() {
     this.loadAssetsAsync()
   }
@@ -39,14 +56,18 @@ class ARContainer extends Component {
   renderLoading = () => <ARLoading />
 
   render() {
+    console.log('chosen letter', this.props.navigation.state.params.nearestLetter)
     const { assetsLoaded, sceneLoaded } = this.state
     if (!assetsLoaded) {
       return this.renderLoading()
     }
     return (
-      <View style={styles.container}>
-        <StatusBar hidden={false} />
+      <View
+        style={styles.container}
+        {...this.panResponder.panHandlers}
+      >
         <AR
+          nearestLetter={this.props.navigation.state.params.nearestLetter}
           onLoadingUpdated={xhr => {
             console.log(xhr.loaded / xhr.total * 100 + '% loaded')
           }}

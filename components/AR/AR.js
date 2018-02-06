@@ -1,5 +1,5 @@
 import Expo from 'expo'
-import React from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import ExpoTHREE from 'expo-three'
 import { View, TextInput } from 'react-native'
@@ -8,20 +8,21 @@ const hsl = require('@davidmarkclements/hsl-to-hex')
 
 import Files from '../../Files'
 
-/// To make fonts use this -> https://gero3.github.io/facetype.js/
-let height = 0.2,
-  size = 0.7,
-  hover = 1,
-  curveSegments = 12,
-  bevelThickness = 0.02,
-  bevelSize = 0.015,
-  bevelEnabled = true
+// AR letter code adapted from https://github.com/EvanBacon/expo-three-text
+// by Evan Bacon
 
+// 3D letter properties
+let height = 0.5,
+  size = 1,
+  hover = 0,
+  curveSegments = 50
+
+// font parsing
 let fontIndex = 3
 const fontWeights = ['thin', 'regular', 'medium', 'black']
 const fontName = 'neue_haas_unica_pro'
 
-class AR extends React.Component {
+class AR extends Component {
   static defaultProps = {
     onLoadingUpdated: ({ loaded, total }) => {},
     onFinishedLoading: () => {}
@@ -49,7 +50,7 @@ class AR extends React.Component {
     this.createText(this.text)
   }
 
-  _text = 'EXPO'
+  _text = this.props.nearestLetter.letterCategory.name
   set text(value) {
     if (this.text === value) {
       return
@@ -77,84 +78,34 @@ class AR extends React.Component {
           render={this.animate}
           enableAR={this.AR}
         />
-        <TextInput
-          style={{
-            height: 40,
-            borderColor: 'gray',
-            borderWidth: 1,
-            width: '100%'
-          }}
-          onChangeText={text => (this.text = text)}
-        />
       </View>
     )
   }
 
   onContextCreateAsync = async (gl, arSession) => {
-    const {
-      innerWidth: width,
-      innerHeight: height,
-      devicePixelRatio: scale
-    } = window
-
-    console.log('in onContextCreate')
-
     // renderer
     this.renderer = ExpoTHREE.createRenderer({ gl })
-    this.renderer.setPixelRatio(scale)
-    this.renderer.setSize(width, height)
-    this.renderer.setClearColor(0x000000, 1.0)
-
-    this.setupScene(arSession)
-
-    // resize listener
-    window.addEventListener('resize', this.onWindowResize, false)
+    this.renderer.setSize(gl.drawingBufferWidth, gl.drawingBufferHeight)
+    this.setupScene(gl, arSession)
 
     // setup custom world
     await this.setupWorldAsync()
 
+    // lift state to switch from Loading to AR component
     this.props.onFinishedLoading()
   }
 
-  setupScene = arSession => {
-    const {
-      innerWidth: width,
-      innerHeight: height,
-      devicePixelRatio: scale
-    } = window
-
+  setupScene = (gl, arSession) => {
     // scene
     this.scene = new THREE.Scene()
-
-    if (this.AR) {
-      // AR Background Texture
-      this.scene.background = ExpoTHREE.createARBackgroundTexture(
-        arSession,
-        this.renderer
-      )
-
-      /// AR Camera
-      this.camera = ExpoTHREE.createARCamera(
-        arSession,
-        width,
-        height,
-        0.01,
-        1000
-      )
-    } else {
-      // Standard Background
-      this.scene.background = new THREE.Color(0x000000)
-      this.scene.fog = new THREE.Fog(0x000000, 250, 1400)
-
-      /// Standard Camera
-      this.camera = new THREE.PerspectiveCamera(50, width / height, 0.01, 1000)
-      this.camera.position.set(0, 3, 7.7)
-      const cameraTarget = new THREE.Vector3(0, 1.5, 0)
-      this.camera.lookAt(cameraTarget)
-
-      // controls
-      // this.controls = new THREE.OrbitControls(this.camera);
-    }
+    this.scene.background = ExpoTHREE.createARBackgroundTexture(arSession, this.renderer)
+    this.camera = ExpoTHREE.createARCamera(
+      arSession,
+      gl.drawingBufferWidth,
+      gl.drawingBufferHeight,
+      0.01,
+      1000
+    )
   }
 
   setupLights = () => {
@@ -195,9 +146,6 @@ class AR extends React.Component {
       size: size,
       height: height,
       curveSegments: curveSegments,
-      bevelThickness: bevelThickness,
-      bevelSize: bevelSize,
-      bevelEnabled: bevelEnabled,
       material: 0,
       extrudeMaterial: 1
     })
@@ -216,11 +164,11 @@ class AR extends React.Component {
       ]
       this.textMesh = new THREE.Mesh(this.textGeo, materials)
       this.textMesh.position.y = hover
-      this.textMesh.position.z = 0
+      this.textMesh.position.z = -3
       this.textMesh.rotation.x = 0
       this.textMesh.rotation.y = Math.PI * 2
       this.textGroup.add(this.textMesh)
-      console.warn('', this.textMesh.material)
+      // console.warn('', this.textMesh.material)
     } else {
       this.textMesh.geometry = this.textGeo
     }
@@ -238,39 +186,39 @@ class AR extends React.Component {
     await this.nextFont()
 
     console.log('font configured')
-    this.scene.add(new THREE.GridHelper(20, 10))
+    // this.scene.add(new THREE.GridHelper(20, 10))
 
-    window.document.addEventListener('touchstart', e => {
-      this.nextFont()
-    })
+    // window.document.addEventListener('touchstart', e => {
+    //   this.nextFont()
+    // })
   }
 
-  onWindowResize = () => {
-    const {
-      innerWidth: width,
-      innerHeight: height,
-      devicePixelRatio: scale
-    } = window
+  // onWindowResize = () => {
+  //   const {
+  //     innerWidth: width,
+  //     innerHeight: height,
+  //     devicePixelRatio: scale
+  //   } = window
 
-    this.camera.aspect = width / height
-    this.camera.updateProjectionMatrix()
-    this.renderer.setPixelRatio(scale)
-    this.renderer.setSize(width, height)
-  }
+  //   this.camera.aspect = width / height
+  //   this.camera.updateProjectionMatrix()
+  //   this.renderer.setPixelRatio(scale)
+  //   this.renderer.setSize(width, height)
+  // }
 
   hue = 0
   animate = delta => {
     if (this.textGroup) {
       // this.textGroup.rotation.y += 0.5 * delta;
 
-      if (this.textMesh.material) {
-        this.hue = (this.hue + 1) % 360
-        const saturation = 40
-        const luminosity = 60
-        const hex = hsl(this.hue, saturation, luminosity)
-        const numHex = parseInt(hex.replace(/^#/, ''), 16)
-        this.textMesh.material.map(material => material.color.setHex(numHex))
-      }
+      // if (this.textMesh.material) {
+      //   this.hue = (this.hue + 1) % 360
+      //   const saturation = 40
+      //   const luminosity = 60
+      //   const hex = hsl(this.hue, saturation, luminosity)
+      //   const numHex = parseInt(hex.replace(/^#/, ''), 16)
+      //   this.textMesh.material.map(material => material.color.setHex(numHex))
+      // }
     }
 
     // Render the scene
