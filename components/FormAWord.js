@@ -98,7 +98,7 @@ class FormAWord extends Component {
   }
 
   render() {
-
+console.log(this.state.satchelPlus)
     return (
       <View>
         {/* <FormLabel>Input a Word</FormLabel> */}
@@ -109,17 +109,35 @@ class FormAWord extends Component {
               roundAvatar
               key={letterObj.id}
               title={`Choose ${letterObj.letterCategory.name}`}
-              onPress={() => letterObj.inHand = true}
+              onPress={() => {
+                letterObj.inHand = true
+                this.setState({ newWord: this.state.newWord + letterObj.letterCategory.name})
+              }
+              }
             />
           ))
           }
         </List>
-        <SortableGrid
+        <List containerStyle={{ marginBottom: 20 }}>
+          {this.state.satchelPlus.map((letterObj) => {
+            if (letterObj.inHand === true) {
+              return (<ListItem
+                roundAvatar
+                key={letterObj.id}
+                title={letterObj.letterCategory.name}
+                onPress={() => letterObj.inHand = true}
+              />)
+            }
+          }
+          )
+          }
+        </List>
+        {/* <SortableGrid
           dragActivationThreshold={400}
           itemsPerRow={7}
-          onDragRelease={(itemOrder) => console.log(itemOrder)}>
+        >
           {
-            this.state.satchelPlus.map((letterObj) => {
+            this.state.satchelPlus.filter((letterObj) => {
               if (letterObj.inHand === true) {
                 console.log(letterObj)
                 return (
@@ -134,7 +152,7 @@ class FormAWord extends Component {
             }
             )
           }
-        </SortableGrid>
+        </SortableGrid> */}
         <Button
           small
           onPress={this.handleWordSubmit}
