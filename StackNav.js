@@ -2,7 +2,7 @@
 import React from 'react'
 import { StackNavigator, DrawerNavigator, DrawerItems } from 'react-navigation'
 import { Main, ARContainer, Satchel, Auth, UserHome, Highscores, UserWords, Update } from './components'
-import { View, Button } from 'react-native'
+import { View, Button, Image } from 'react-native'
 
 const Stack = {
   Main: {
@@ -36,7 +36,7 @@ const Stack = {
       title: 'Profile',
       headerLeft: (
         <Button
-          title='< Main'
+          title='< Map'
           navigation={navigation}
           onPress={
             () => {navigation.navigate('Main')}
@@ -71,7 +71,7 @@ const DrawerUserRoutes = {
   Main: {
     screen: StackNavigator(Stack, { initialRouteName: 'Main' }),
     navigationOptions: {
-      drawerLabel: 'Main',
+      drawerLabel: 'Map',
       header: null,
     }
   },
@@ -111,23 +111,24 @@ const DrawerGuestRoutes = {
 const styles = {
   header: {
     justifyContent: 'center',
-    backgroundColor: '#706FD3',
+    backgroundColor: '#2C2C54',
     height: 240,
     alignItems: 'center',
   },
-  picture: {
-    backgroundColor: '#2C2C54',
-    height: 150,
-    width: 150,
-    borderRadius: 100
+  logo: {
+    width: '90%',
+    height: '90%',
+    justifyContent: 'center',
   },
 }
 
 const DrawerContent = (props) => (
   <View>
     <View style={styles.header}>
-      <View style={styles.picture}>
-      </View>
+      <Image
+        style={styles.logo}
+        source={require('./assets/icons/app-icon.png')}
+      />
     </View>
     <DrawerItems {...props} />
   </View>
