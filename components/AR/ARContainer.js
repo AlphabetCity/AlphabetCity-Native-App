@@ -53,6 +53,8 @@ class ARContainer extends Component {
   renderLoading = () => <ARLoading />
 
   render() {
+    console.log('render called')
+    console.log('this.props.navigation.state.params.nearestWords', this.props.navigation.state.params.nearestWords)
     const { assetsLoaded, sceneLoaded } = this.state
     if (!assetsLoaded) {
       return this.renderLoading()
@@ -64,6 +66,7 @@ class ARContainer extends Component {
       >
         <AR
           nearestLetter={this.props.navigation.state.params.nearestLetter}
+          nearestWords={this.props.navigation.state.params.nearestWords}
           onLoadingUpdated={xhr => {
             console.log(xhr.loaded / xhr.total * 100 + '% loaded')
           }}

@@ -49,7 +49,7 @@ class AR extends Component {
     this.createText(this.text)
   }
 
-  _text = this.props.nearestLetter.letterCategory.name
+  _text = this.props.nearestLetter ? this.props.nearestLetter.letterCategory.name : null
   set text(value) {
     if (this.text === value) {
       return
@@ -59,6 +59,18 @@ class AR extends Component {
   }
   get text() {
     return this._text
+  }
+
+  _words = this.props.nearestWords ? this.props.nearestWords : null
+  set words(value) {
+    if (this.words === value) {
+      return
+    }
+    this._words = value
+    this.createWords(value)
+  }
+  get words() {
+    return this._words
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -163,9 +175,49 @@ class AR extends Component {
       this.textMesh.geometry = this.textGeo
     }
 
-    let centerOffset =
-      -0.5 * (this.textGeo.boundingBox.max.x - this.textGeo.boundingBox.min.x)
-    this.textMesh.position.x = centerOffset
+    // let centerOffset =
+    //   -0.5 * (this.textGeo.boundingBox.max.x - this.textGeo.boundingBox.min.x)
+    // this.textMesh.position.x = centerOffset
+  }
+
+  createWords = words => {
+    if (this.textGeo) {
+      this.textGeo.dispose()
+    }
+
+    console.log('create Words ran in AR')
+
+    this.words.forEach(word => {
+    console.log('creating word... ', word)
+    this.textGeo = new THREE.TextBufferGeometry(word, {
+      font: this.fontData,
+      size: size * 5,
+      height: height,
+      curveSegments: curveSegments,
+      material: 0,
+      extrudeMaterial: 1
+    })
+    this.textGeo.computeBoundingBox()
+    this.textGeo.computeVertexNormals()
+
+    const materials = [
+      new THREE.MeshPhongMaterial({ color: 0x706fd3, flatShading: false }), // front
+      new THREE.MeshPhongMaterial({ color: 0x706fd3 }) // side
+    ]
+    this.textMesh = new THREE.Mesh(this.textGeo, materials)
+    this.textMesh.position.x = Math.random() * 400 - 200
+    this.textMesh.position.y = hover
+    this.textMesh.position.z = Math.random() * -100 + 50
+    this.textMesh.rotation.x = 0
+    this.textMesh.rotation.y = 0
+    this.textGroup.add(this.textMesh)
+
+
+
+    // let centerOffset =
+    //   -0.5 * (this.textGeo.boundingBox.max.x - this.textGeo.boundingBox.min.x)
+    // this.textMesh.position.x = centerOffset
+    })
   }
 
   setupWorldAsync = async () => {
@@ -176,12 +228,17 @@ class AR extends Component {
       name: fontName,
       weight: fontWeights[FONT_INDEX]
     })
-    await this.createText(this.text)
+    if (this.text) {
+      await this.createText(this.text)
+    } else if (this.words && this.words.length) {
+      console.log('this.words exists in AR')
+      await this.createWords(this.words)
+    }
   }
 
   hue = 241
   animate = delta => {
-    if (this.textGroup) {
+    if (this.textGroup && !this.props.nearestWords) {
       if (this.textMesh.material) {
         this.hue = (this.hue + 1) % 360
         const saturation = 53
