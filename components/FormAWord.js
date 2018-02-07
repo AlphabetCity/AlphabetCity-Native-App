@@ -54,7 +54,7 @@ class FormAWord extends Component {
 
 
   handleWordSubmit() {
-    let word = this.state.word.toLowerCase()
+    let word = this.state.word.toLowerCase().trim()
 
     let letterObjArr = this.props.satchel
 
