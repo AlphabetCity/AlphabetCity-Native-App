@@ -10,7 +10,6 @@ import {
 } from 'react-native'
 import { connect } from 'react-redux'
 import { Location, Permissions } from 'expo'
-import { Feather } from '@expo/vector-icons'
 import { getAllHiddenLetters } from '../store/allHiddenLetters'
 import { MapOfLetters } from './'
 import { setUserLocation } from '../store/userLocation'
@@ -23,27 +22,43 @@ const { height, width } = Dimensions.get('window')
 const LATITUDE_DELTA = 0.002
 const LONGITUDE_DELTA = 0.002
 const DEFAULT_DISTANCE = Infinity
+const AR_RADIUS = 40
 
 class Main extends Component {
   constructor(props) {
     super(props)
-    this._getLocationAsync()
-    this.props.getAllHiddenLetters()
-    this.count = 0
+
+    this.location = Location.getCurrentPositionAsync()
+      .then(position => {
+        this.props.setUserLocation({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude
+        })
+      })
+      .then(() => {
+        this.props
+          .getAllHiddenLetters()
+          .then(this._getShortestDistance)
+          .then(this._getLocationAsync)
+          .catch(console.error)
+      })
 
     this.state = {
+      hiddenLettersFetched: false,
       shortestDistance: DEFAULT_DISTANCE,
       nearestLetter: null
     }
   }
 
   _pickUpLetter = async () => {
-    this.props.updateLetter(this.state.nearestLetter.id, { userId: this.props.user.id, latitude: null, longitude: null })
+    this.props.updateLetter(this.state.nearestLetter.id, {
+      userId: this.props.user.id,
+      latitude: null,
+      longitude: null
+    })
     await this.props.getAllHiddenLetters()
     this._getShortestDistance()
-    this._routeUser('Satchel', () =>
-      this.props.getSatchel(this.props.user.id)
-    )
+    this.props.getSatchel(this.props.user.id)
   }
 
   _getLocationAsync = async () => {
@@ -87,10 +102,10 @@ class Main extends Component {
     }
   }
 
-  _routeUser = (screen, cb) => {
+  _routeUser = (screen, cb, props) => {
     if (this.props.user && this.props.user.id) {
       if (cb) cb()
-      this.props.navigation.navigate(screen)
+      this.props.navigation.navigate(screen, props)
     } else {
       this.props.navigation.navigate('Auth')
     }
@@ -98,7 +113,6 @@ class Main extends Component {
 
   componentWillUnmount() {
     delete this.watchId
-    clearInterval(this._interval)
   }
 
   render() {
@@ -111,21 +125,25 @@ class Main extends Component {
     return (
       <View style={styles.container}>
         {this.props.userLocation.latitude &&
-          this.props.userLocation.longitude &&
-          this.props.allHiddenLetters.length ? (
-            <MapOfLetters
-              markerPosition={region}
-              initialRegion={region}
-              allHiddenLetters={this.props.allHiddenLetters}
-            />
-          ) : null }
+        this.props.userLocation.longitude &&
+        this.props.allHiddenLetters.length ? (
+          <MapOfLetters
+            markerPosition={region}
+            initialRegion={region}
+            allHiddenLetters={this.props.allHiddenLetters}
+          />
+        ) : null}
         <TouchableHighlight
           style={styles.profileButton}
           underlayColor={'#474787'}
           activeOpacity={0.9}
           onPress={() => this.props.navigation.navigate('DrawerOpen')}
         >
-          <Feather name="user" size={32} color={'#FFFFFF'} />
+          <Image
+            source={require('../assets/icons/user.png')}
+            fadeDuration={0}
+            style={{ width: 32, height: 32 }}
+          />
         </TouchableHighlight>
         <TouchableHighlight
           style={styles.satchelButton}
@@ -138,18 +156,32 @@ class Main extends Component {
           }}
         >
           <Image
-            source={require('../assets/packIcon.png')}
+            source={require('../assets/icons/packIcon.png')}
             fadeDuration={0}
             style={{ width: 32, height: 32 }}
           />
         </TouchableHighlight>
-        {this.state.shortestDistance < 10000000000000000000000000 && (
+        <TouchableHighlight
+          style={styles.wordsButton}
+          underlayColor={'#474787'}
+          activeOpacity={0.9}
+          onPress={() => {}}
+        >
+          <Image
+            source={require('../assets/icons/book-open.png')}
+            fadeDuration={0}
+            style={{ width: 32, height: 32 }}
+          />
+        </TouchableHighlight>
+        {this.state.shortestDistance < AR_RADIUS && (
           <TouchableHighlight
             style={styles.arButton}
             underlayColor={'#474787'}
             activeOpacity={0.9}
             onPress={() => {
-              this._routeUser('AR', () => this._pickUpLetter())
+              this._routeUser('AR', this._pickUpLetter, {
+                nearestLetter: this.state.nearestLetter
+              })
             }}
           >
             <View
@@ -161,15 +193,11 @@ class Main extends Component {
                 width: (width - 40) / 2
               }}
             >
-              <Feather
-                name="eye"
-                size={32}
-                color={'#FFFFFF'}
-                style={{ flexBasis: 1, flexGrow: 1 }}
+              <Image
+                source={require('../assets/icons/eye.png')}
+                fadeDuration={0}
+                style={{ height: 32, width: 32 }}
               />
-              <Text style={{ flexBasis: 1, flexGrow: 1, color: '#FFFFFF' }}>
-                Pick up {this.state.nearestLetter.letterCategory.name}?
-              </Text>
             </View>
           </TouchableHighlight>
         )}
@@ -181,7 +209,7 @@ class Main extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
   },
   textTitle: {
     fontSize: 20,
@@ -192,12 +220,26 @@ const styles = StyleSheet.create({
   arButton: {
     backgroundColor: '#706fd3',
     height: 60,
-    width: width - 40,
+    width: width - 40 - 80,
     borderRadius: 30,
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
     left: 20,
+    bottom: 24,
+    shadowOffset: { width: 0, height: 2, },
+    shadowColor: 'black',
+    shadowOpacity: 0.4,
+  },
+  wordsButton: {
+    backgroundColor: '#706fd3',
+    height: 60,
+    width: 60,
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    right: 20,
     bottom: 24,
     shadowOffset: { width: 0, height: 2, },
     shadowColor: 'black',
@@ -239,6 +281,12 @@ const mapState = ({ user, userLocation, allHiddenLetters }) => ({
   allHiddenLetters
 })
 
-const mapDispatch = { setUserLocation, getSatchel, getAllHiddenLetters, updateLetter, updateUser }
+const mapDispatch = {
+  setUserLocation,
+  getSatchel,
+  getAllHiddenLetters,
+  updateLetter,
+  updateUser
+}
 
 export default connect(mapState, mapDispatch)(Main)

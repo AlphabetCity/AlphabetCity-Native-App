@@ -14,8 +14,7 @@ class FormAWord extends Component {
     super(props)
 
     this.state = {
-      word: '',
-      newWord: null
+      word: ''
     }
 
     this.handleWordSubmit = this.handleWordSubmit.bind(this)

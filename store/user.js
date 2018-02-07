@@ -29,6 +29,7 @@ export const getUser = user => async dispatch => {
     const res = await axios.post('https://alphabetcity.herokuapp.com/auth/login', user)
     const userData = await res.data
     dispatch(loginUser(userData))
+    return userData
   } catch (error) {
     console.warn(error)
   }

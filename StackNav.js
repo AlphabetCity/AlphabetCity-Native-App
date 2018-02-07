@@ -1,8 +1,8 @@
 'use strict'
 import React from 'react'
 import { StackNavigator, DrawerNavigator, DrawerItems } from 'react-navigation'
-import { Main, AR, Satchel, Auth, UserHome, Highscores, FormAWord, UserWords, Update } from './components'
-import { View } from 'react-native'
+import { Main, ARContainer, Satchel, Auth, UserHome, Highscores, FormAWord, UserWords, Update } from './components'
+import { View, Button } from 'react-native'
 
 const Stack = {
   Main: {
@@ -12,7 +12,7 @@ const Stack = {
     }
   },
   AR: {
-    screen: AR,
+    screen: ARContainer,
     navigationOptions: {
       header: null,
     }
@@ -27,14 +27,23 @@ const Stack = {
   Satchel: {
     screen: Satchel,
     navigationOptions: {
-      title: 'Satchel',
+      title: 'Satchel'
     }
   },
   Profile: {
     screen: UserHome,
-    navigationOptions: {
+    navigationOptions: ({navigation}) => ({
       title: 'Profile',
-    }
+      headerLeft: (
+        <Button
+          title='< Main'
+          navigation={navigation}
+          onPress={
+            () => {navigation.navigate('Main')}
+          }
+        />
+      )
+    })
   },
   Highscores: {
     screen: Highscores,

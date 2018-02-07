@@ -2,7 +2,6 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
 import { MapView } from 'expo'
-import blurryPin from '../assets/blurryPin.png'
 
 const MapOfLetters = (props) => {
 

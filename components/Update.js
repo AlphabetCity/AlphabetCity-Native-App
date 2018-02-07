@@ -13,16 +13,24 @@ class Update extends Component {
     this.state = {
       userName: this.props.user.userName,
       email: this.props.user.email,
-      password: this.props.user.password
+      password: this.props.user.password,
+      confirmPassword: '',
+      message: ''
     }
 
     this.handleUpdate = this.handleUpdate.bind(this)
   }
 
   handleUpdate() {
-    const { userName, email, password } = this.state
-    this.props.updateUser(this.props.user.id, { userName, email, password })
-    this.props.navigation.navigate('Profile')
+    this.setState({message: ''})
+    const { userName, email, password, confirmPassword } = this.state
+    if(this.state.password !== this.state.confirmPassword){
+      this.setState({message: 'wrong password'})
+    }else{
+      this.props.updateUser(this.props.user.id, { userName, email, password })
+      this.props.navigation.navigate('Profile')
+    }
+
   }
 
   render = () => (
@@ -46,7 +54,7 @@ class Update extends Component {
         onChangeText={text => this.setState({ email: text })}
       />
       <FormLabel>
-        PW
+        Password
       </FormLabel>
       <FormInput
         style={styles.input}
@@ -54,6 +62,21 @@ class Update extends Component {
         value={this.state.password}
         onChangeText={text => this.setState({ password: text })}
       />
+      <FormLabel>
+        Confirm Password
+      </FormLabel>
+      <FormInput
+        style={styles.input}
+        secureTextEntry={true}
+        onChangeText={text => this.setState({ confirmPassword: text })}
+      />
+      {this.state.message ?
+        <Text style={styles.message}>
+          {this.state.message}
+        </Text>
+      :
+        null
+      }
       <Button
         style={styles.buttonStyle}
         small
@@ -97,6 +120,9 @@ const styles = {
   },
   formContainer: {
     padding: 10,
+  },
+  message: {
+    color: '#FF5252',
   }
 }
 
