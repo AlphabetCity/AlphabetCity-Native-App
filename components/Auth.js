@@ -67,12 +67,14 @@ class Auth extends Component {
         containerStyle={styles.containerInput}
         style={styles.input}
         placeholder="Username"
+        autoCapitalize="none"
         onChangeText={text => this.setState({ userName: text.replace(/\s/g, '') })}
       />
       <FormInput
         containerStyle={styles.containerInput}
         style={styles.input}
         placeholder="Email"
+        autoCapitalize="none"
         onChangeText={text => this.setState({ email: text })}
       />
       <FormInput
@@ -80,6 +82,7 @@ class Auth extends Component {
         style={styles.input}
         secureTextEntry
         placeholder="Password"
+        autoCapitalize="none"
         onChangeText={text => this.setState({ password: text })}
       />
       {this.state.message ?
