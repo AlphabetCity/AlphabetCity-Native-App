@@ -52,7 +52,7 @@ class UserHome extends Component {
             this.props.deleteUser(this.props.user.id)
             this.props.navigation.navigate('Main')
           }}
-          title="Delete User"
+          title="Delete My Account"
           color="#FF5252"
         />
       </View>
@@ -82,14 +82,15 @@ const styles = {
   username: {
     color: '#218c74',
     textAlign: 'center',
-    fontSize: 30,
+    fontSize: 20,
     fontWeight: 'bold',
   },
   email: {
     color: '#218c74',
     textAlign: 'center',
-    fontSize: 30,
+    fontSize: 20,
     fontWeight: 'bold',
+    marginBottom:30
   },
 }
 
