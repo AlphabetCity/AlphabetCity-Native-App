@@ -26,7 +26,6 @@ class Satchel extends Component {
             this.props.satchel.map((satchelLetter, idx) => (
               <ListItem
                 roundAvatar
-                avatar={{ uri: 'http://dreamicus.com/data/apple/apple-04.jpg' }}
                 key={satchelLetter.id}
                 title={(satchelLetter.letterCategory.name).toString()}
                 onPress={() => {
