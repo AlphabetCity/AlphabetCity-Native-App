@@ -94,6 +94,7 @@ class Auth extends Component {
       <Button
         containerViewStyle={styles.containerButtonTop}
         backgroundColor='#474787'
+        borderRadius='30'
         color='#f7f1e3'
         small
         onPress={this.handleLogin.bind(this)}
@@ -102,6 +103,7 @@ class Auth extends Component {
       <Button
         containerViewStyle={styles.containerButton}
         backgroundColor='#474787'
+        borderRadius='30'
         color='#f7f1e3'
         small
         onPress={this.handleSignup.bind(this)}
@@ -143,7 +145,7 @@ const styles = {
   containerButtonTop: {
     padding: 10,
     width:'100%',
-    marginTop:60
+    marginTop:60,
   },
   containerButton: {
     padding: 10,
