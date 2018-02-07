@@ -63,28 +63,23 @@ class Auth extends Component {
 
   render = () => (
     <View style={styles.container}>
-      <FormLabel>
-        Username
-      </FormLabel>
       <FormInput
+        containerStyle={styles.containerInput}
         style={styles.input}
         placeholder="Username"
         onChangeText={text => this.setState({ userName: text.replace(/\s/g, '') })}
       />
-      <FormLabel>
-        Email
-      </FormLabel>
       <FormInput
+        containerStyle={styles.containerInput}
         style={styles.input}
         placeholder="Email"
         onChangeText={text => this.setState({ email: text })}
       />
-      <FormLabel>
-        PW
-      </FormLabel>
       <FormInput
+        containerStyle={styles.containerInput}
         style={styles.input}
         secureTextEntry
+        placeholder="Password"
         onChangeText={text => this.setState({ password: text })}
       />
       {this.state.message ?
@@ -94,13 +89,17 @@ class Auth extends Component {
       : null
       }
       <Button
-        style={styles.buttonStyle}
+        containerViewStyle={styles.containerButtonTop}
+        backgroundColor='#474787'
+        color='#f7f1e3'
         small
         onPress={this.handleLogin.bind(this)}
         title="Login"
       />
       <Button
-        style={styles.buttonStyle}
+        containerViewStyle={styles.containerButton}
+        backgroundColor='#474787'
+        color='#f7f1e3'
         small
         onPress={this.handleSignup.bind(this)}
         title="Sign Up"
@@ -112,7 +111,7 @@ class Auth extends Component {
 const styles = {
   container: {
     flex: 1,
-    backgroundColor: 'transparent',
+    backgroundColor: '#f7f1e3',
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
@@ -129,13 +128,23 @@ const styles = {
     flexGrow: 1,
     justifyContent: 'center',
   },
+  containerInput:{
+    width: '90%'
+  },
   input: {
     height: 35,
     backgroundColor: 'rgba(192,192,192,0.3)',
-    marginBottom: 15,
+    marginBottom: 25,
+    width:'90%',
   },
-  buttonStyle: {
+  containerButtonTop: {
     padding: 10,
+    width:'100%',
+    marginTop:60
+  },
+  containerButton: {
+    padding: 10,
+    width:'100%',
   },
   labelContainerStyle: {
     marginTop: 8,
@@ -145,6 +154,7 @@ const styles = {
   },
   message: {
     color: '#FF5252',
+    padding:10
   }
 }
 
