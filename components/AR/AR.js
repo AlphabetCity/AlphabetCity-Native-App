@@ -138,7 +138,6 @@ class AR extends Component {
   loadFont = async ({ name, weight }) => {
     const uri = `${name}_${weight}`
     const asset = Expo.Asset.fromModule(Files.three_fonts[uri])
-
     const loader = new THREE.FontLoader()
     return await (new Promise((res, rej) => loader.load(asset.localUri, res, (() => { }), rej)))
   }
@@ -175,23 +174,22 @@ class AR extends Component {
       this.textMesh.geometry = this.textGeo
     }
 
-    // let centerOffset =
-    //   -0.5 * (this.textGeo.boundingBox.max.x - this.textGeo.boundingBox.min.x)
-    // this.textMesh.position.x = centerOffset
+    let centerOffset =
+      -0.5 * (this.textGeo.boundingBox.max.x - this.textGeo.boundingBox.min.x)
+    this.textMesh.position.x = centerOffset
   }
 
-  createWords = words => {
+  createWords = () => {
+    let hexColors = ['#ff5252', '#34ace0', '#f7f1e3', '#ffda79', '#ff793f']
+
     if (this.textGeo) {
       this.textGeo.dispose()
     }
 
-    console.log('create Words ran in AR')
-
-    this.words.forEach(word => {
-    console.log('creating word... ', word)
+    this.words.forEach((word, idx) => {
     this.textGeo = new THREE.TextBufferGeometry(word, {
       font: this.fontData,
-      size: size * 5,
+      size: Math.random() * 10 + size,
       height: height,
       curveSegments: curveSegments,
       material: 0,
@@ -201,22 +199,20 @@ class AR extends Component {
     this.textGeo.computeVertexNormals()
 
     const materials = [
-      new THREE.MeshPhongMaterial({ color: 0x706fd3, flatShading: false }), // front
-      new THREE.MeshPhongMaterial({ color: 0x706fd3 }) // side
+      new THREE.MeshPhongMaterial({ color: hexColors[idx], flatShading: false }), // front
+      new THREE.MeshPhongMaterial({ color: hexColors[idx] }) // side
     ]
     this.textMesh = new THREE.Mesh(this.textGeo, materials)
     this.textMesh.position.x = Math.random() * 400 - 200
     this.textMesh.position.y = hover
-    this.textMesh.position.z = Math.random() * -100 + 50
+    this.textMesh.position.z = Math.random() * -25 + 12.5
     this.textMesh.rotation.x = 0
-    this.textMesh.rotation.y = 0
+    this.textMesh.rotation.y = 2 * Math.PI * Math.random()
     this.textGroup.add(this.textMesh)
 
+    delete this.textMesh
+    delete this.textGeo
 
-
-    // let centerOffset =
-    //   -0.5 * (this.textGeo.boundingBox.max.x - this.textGeo.boundingBox.min.x)
-    // this.textMesh.position.x = centerOffset
     })
   }
 
@@ -228,24 +224,23 @@ class AR extends Component {
       name: fontName,
       weight: fontWeights[FONT_INDEX]
     })
-    if (this.text) {
-      await this.createText(this.text)
-    } else if (this.words && this.words.length) {
-      console.log('this.words exists in AR')
-      await this.createWords(this.words)
-    }
+    if (this.text) await this.createText(this.text)
+    else if (this.words && this.words.length) await this.createWords(this.words)
+
   }
 
   hue = 241
   animate = delta => {
-    if (this.textGroup && !this.props.nearestWords) {
-      if (this.textMesh.material) {
-        this.hue = (this.hue + 1) % 360
-        const saturation = 53
-        const luminosity = 63
-        const hex = hsl(this.hue, saturation, luminosity)
-        const numHex = parseInt(hex.replace(/^#/, ''), 16)
-        this.textMesh.material.map(material => material.color.setHex(numHex))
+    if (this.textGroup) {
+      if (this.props.nearestLetter && !this.props.nearestWords) {
+        if (this.textMesh.material) {
+          this.hue = (this.hue + 1) % 360
+          const saturation = 53
+          const luminosity = 63
+          const hex = hsl(this.hue, saturation, luminosity)
+          const numHex = parseInt(hex.replace(/^#/, ''), 16)
+          this.textMesh.material.map(material => material.color.setHex(numHex))
+        }
       }
     }
 

@@ -50,7 +50,11 @@ class ARContainer extends Component {
     }
   }
 
-  renderLoading = () => <ARLoading />
+  renderLoading = () =>
+    (<ARLoading text={this.props.navigation.state.params.nearestWords ?
+      'Viewing nearest completed words' :
+      'Your new letter is...'
+    } />)
 
   render() {
     console.log('render called')

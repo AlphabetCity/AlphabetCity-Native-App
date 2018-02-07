@@ -198,7 +198,10 @@ class Main extends Component {
           />
         </TouchableHighlight>
         <TouchableHighlight
-          style={styles.wordsButton}
+          style={[styles.wordsButton, [
+            (!this.state.nearestWords || !this.state.nearestWords.length) &&
+            {backgroundColor: '#84817a'}
+          ]]}
           underlayColor={'#474787'}
           activeOpacity={0.9}
           onPress={() => {
