@@ -57,8 +57,6 @@ class ARContainer extends Component {
     } />)
 
   render() {
-    console.log('render called')
-    console.log('this.props.navigation.state.params.nearestWords', this.props.navigation.state.params.nearestWords)
     const { assetsLoaded, sceneLoaded } = this.state
     if (!assetsLoaded) {
       return this.renderLoading()

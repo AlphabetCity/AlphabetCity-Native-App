@@ -74,14 +74,12 @@ class Main extends Component {
   }
 
   _getShortestDistance = async () => {
-    console.log('running getShortestDistance')
     if (this.props.userLocation.latitude && this.props.userLocation.longitude) {
       let currentLocLat = this.props.userLocation.latitude
       let currentLocLng = this.props.userLocation.longitude
       let shortestDistance = DEFAULT_DISTANCE
 
       if (this.props.allHiddenLetters) {
-        console.log('this.props.HiddenLetters found')
         let nearestLetter
         this.props.allHiddenLetters.forEach(letter => {
           let compareDist = geolib.getDistance(
@@ -99,8 +97,6 @@ class Main extends Component {
       }
 
       if (this.props.allWords && this.props.allWords.length) {
-        console.log('all words found')
-        // console.log('allWords: ', this.props.allWords)
         let nearestWords = await this.props.allWords.map(word => {
           let distance =
           geolib.getDistance(
@@ -109,15 +105,11 @@ class Main extends Component {
             1,
             1
           )
-          // console.log(`word ${word.id} has distance ${distance}`)
           word.distance = distance
           return word
           }
         )
-        // console.log('nearestWords', nearestWords)
-        // console.log('sortedWords', nearestWords)
         nearestWords = nearestWords.sort((a, b ) => a.distance - b.distance).slice(0, 5).map(word => word.word)
-        console.log('nearestWords', nearestWords)
         this.setState({ nearestWords })
       }
 

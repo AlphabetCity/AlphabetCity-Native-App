@@ -11,10 +11,8 @@ const setWord = word => ({ type: ADD_WORD, word })
 // Thunks
 export const getWords = () => async dispatch => {
   try {
-    console.log('get Words ran')
     const res = await axios.get('https://alphabetcity.herokuapp.com/api/words')
     const words = await res.data
-    console.log('words', words)
     dispatch(setWords(words))
   } catch (error) {
     console.error(error)
