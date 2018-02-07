@@ -3,9 +3,9 @@ import { StyleSheet, View, Text } from 'react-native'
 
 // AR letter code adapted from https://github.com/EvanBacon/expo-three-text
 // by Evan Bacon
-const ARLoading = () => (
+const ARLoading = props => (
   <View style={styles.container}>
-    <Text style={styles.text}>Your new letter is...</Text>
+    <Text style={styles.text}>{props.text}</Text>
   </View>
 )
 
