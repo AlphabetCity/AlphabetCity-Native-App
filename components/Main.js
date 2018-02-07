@@ -54,6 +54,10 @@ class Main extends Component {
     }
   }
 
+  componentDidMount() {
+    if (this.props.user.id) this.props.getSatchel(this.props.user.id)
+  }
+
   _getLocationAsync = async () => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION)
     if (status !== 'granted') {
@@ -136,8 +140,6 @@ class Main extends Component {
     }
   }
 
-  componentDidMount() {
-  }
 
   componentWillUnmount() {
     delete this.watchId
@@ -215,10 +217,15 @@ class Main extends Component {
             style={styles.arButton}
             underlayColor={'#474787'}
             activeOpacity={0.9}
-            onPress={() => {
-              this._routeUser('AR', this._pickUpLetter, {
-                nearestLetter: this.state.nearestLetter
-              })
+            onPress={async () => {
+              await this.props.getSatchel(this.props.user.id)
+              if (this.props.satchel.length < 7) {
+                this._routeUser('AR', this._pickUpLetter, {
+                  nearestLetter: this.state.nearestLetter
+                })
+              } else {
+                alert('Your satchel is currently full. You must drop a letter before picking up another.')
+              }
             }}
           >
             <View
@@ -312,11 +319,12 @@ const styles = StyleSheet.create({
   }
 })
 
-const mapState = ({ user, userLocation, allHiddenLetters, allWords }) => ({
+const mapState = ({ user, userLocation, allHiddenLetters, allWords, satchel }) => ({
   user,
   userLocation,
   allHiddenLetters,
-  allWords
+  allWords,
+  satchel
 })
 
 const mapDispatch = {
