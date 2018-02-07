@@ -4,8 +4,6 @@ import { StackNavigator, DrawerNavigator, DrawerItems } from 'react-navigation'
 import { Main, ARContainer, Satchel, Auth, UserHome, Highscores, UserWords, Update } from './components'
 import { View, Button, Image } from 'react-native'
 
-import Files from './Files'
-
 const Stack = {
   Main: {
     screen: Main,
