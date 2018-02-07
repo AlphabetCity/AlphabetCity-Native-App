@@ -1,8 +1,8 @@
 'use strict'
 import React from 'react'
-import { StackNavigator, DrawerNavigator, DrawerItems } from 'react-navigation'
+import { StackNavigator, DrawerNavigator, DrawerItems} from 'react-navigation'
 import { Main, ARContainer, Satchel, Auth, UserHome, Highscores, UserWords, Update } from './components'
-import { View, Button, Image } from 'react-native'
+import { View, Button, Image, ScrollView } from 'react-native'
 
 const Stack = {
   Main: {
@@ -123,23 +123,34 @@ const styles = {
 }
 
 const DrawerContent = (props) => (
-  <View>
+  <View
+    style={{
+      flex: 1,
+      backgroundColor: '#f7f1e3',
+      color: '#474787'
+    }}>
     <View style={styles.header}>
       <Image
         style={styles.logo}
         source={require('./assets/icons/app-icon.png')}
       />
     </View>
-    <DrawerItems {...props} />
+    <DrawerItems {...props}
+      activeTintColor='#706fd3'
+      inactiveTintColor='#40407a'
+    />
   </View>
-)
+);
 
 let DrawerRoutes = loggedIn ? DrawerUserRoutes : DrawerGuestRoutes
 
 const RootNavigator = StackNavigator({
   Drawer: {
     name: 'Drawer',
-    screen: DrawerNavigator(DrawerRoutes, { contentComponent: DrawerContent }),
+    screen: DrawerNavigator(DrawerRoutes,
+      {
+        contentComponent: DrawerContent,
+      }),
   },
   ...Stack
 },
