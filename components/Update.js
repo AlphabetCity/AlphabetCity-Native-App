@@ -35,39 +35,32 @@ class Update extends Component {
 
   render = () => (
     <View style={styles.container}>
-      <FormLabel>
-        Username
-      </FormLabel>
       <FormInput
+        containerStyle={styles.containerInput}
         style={styles.input}
         placeholder="Username"
         value={this.state.userName}
         onChangeText={text => this.setState({ userName: text.replace(/\s/g, '') })}
       />
-      <FormLabel>
-        Email
-      </FormLabel>
       <FormInput
+        containerStyle={styles.containerInput}
         style={styles.input}
         placeholder="Email"
         value={this.state.email}
         onChangeText={text => this.setState({ email: text })}
       />
-      <FormLabel>
-        Password
-      </FormLabel>
       <FormInput
+        containerStyle={styles.containerInput}
         style={styles.input}
+        placeholder="Enter Password"
         secureTextEntry={true}
-        value={this.state.password}
         onChangeText={text => this.setState({ password: text })}
       />
-      <FormLabel>
-        Confirm Password
-      </FormLabel>
       <FormInput
+        containerStyle={styles.containerInput}
         style={styles.input}
         secureTextEntry={true}
+        placeholder="Confirm Password"
         onChangeText={text => this.setState({ confirmPassword: text })}
       />
       {this.state.message ?
@@ -78,7 +71,10 @@ class Update extends Component {
         null
       }
       <Button
-        style={styles.buttonStyle}
+        containerViewStyle={styles.containerButton}
+        backgroundColor='#474787'
+        borderRadius={30}
+        color='#f7f1e3'
         small
         onPress={this.handleUpdate.bind(this)}
         title="Update"
@@ -90,30 +86,24 @@ class Update extends Component {
 const styles = {
   container: {
     flex: 1,
-    backgroundColor: 'transparent',
+    backgroundColor: '#f7f1e3',
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
   },
-  title: {
-    fontSize: 34,
-    fontWeight: 'bold',
-    color: 'white',
-    textAlign: 'center',
-    marginTop: 10,
-  },
-  logoContainer: {
-    alignItems: 'center',
-    flexGrow: 1,
-    justifyContent: 'center',
+  containerInput:{
+    width: '90%'
   },
   input: {
     height: 35,
     backgroundColor: 'rgba(192,192,192,0.3)',
     marginBottom: 15,
+    width:'90%',
   },
-  buttonStyle: {
+  containerButton: {
     padding: 10,
+    width:'100%',
+    marginTop:40,
   },
   labelContainerStyle: {
     marginTop: 8,
@@ -123,6 +113,7 @@ const styles = {
   },
   message: {
     color: '#FF5252',
+    padding:10
   }
 }
 

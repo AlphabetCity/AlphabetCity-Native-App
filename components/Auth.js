@@ -121,18 +121,6 @@ const styles = {
     justifyContent: 'center',
     padding: 20,
   },
-  title: {
-    fontSize: 34,
-    fontWeight: 'bold',
-    color: 'white',
-    textAlign: 'center',
-    marginTop: 10,
-  },
-  logoContainer: {
-    alignItems: 'center',
-    flexGrow: 1,
-    justifyContent: 'center',
-  },
   containerInput:{
     width: '90%'
   },
