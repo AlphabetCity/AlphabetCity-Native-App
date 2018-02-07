@@ -43,6 +43,7 @@ class Auth extends Component {
       <FormInput
         style={styles.input}
         placeholder="Username"
+        autoCapitalize="none"
         onChangeText={text => this.setState({ userName: text.replace(/\s/g, '') })}
       />
       <FormLabel>
@@ -51,6 +52,7 @@ class Auth extends Component {
       <FormInput
         style={styles.input}
         placeholder="Email"
+        autoCapitalize="none"
         onChangeText={text => this.setState({ email: text })}
       />
       <FormLabel>
@@ -59,6 +61,7 @@ class Auth extends Component {
       <FormInput
         style={styles.input}
         secureTextEntry
+        autoCapitalize="none"
         onChangeText={text => this.setState({ password: text })}
       />
       <Button

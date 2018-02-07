@@ -38,7 +38,10 @@ class Satchel extends Component {
           }
         </List>
         <Button
-          onPress={() => this.props.navigation.navigate('FormAWord')}
+          onPress={() => {
+            this.props.satchel.map(letterObj => letterObj.inHand = false)
+            return this.props.navigation.navigate('FormAWord', { satchelPlus: this.props.satchel })
+          }}
           title="Form a word"
         />
       </View>
