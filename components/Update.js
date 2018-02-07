@@ -88,7 +88,7 @@ const styles = {
     flex: 1,
     backgroundColor: '#f7f1e3',
     alignItems: 'center',
-    justifyContent: 'center',
+    paddingTop: 40,
     padding: 20,
   },
   containerInput:{
