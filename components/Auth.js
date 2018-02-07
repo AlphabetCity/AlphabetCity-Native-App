@@ -103,7 +103,7 @@ class Auth extends Component {
       <Button
         containerViewStyle={styles.containerButton}
         backgroundColor='#474787'
-        borderRadius='30'
+        borderRadius={30}
         color='#f7f1e3'
         small
         onPress={this.handleSignup.bind(this)}

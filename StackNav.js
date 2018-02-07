@@ -132,8 +132,6 @@ const DrawerContent = (props) => (
   <View
     style={{
       flex: 1,
-      backgroundColor: '#f7f1e3',
-      color: '#474787'
     }}>
     <View style={styles.header}>
       <Image
