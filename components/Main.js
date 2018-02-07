@@ -161,6 +161,18 @@ class Main extends Component {
             style={{ width: 32, height: 32 }}
           />
         </TouchableHighlight>
+        <TouchableHighlight
+          style={styles.wordsButton}
+          underlayColor={'#474787'}
+          activeOpacity={0.9}
+          onPress={() => {}}
+        >
+          <Image
+            source={require('../assets/icons/book-open.png')}
+            fadeDuration={0}
+            style={{ width: 32, height: 32 }}
+          />
+        </TouchableHighlight>
         {this.state.shortestDistance < AR_RADIUS && (
           <TouchableHighlight
             style={styles.arButton}
@@ -208,12 +220,26 @@ const styles = StyleSheet.create({
   arButton: {
     backgroundColor: '#706fd3',
     height: 60,
-    width: width - 40,
+    width: width - 40 - 80,
     borderRadius: 30,
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
     left: 20,
+    bottom: 24,
+    shadowOffset: { width: 0, height: 2, },
+    shadowColor: 'black',
+    shadowOpacity: 0.4,
+  },
+  wordsButton: {
+    backgroundColor: '#706fd3',
+    height: 60,
+    width: 60,
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    right: 20,
     bottom: 24,
     shadowOffset: { width: 0, height: 2, },
     shadowColor: 'black',
