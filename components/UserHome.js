@@ -20,9 +20,13 @@ class UserHome extends Component {
         <Avatar
           xlarge
           rounded
-          source={{ uri: this.props.user.icon }}
+          title={this.props.user.userName[0].toUpperCase()}
+          titleStyle={{color:'#F7F1E3'}}
           activeOpacity={0.7}
-          containerStyle={{ justifyContent: 'center', alignItems: 'center', }}
+          containerStyle={{
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
         />
         <Text style={styles.score}>
           SCORE: {this.props.user.score}
