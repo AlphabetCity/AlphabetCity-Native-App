@@ -13,7 +13,9 @@ class Auth extends Component {
     this.state = {
       userName: '',
       email: '',
-      password: ''
+      password: '',
+      message: '',
+      user: undefined
     }
 
     this.handleSignup = this.handleSignup.bind(this)
@@ -21,18 +23,42 @@ class Auth extends Component {
   }
 
   handleSignup() {
+    this.setState({message: ''})
     const { userName, email, password } = this.state
-    this.props.createUser({ userName, email, password })
-    this.props.profileNav ?
-      this.props.profileNav.navigate('Main')
-    :
-      this.props.navigation.navigate('Main')
+    if(!this.state.userName
+      || !this.state.email
+      || !this.state.password
+    ){
+        this.setState({message: 'All fields required!'})
+      }else{
+        this.setState({message: ''})
+        this.props.createUser({ userName, email, password })
+        this.props.profileNav ?
+          this.props.profileNav.navigate('Profile')
+        :
+        this.props.navigation.navigate('Profile')
+      }
   }
 
   handleLogin() {
+    this.setState({message: ''})
     const { userName, email, password } = this.state
     this.props.getUser({ userName, email, password })
-    this.props.navigation.navigate('Profile')
+    .then(user => {
+      this.setState({user: user})
+    })
+    .then( () => {
+      if(!this.state.user
+        || !this.state.userName
+        || !this.state.email
+        || !this.state.password
+      ){
+        this.setState({message: 'user not found'})
+      }else{
+        this.setState({message: ''})
+        this.props.navigation.navigate('Profile')
+      }
+    })
   }
 
   render = () => (
@@ -61,6 +87,12 @@ class Auth extends Component {
         secureTextEntry
         onChangeText={text => this.setState({ password: text })}
       />
+      {this.state.message ?
+        <Text style={styles.message}>
+          {this.state.message}
+        </Text>
+      : null
+      }
       <Button
         style={styles.buttonStyle}
         small
@@ -110,6 +142,9 @@ const styles = {
   },
   formContainer: {
     padding: 10,
+  },
+  message: {
+    color: '#FF5252',
   }
 }
 
