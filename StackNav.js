@@ -118,7 +118,6 @@ const styles = {
     alignItems: 'center',
   },
   logo: {
-    width:40,
     width: '90%',
     height: '90%',
     justifyContent: 'center',
