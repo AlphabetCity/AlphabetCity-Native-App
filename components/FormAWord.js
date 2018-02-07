@@ -66,7 +66,7 @@ class FormAWord extends Component {
     })
       .then(() => {
         if (this.props.newWord) {
-            let satchelObjsForUpdating = this._getSatchelObjsForUpdating(letterObjArr, word)
+            let satchelObjsForUpdating = this._getSatchelObjsForUpdating(letterObjArr, this.props.newWord.word)
 
             let pointsToAdd = 0
 
