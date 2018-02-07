@@ -25,11 +25,19 @@ class Auth extends Component {
   handleSignup() {
     this.setState({message: ''})
     const { userName, email, password } = this.state
-    this.props.createUser({ userName, email, password })
-    this.props.profileNav ?
-      this.props.profileNav.navigate('Profile')
-    :
-      this.props.navigation.navigate('Profile')
+    if(!this.state.userName
+      || !this.state.email
+      || !this.state.password
+    ){
+        this.setState({message: 'All fields required!'})
+      }else{
+        this.setState({message: ''})
+        this.props.createUser({ userName, email, password })
+        this.props.profileNav ?
+          this.props.profileNav.navigate('Profile')
+        :
+        this.props.navigation.navigate('Profile')
+      }
   }
 
   handleLogin() {
@@ -39,17 +47,18 @@ class Auth extends Component {
     .then(user => {
       this.setState({user: user})
     })
-
-    if(!this.state.user
-      || !this.state.userName
-      || !this.state.email
-      || !this.state.password
-    ){
-      this.setState({message: 'user not found'})
-    }else{
-      this.setState({message: ''})
-      this.props.navigation.navigate('Profile')
-    }
+    .then( () => {
+      if(!this.state.user
+        || !this.state.userName
+        || !this.state.email
+        || !this.state.password
+      ){
+        this.setState({message: 'user not found'})
+      }else{
+        this.setState({message: ''})
+        this.props.navigation.navigate('Profile')
+      }
+    })
   }
 
   render = () => (
