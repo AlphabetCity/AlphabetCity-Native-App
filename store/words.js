@@ -17,13 +17,6 @@ export const loadUserWords = (userId) => async dispatch => {
   }
 }
 
-export const createNewWord = (wordDataObj) => async dispatch => {
-  try {
-    await axios.post('https://alphabetcity.herokuapp.com/api/letters', wordDataObj)
-  } catch (error) {
-    alert('That word is not in the dictionary')
-  }
-}
 
 // Reducer
 const reducer = (state = [], action) => {

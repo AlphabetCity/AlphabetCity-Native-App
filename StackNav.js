@@ -45,7 +45,7 @@ const Stack = {
   FormAWord: {
     screen: FormAWord,
     navigationOptions: {
-      title: 'FormAWord',
+      title: 'Form A Word',
     }
   },
   UserWords: {
