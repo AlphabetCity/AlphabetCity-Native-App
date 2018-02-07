@@ -11,6 +11,7 @@ import {
 import { connect } from 'react-redux'
 import { Location, Permissions } from 'expo'
 import { getAllHiddenLetters } from '../store/allHiddenLetters'
+import { getWords } from '../store/allWords'
 import { MapOfLetters } from './'
 import { setUserLocation } from '../store/userLocation'
 import { getSatchel, updateLetter } from '../store/satchel'
@@ -23,6 +24,7 @@ const LATITUDE_DELTA = 0.002
 const LONGITUDE_DELTA = 0.002
 const DEFAULT_DISTANCE = Infinity
 const AR_RADIUS = 40
+const NEARBY_RADIUS = 100
 
 class Main extends Component {
   constructor(props) {
@@ -36,29 +38,20 @@ class Main extends Component {
         })
       })
       .then(() => {
-        this.props
-          .getAllHiddenLetters()
-          .then(this._getShortestDistance)
-          .then(this._getLocationAsync)
-          .catch(console.error)
+        this.props.getAllHiddenLetters()
+        this.props.getWords()
       })
+      .then(this._getShortestDistance)
+      .then(this._getLocationAsync)
+      .catch(console.error)
 
     this.state = {
       hiddenLettersFetched: false,
       shortestDistance: DEFAULT_DISTANCE,
-      nearestLetter: null
+      nearestLetter: null,
+      nearestWordsMaxDistance: NEARBY_RADIUS,
+      nearestWords: []
     }
-  }
-
-  _pickUpLetter = async () => {
-    this.props.updateLetter(this.state.nearestLetter.id, {
-      userId: this.props.user.id,
-      latitude: null,
-      longitude: null
-    })
-    await this.props.getAllHiddenLetters()
-    this._getShortestDistance()
-    this.props.getSatchel(this.props.user.id)
   }
 
   _getLocationAsync = async () => {
@@ -80,26 +73,58 @@ class Main extends Component {
     )
   }
 
-  _getShortestDistance = () => {
-    if (this.props.allHiddenLetters && this.props.userLocation.latitude) {
+  _getShortestDistance = async () => {
+    if (this.props.userLocation.latitude && this.props.userLocation.longitude) {
       let currentLocLat = this.props.userLocation.latitude
       let currentLocLng = this.props.userLocation.longitude
-      let nearestLetter
       let shortestDistance = DEFAULT_DISTANCE
-      this.props.allHiddenLetters.forEach(letter => {
-        let compareDist = geolib.getDistance(
-          { latitude: currentLocLat, longitude: currentLocLng },
-          { latitude: letter.latitude, longitude: letter.longitude },
-          1,
-          1
+
+      if (this.props.allHiddenLetters) {
+        let nearestLetter
+        this.props.allHiddenLetters.forEach(letter => {
+          let compareDist = geolib.getDistance(
+            { latitude: currentLocLat, longitude: currentLocLng },
+            { latitude: letter.latitude, longitude: letter.longitude },
+            1,
+            1
+          )
+          if (compareDist < shortestDistance) {
+            shortestDistance = compareDist
+            nearestLetter = letter
+          }
+        })
+        this.setState({ shortestDistance, nearestLetter })
+      }
+
+      if (this.props.allWords && this.props.allWords.length) {
+        let nearestWords = await this.props.allWords.map(word => {
+          let distance =
+          geolib.getDistance(
+            { latitude: currentLocLat, longitude: currentLocLng },
+            { latitude: word.latitude, longitude: word.longitude },
+            1,
+            1
+          )
+          word.distance = distance
+          return word
+          }
         )
-        if (compareDist < shortestDistance) {
-          shortestDistance = compareDist
-          nearestLetter = letter
-        }
-      })
-      this.setState({ shortestDistance, nearestLetter })
+        nearestWords = nearestWords.sort((a, b ) => a.distance - b.distance).slice(0, 5).map(word => word.word)
+        this.setState({ nearestWords })
+      }
+
     }
+  }
+
+  _pickUpLetter = async () => {
+    this.props.updateLetter(this.state.nearestLetter.id, {
+      userId: this.props.user.id,
+      latitude: null,
+      longitude: null
+    })
+    await this.props.getAllHiddenLetters()
+    this._getShortestDistance()
+    this.props.getSatchel(this.props.user.id)
   }
 
   _routeUser = (screen, cb, props) => {
@@ -109,6 +134,9 @@ class Main extends Component {
     } else {
       this.props.navigation.navigate('Auth')
     }
+  }
+
+  componentDidMount() {
   }
 
   componentWillUnmount() {
@@ -162,10 +190,19 @@ class Main extends Component {
           />
         </TouchableHighlight>
         <TouchableHighlight
-          style={styles.wordsButton}
+          style={[styles.wordsButton, [
+            (!this.state.nearestWords || !this.state.nearestWords.length) &&
+            {backgroundColor: '#84817a'}
+          ]]}
           underlayColor={'#474787'}
           activeOpacity={0.9}
-          onPress={() => {}}
+          onPress={() => {
+            if (this.state.nearestWords && this.state.nearestWords.length) {
+              this.props.navigation.navigate('AR', {
+              nearestWords: this.state.nearestWords
+              }
+            )}
+          }}
         >
           <Image
             source={require('../assets/icons/book-open.png')}
@@ -275,16 +312,18 @@ const styles = StyleSheet.create({
   }
 })
 
-const mapState = ({ user, userLocation, allHiddenLetters }) => ({
+const mapState = ({ user, userLocation, allHiddenLetters, allWords }) => ({
   user,
   userLocation,
-  allHiddenLetters
+  allHiddenLetters,
+  allWords
 })
 
 const mapDispatch = {
   setUserLocation,
   getSatchel,
   getAllHiddenLetters,
+  getWords,
   updateLetter,
   updateUser
 }
