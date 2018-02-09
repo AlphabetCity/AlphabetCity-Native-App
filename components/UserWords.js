@@ -18,13 +18,18 @@ class UserWords extends Component {
 
   render(props) {
     return (
-      <View>
+      <View style={{backgroundColor:'#f7f1e3', height:'100%'}}>
         { this.props.words
           ?
           <Leaderboard
           data={this.props.words}
           sortBy='createdAt' //should be score ...!!
           labelBy='word'
+          oddRowColor='#2c2c54'
+          evenRowColor='#40407a'
+          labelStyle={{color:'#33d9b2'}}
+          scoreStyle={{color:'#f7f1e3'}}
+          rankStyle={{color:'#f7f1e3'}}
         />
         :
           <Text>...loading</Text>
