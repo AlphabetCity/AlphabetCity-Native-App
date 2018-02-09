@@ -23,7 +23,7 @@ class UserWords extends Component {
           ?
           <Leaderboard
           data={this.props.words}
-          sortBy='createdAt' //should be score ...!!
+          sortBy='score'
           labelBy='word'
           oddRowColor='#2c2c54'
           evenRowColor='#40407a'
