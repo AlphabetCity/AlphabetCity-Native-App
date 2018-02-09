@@ -35,11 +35,11 @@ class Satchel extends Component {
                 onPress={() => {
                   this.dropItem(satchelLetter)
                 }}
-                chevronColor='#33d9b2'
+                chevronColor='#33D9B2'
                 containerStyle={{
-                  backgroundColor:'#40407a'}}
+                  backgroundColor:'#40407A'}}
                 titleStyle={{
-                  color:'#33d9b2',
+                  color:'#F7f1E3',
                 }}
               />
             ))
@@ -53,7 +53,7 @@ class Satchel extends Component {
           }}
           backgroundColor='#474787'
           borderRadius={30}
-          titleStyle={{color:'#f7f1e3'}}
+          titleStyle={{color:'#F7F1E3'}}
           small
           onPress={() => {
             this.props.satchel.map(letterObj => letterObj.inHand = false)
