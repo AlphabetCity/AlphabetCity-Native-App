@@ -158,6 +158,7 @@ class Main extends Component {
       latitudeDelta: LATITUDE_DELTA,
       longitudeDelta: LONGITUDE_DELTA
     }
+    console.log('satchel length', this.props.satchel.length )
     return (
       <View style={styles.container}>
         {this.props.userLocation.latitude &&
@@ -187,7 +188,6 @@ class Main extends Component {
           activeOpacity={0.9}
           onPress={() => {
             if (this.props.user && this.props.user.id) {
-              // let dropDownVisible = !this.dropDownVisible}
               this.setState({dropDownVisible: !this.state.dropDownVisible})
             } else {
               this.props.navigation.navigate('Auth')
@@ -201,17 +201,19 @@ class Main extends Component {
           />
         </TouchableHighlight>
         {this.state.dropDownVisible && this.props.satchel && (
-          <View style={[styles.satchelDropDown, {height: Math.ceil(this.props.satchel.length / 2) * 80 + 100 }]}>
+          <View style={[styles.satchelDropDown, {height: this.props.satchel.length ? Math.ceil(this.props.satchel.length / 2) * 58.7 + 166.8 : 215 }]}>
             <View style={{ flex: 1, marginTop: 30 }}>
+              {Boolean(this.props.satchel.length) &&
               <Text style={{ color: '#706FD3', fontSize: 18, textAlign: 'center', fontWeight: 'bold', paddingBottom: 20 }}>
                 Drop a Letter
-              </Text>
+              </Text>}
               <View style={styles.letters}>
-              {
+              { this.props.satchel.length ?
                 this.props.satchel.map(letter => (
                   <TouchableHighlight
                     key={letter.id}
                     style={{flexBasis: 60, flexGrow: 0, justifyContent: 'center', alignItems: 'center' }}
+                    underlayColor={'#FFFFFF'}
                     onPress={async () => {
                       console.log('letter pressed')
                       await this.props.updateLetter(letter.id, { latitude: this.props.userLocation.latitude, longitude: this.props.userLocation.longitude })
@@ -223,7 +225,14 @@ class Main extends Component {
                       <Text style={styles.letterSub}>{letter.letterCategory.points}</Text>
                     </View>
                   </TouchableHighlight>
-                ))}
+                ))
+                :
+                  <View>
+                    <Text style={{fontSize: 20, color: '#706FD3', textAlign: 'center', marginRight: 20}}>
+                      You're out of letters! Walk around the world to find more.
+                    </Text>
+                  </View>
+              }
               </View>
               <View style={{
                 borderBottomColor: '#706FD3',
@@ -234,7 +243,9 @@ class Main extends Component {
                 style={{ backgroundColor: '#706FD3', borderRadius: 20, width: width / 2 - 40, height: 40, marginLeft: 20, justifyContent: 'center', alignItems: 'center', marginTop: 20 }}
                 underlayColor={'#474787'}
                 activeOpacity={0.9}
-                onPress={() => {}}>
+                onPress={() => {
+                  this._routeUser('FormAWord')
+                }}>
                 <Text style={{ color: '#FFFFFF', fontSize: 18, fontWeight: 'bold', textAlign: 'center'}}>
                   Make a Word
                 </Text>
@@ -392,7 +403,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   letterTile: {
-    fontSize: 60,
+    fontSize: 55,
     fontWeight: 'bold',
     color: '#706FD3',
     textAlign: 'center',
