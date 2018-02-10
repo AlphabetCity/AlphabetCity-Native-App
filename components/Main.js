@@ -158,7 +158,6 @@ class Main extends Component {
       latitudeDelta: LATITUDE_DELTA,
       longitudeDelta: LONGITUDE_DELTA
     }
-    console.log('satchel length', this.props.satchel.length )
     return (
       <View style={styles.container}>
         {this.props.userLocation.latitude &&
@@ -215,10 +214,8 @@ class Main extends Component {
                     style={{flexBasis: 60, flexGrow: 0, justifyContent: 'center', alignItems: 'center' }}
                     underlayColor={'#FFFFFF'}
                     onPress={async () => {
-                      console.log('letter pressed')
                       await this.props.updateLetter(letter.id, { latitude: this.props.userLocation.latitude, longitude: this.props.userLocation.longitude })
                       await this.props.getSatchel(this.props.user.id)
-                      // this.setState({dropDownVisible: !this.state.dropDownVisible})
                     }}>
                     <View style={{borderRadius: 10, borderColor: '#706FD3', borderWeight: 1, marginLeft: 25, flexDirection: 'row'  }}>
                       <Text style={styles.letterTile}>{letter.letterCategory.name}</Text>
