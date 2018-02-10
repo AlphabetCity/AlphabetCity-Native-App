@@ -241,7 +241,7 @@ class Main extends Component {
                 underlayColor={'#474787'}
                 activeOpacity={0.9}
                 onPress={() => {
-                  this._routeUser('FormAWord')
+                  this._routeUser('SortableHand')
                 }}>
                 <Text style={{ color: '#FFFFFF', fontSize: 18, fontWeight: 'bold', textAlign: 'center'}}>
                   Make a Word

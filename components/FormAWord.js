@@ -53,35 +53,35 @@
 //   }
 
 
-//   handleWordSubmit() {
-//     let word = this.state.word.toLowerCase().trim()
+  handleWordSubmit() {
+    let word = this.state.word.toLowerCase().trim()
 
-//     let letterObjArr = this.props.satchel
+    let letterObjArr = this.props.satchel
 
-//     this.props.createNewWord({
-//       word: word,
-//       userId: this.props.user.id,
-//       latitude: this.props.userLocation.latitude,
-//       longitude: this.props.userLocation.longitude
-//     })
-//       .then(() => {
-//         if (this.props.newWord) {
-//             let satchelObjsForUpdating = this._getSatchelObjsForUpdating(letterObjArr, this.props.newWord.word)
+    this.props.createNewWord({
+      word: word,
+      userId: this.props.user.id,
+      latitude: this.props.userLocation.latitude,
+      longitude: this.props.userLocation.longitude
+    })
+      .then(() => {
+        if (this.props.newWord) {
+            let satchelObjsForUpdating = this._getSatchelObjsForUpdating(letterObjArr, this.props.newWord.word)
 
-//             let pointsToAdd = 0
+            let pointsToAdd = 0
 
-//             satchelObjsForUpdating.forEach((obj) => {
-//               pointsToAdd += obj.letterCategory.points
-//               this.props.updateLetter(obj.id, { latitude: this.props.userLocation.latitude, longitude: this.props.userLocation.longitude })
-//             })
-//             this.props.updateUser(this.props.user.id, { score: this.props.user.score + pointsToAdd })
-//         }
-//       })
-//       .then(() => {
-//         this.props.navigation.goBack()
-//     })
+            satchelObjsForUpdating.forEach((obj) => {
+              pointsToAdd += obj.letterCategory.points
+              this.props.updateLetter(obj.id, { latitude: this.props.userLocation.latitude, longitude: this.props.userLocation.longitude })
+            })
+            this.props.updateUser(this.props.user.id, { score: this.props.user.score + pointsToAdd })
+        }
+      })
+      .then(() => {
+        this.props.navigation.goBack()
+    })
 
-//   }
+  }
 
 //   render() {
 //     return (
