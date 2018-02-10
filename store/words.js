@@ -17,6 +17,7 @@ export const loadUserWords = (userId) => async dispatch => {
   }
 }
 
+
 // Reducer
 const reducer = (state = [], action) => {
   switch (action.type) {

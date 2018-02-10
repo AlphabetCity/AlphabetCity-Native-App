@@ -13,7 +13,9 @@ class Auth extends Component {
     this.state = {
       userName: '',
       email: '',
-      password: ''
+      password: '',
+      message: '',
+      user: undefined
     }
 
     this.handleSignup = this.handleSignup.bind(this)
@@ -21,54 +23,88 @@ class Auth extends Component {
   }
 
   handleSignup() {
+    this.setState({message: ''})
     const { userName, email, password } = this.state
-    this.props.createUser({ userName, email, password })
-    this.props.profileNav ?
-      this.props.profileNav.navigate('Main')
-    :
-      this.props.navigation.navigate('Main')
+    if(!this.state.userName
+      || !this.state.email
+      || !this.state.password
+    ){
+        this.setState({message: 'All fields required!'})
+      }else{
+        this.setState({message: ''})
+        this.props.createUser({ userName, email, password })
+        this.props.profileNav ?
+          this.props.profileNav.navigate('Profile')
+        :
+        this.props.navigation.navigate('Profile')
+      }
   }
 
   handleLogin() {
+    this.setState({message: ''})
     const { userName, email, password } = this.state
     this.props.getUser({ userName, email, password })
-    this.props.navigation.navigate('Profile')
+    .then(user => {
+      this.setState({user: user})
+    })
+    .then( () => {
+      if(!this.state.user
+        || !this.state.userName
+        || !this.state.email
+        || !this.state.password
+      ){
+        this.setState({message: 'user not found'})
+      }else{
+        this.setState({message: ''})
+        this.props.navigation.navigate('Profile')
+      }
+    })
   }
 
   render = () => (
     <View style={styles.container}>
-      <FormLabel>
-        Username
-      </FormLabel>
       <FormInput
+        containerStyle={styles.containerInput}
         style={styles.input}
         placeholder="Username"
+        autoCapitalize="none"
         onChangeText={text => this.setState({ userName: text.replace(/\s/g, '') })}
       />
-      <FormLabel>
-        Email
-      </FormLabel>
       <FormInput
+        containerStyle={styles.containerInput}
         style={styles.input}
         placeholder="Email"
+        autoCapitalize="none"
         onChangeText={text => this.setState({ email: text })}
       />
-      <FormLabel>
-        PW
-      </FormLabel>
       <FormInput
+        containerStyle={styles.containerInput}
         style={styles.input}
         secureTextEntry
+        placeholder="Password"
+        autoCapitalize="none"
         onChangeText={text => this.setState({ password: text })}
       />
+      {this.state.message ?
+        <Text style={styles.message}>
+          {this.state.message}
+        </Text>
+      : null
+      }
       <Button
-        style={styles.buttonStyle}
+        containerViewStyle={styles.containerButtonTop}
+        backgroundColor='#474787'
+        borderRadius={30}
+        color='#f7f1e3'
         small
         onPress={this.handleLogin.bind(this)}
         title="Login"
       />
       <Button
-        style={styles.buttonStyle}
+        containerViewStyle={styles.containerButton}
+        backgroundColor='#474787'
+        borderRadius={30}
+        color='#f7f1e3'
         small
         onPress={this.handleSignup.bind(this)}
         title="Sign Up"
@@ -80,36 +116,39 @@ class Auth extends Component {
 const styles = {
   container: {
     flex: 1,
-    backgroundColor: 'transparent',
+    backgroundColor: '#f7f1e3',
     alignItems: 'center',
-    justifyContent: 'center',
+    paddingTop: 40,
+    // justifyContent: 'center',
     padding: 20,
   },
-  title: {
-    fontSize: 34,
-    fontWeight: 'bold',
-    color: 'white',
-    textAlign: 'center',
-    marginTop: 10,
-  },
-  logoContainer: {
-    alignItems: 'center',
-    flexGrow: 1,
-    justifyContent: 'center',
+  containerInput:{
+    width: '90%'
   },
   input: {
     height: 35,
     backgroundColor: 'rgba(192,192,192,0.3)',
-    marginBottom: 15,
+    marginBottom: 25,
+    width:'90%',
   },
-  buttonStyle: {
+  containerButtonTop: {
     padding: 10,
+    width:'100%',
+    marginTop:60,
+  },
+  containerButton: {
+    padding: 10,
+    width:'100%',
   },
   labelContainerStyle: {
     marginTop: 8,
   },
   formContainer: {
     padding: 10,
+  },
+  message: {
+    color: '#FF5252',
+    padding:10
   }
 }
 

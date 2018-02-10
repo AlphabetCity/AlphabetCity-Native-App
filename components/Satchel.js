@@ -1,7 +1,7 @@
 'use strict'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { List, ListItem, ListView } from 'react-native-elements'
+import { List, ListItem, ListView, Button } from 'react-native-elements'
 import { View, Text } from 'react-native'
 import { updateLetter } from '../store/satchel'
 
@@ -20,23 +20,46 @@ class Satchel extends Component {
 
   render() {
     return (
-      <View>
-        <List containerStyle={{ marginBottom: 20 }}>
+      <View style={{
+        backgroundColor:'#f7f1e3',
+        height:'100%',
+      }}>
+        <List containerStyle={{
+          marginBottom: 20}}>
           {
-            this.props.satchel.map((satchelLetter, idx) => (
+            this.props.satchel.map((satchelLetter) => (
               <ListItem
                 roundAvatar
-                avatar={{ uri: 'http://dreamicus.com/data/apple/apple-04.jpg' }}
                 key={satchelLetter.id}
-                title={(satchelLetter.letterCategory.name).toString()}
+                title={`Drop the letter ${satchelLetter.letterCategory.name}`}
                 onPress={() => {
                   this.dropItem(satchelLetter)
-                }
-                }
+                }}
+                chevronColor='#33D9B2'
+                containerStyle={{
+                  backgroundColor:'#40407A'}}
+                titleStyle={{
+                  color:'#F7f1E3',
+                }}
               />
             ))
           }
         </List>
+        <Button
+          title="FORM A WORD!"
+          containerViewStyle={{
+            padding: 10,
+            width:'95%',
+          }}
+          backgroundColor='#474787'
+          borderRadius={30}
+          titleStyle={{color:'#F7F1E3'}}
+          small
+          onPress={() => {
+            this.props.satchel.map(letterObj => letterObj.inHand = false)
+            return this.props.navigation.navigate('FormAWord', { satchelPlus: this.props.satchel })
+          }}
+        />
       </View>
     )
   }

@@ -1,8 +1,8 @@
 'use strict'
 import React from 'react'
 import { StackNavigator, DrawerNavigator, DrawerItems } from 'react-navigation'
-import { Main, ARContainer, Satchel, Auth, UserHome, Highscores, UserWords, Update } from './components'
-import { View } from 'react-native'
+import { Main, ARContainer, Satchel, Auth, UserHome, Highscores, UserWords, Update, FormAWord } from './components'
+import { View, Button, Image } from 'react-native'
 
 const Stack = {
   Main: {
@@ -27,19 +27,34 @@ const Stack = {
   Satchel: {
     screen: Satchel,
     navigationOptions: {
-      title: 'Satchel',
+      title: 'Satchel'
     }
   },
   Profile: {
     screen: UserHome,
-    navigationOptions: {
+    navigationOptions: ({navigation}) => ({
       title: 'Profile',
-    }
+      headerLeft: (
+        <Button
+          title='< Map'
+          navigation={navigation}
+          onPress={
+            () => {navigation.navigate('Main')}
+          }
+        />
+      )
+    })
   },
   Highscores: {
     screen: Highscores,
     navigationOptions: {
       title: 'Highscores',
+    }
+  },
+  FormAWord: {
+    screen: FormAWord,
+    navigationOptions: {
+      title: 'Form A Word',
     }
   },
   UserWords: {
@@ -62,7 +77,7 @@ const DrawerUserRoutes = {
   Main: {
     screen: StackNavigator(Stack, { initialRouteName: 'Main' }),
     navigationOptions: {
-      drawerLabel: 'Main',
+      drawerLabel: 'Map',
       header: null,
     }
   },
@@ -102,34 +117,44 @@ const DrawerGuestRoutes = {
 const styles = {
   header: {
     justifyContent: 'center',
-    backgroundColor: '#706FD3',
+    backgroundColor: '#2C2C54',
     height: 240,
     alignItems: 'center',
   },
-  picture: {
-    backgroundColor: '#2C2C54',
-    height: 150,
-    width: 150,
-    borderRadius: 100
+  logo: {
+    width: '90%',
+    height: '90%',
+    justifyContent: 'center',
   },
 }
 
 const DrawerContent = (props) => (
-  <View>
+  <View
+    style={{
+      flex: 1,
+    }}>
     <View style={styles.header}>
-      <View style={styles.picture}>
-      </View>
+      <Image
+        style={styles.logo}
+        source={require('./assets/icons/app-icon.png')}
+      />
     </View>
-    <DrawerItems {...props} />
+    <DrawerItems {...props}
+      activeTintColor='#706fd3'
+      inactiveTintColor='#40407a'
+    />
   </View>
-)
+);
 
 let DrawerRoutes = loggedIn ? DrawerUserRoutes : DrawerGuestRoutes
 
 const RootNavigator = StackNavigator({
   Drawer: {
     name: 'Drawer',
-    screen: DrawerNavigator(DrawerRoutes, { contentComponent: DrawerContent }),
+    screen: DrawerNavigator(DrawerRoutes,
+      {
+        contentComponent: DrawerContent,
+      }),
   },
   ...Stack
 },

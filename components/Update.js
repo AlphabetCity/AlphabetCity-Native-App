@@ -13,49 +13,68 @@ class Update extends Component {
     this.state = {
       userName: this.props.user.userName,
       email: this.props.user.email,
-      password: this.props.user.password
+      password: this.props.user.password,
+      confirmPassword: '',
+      message: ''
     }
 
     this.handleUpdate = this.handleUpdate.bind(this)
   }
 
   handleUpdate() {
-    const { userName, email, password } = this.state
-    this.props.updateUser(this.props.user.id, { userName, email, password })
-    this.props.navigation.navigate('Profile')
+    this.setState({message: ''})
+    const { userName, email, password, confirmPassword } = this.state
+    if(this.state.password !== this.state.confirmPassword){
+      this.setState({message: 'wrong password'})
+    }else{
+      this.props.updateUser(this.props.user.id, { userName, email, password })
+      this.props.navigation.navigate('Profile')
+    }
+
   }
 
   render = () => (
     <View style={styles.container}>
-      <FormLabel>
-        Username
-      </FormLabel>
       <FormInput
+        containerStyle={styles.containerInput}
         style={styles.input}
         placeholder="Username"
         value={this.state.userName}
         onChangeText={text => this.setState({ userName: text.replace(/\s/g, '') })}
       />
-      <FormLabel>
-        Email
-      </FormLabel>
       <FormInput
+        containerStyle={styles.containerInput}
         style={styles.input}
         placeholder="Email"
         value={this.state.email}
         onChangeText={text => this.setState({ email: text })}
       />
-      <FormLabel>
-        PW
-      </FormLabel>
       <FormInput
+        containerStyle={styles.containerInput}
         style={styles.input}
+        placeholder="Enter Password"
         secureTextEntry={true}
-        value={this.state.password}
         onChangeText={text => this.setState({ password: text })}
       />
+      <FormInput
+        containerStyle={styles.containerInput}
+        style={styles.input}
+        secureTextEntry={true}
+        placeholder="Confirm Password"
+        onChangeText={text => this.setState({ confirmPassword: text })}
+      />
+      {this.state.message ?
+        <Text style={styles.message}>
+          {this.state.message}
+        </Text>
+      :
+        null
+      }
       <Button
-        style={styles.buttonStyle}
+        containerViewStyle={styles.containerButton}
+        backgroundColor='#474787'
+        borderRadius={30}
+        color='#f7f1e3'
         small
         onPress={this.handleUpdate.bind(this)}
         title="Update"
@@ -67,36 +86,34 @@ class Update extends Component {
 const styles = {
   container: {
     flex: 1,
-    backgroundColor: 'transparent',
+    backgroundColor: '#f7f1e3',
     alignItems: 'center',
-    justifyContent: 'center',
+    paddingTop: 40,
     padding: 20,
   },
-  title: {
-    fontSize: 34,
-    fontWeight: 'bold',
-    color: 'white',
-    textAlign: 'center',
-    marginTop: 10,
-  },
-  logoContainer: {
-    alignItems: 'center',
-    flexGrow: 1,
-    justifyContent: 'center',
+  containerInput:{
+    width: '90%'
   },
   input: {
     height: 35,
     backgroundColor: 'rgba(192,192,192,0.3)',
     marginBottom: 15,
+    width:'90%',
   },
-  buttonStyle: {
+  containerButton: {
     padding: 10,
+    width:'100%',
+    marginTop:40,
   },
   labelContainerStyle: {
     marginTop: 8,
   },
   formContainer: {
     padding: 10,
+  },
+  message: {
+    color: '#FF5252',
+    padding:10
   }
 }
 

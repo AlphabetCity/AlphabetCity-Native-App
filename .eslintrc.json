@@ -9,6 +9,7 @@
     "react/jsx-pascal-case": [1, {"allowAllCaps": true}],
     "no-use-before-define": "off",
     "class-methods-use-this": "off",
-    "no-return-assign": "off"
+    "no-return-assign": "off",
+    "react/prefer-stateless-function": "off"
 	}
 }

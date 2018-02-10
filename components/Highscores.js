@@ -14,14 +14,18 @@ class Highscores extends Component {
 
   render(props) {
     return (
-      <View>
+      <View style={{backgroundColor:'#f7f1e3', height:'100%'}}>
         { this.props.highscores
           ?
           <Leaderboard
           data={this.props.highscores}
           sortBy='score'
           labelBy='userName'
-          icon='icon'
+          oddRowColor='#2c2c54'
+          evenRowColor='#40407a'
+          labelStyle={{color:'#f7f1e3'}}
+          scoreStyle={{color:'#f7f1e3'}}
+          rankStyle={{color:'#f7f1e3'}}
         />
         :
           <Text>...loading</Text>
