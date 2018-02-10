@@ -116,7 +116,7 @@ class Auth extends Component {
 const styles = {
   container: {
     flex: 1,
-    backgroundColor: '#f7f1e3',
+    backgroundColor: '#f9f5ec',
     alignItems: 'center',
     paddingTop: 40,
     // justifyContent: 'center',
