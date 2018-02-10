@@ -46,6 +46,7 @@ class Main extends Component {
     this.state = {
       hiddenLettersFetched: false,
       shortestDistance: DEFAULT_DISTANCE,
+      dropDownVisible: false,
       nearestLetter: null
     }
   }
