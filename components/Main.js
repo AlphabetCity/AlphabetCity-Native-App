@@ -48,14 +48,10 @@ class Main extends Component {
     this.state = {
       hiddenLettersFetched: false,
       shortestDistance: DEFAULT_DISTANCE,
-<<<<<<< HEAD
       dropDownVisible: false,
-      nearestLetter: null
-=======
       nearestLetter: null,
       nearestWordsMaxDistance: NEARBY_RADIUS,
       nearestWords: []
->>>>>>> 43d2e2d5c8d89e29d7369d7b50044ba660fd4724
     }
   }
 
@@ -107,8 +103,7 @@ class Main extends Component {
 
       if (this.props.allWords && this.props.allWords.length) {
         let nearestWords = await this.props.allWords.map(word => {
-          let distance =
-          geolib.getDistance(
+          let distance = geolib.getDistance(
             { latitude: currentLocLat, longitude: currentLocLng },
             { latitude: word.latitude, longitude: word.longitude },
             1,
@@ -116,12 +111,13 @@ class Main extends Component {
           )
           word.distance = distance
           return word
-          }
-        )
-        nearestWords = nearestWords.sort((a, b ) => a.distance - b.distance).slice(0, 5).map(word => word.word)
+        })
+        nearestWords = nearestWords
+          .sort((a, b) => a.distance - b.distance)
+          .slice(0, 5)
+          .map(word => word.word)
         this.setState({ nearestWords })
       }
-
     }
   }
 
@@ -149,7 +145,6 @@ class Main extends Component {
     if (this.props.user && this.props.user.id) {
       this.props.getSatchel(this.props.user.id)
     }
-    console.log('user', this.props.user.id)
   }
 
   componentWillUnmount() {
@@ -191,9 +186,12 @@ class Main extends Component {
           underlayColor={'#474787'}
           activeOpacity={0.9}
           onPress={() => {
-            this._routeUser('Satchel', () =>
-              this.props.getSatchel(this.props.user.id)
-            )
+            if (this.props.user && this.props.user.id) {
+              // let dropDownVisible = !this.dropDownVisible}
+              this.setState({dropDownVisible: !this.state.dropDownVisible})
+            } else {
+              this.props.navigation.navigate('Auth')
+            }
           }}
         >
           <Image
@@ -202,32 +200,65 @@ class Main extends Component {
             style={{ width: 32, height: 32 }}
           />
         </TouchableHighlight>
-<<<<<<< HEAD
-        <View style={styles.satchelDropDown}>
-          <View style={{ flex: 1, marginTop: 20 }}>
-            <Text style={{ color: '#706FD3', fontSize: 18 }}>
-              Select an Item to Drop
-            </Text>
-            {this.props.satchel &&
-              this.props.satchel.map(letter => (
-                <Text key={letter.id}>{letter.letterCategory.name}</Text>
-              ))}
+        {this.state.dropDownVisible && this.props.satchel && (
+          <View style={[styles.satchelDropDown, {height: Math.ceil(this.props.satchel.length / 2) * 80 + 100 }]}>
+            <View style={{ flex: 1, marginTop: 30 }}>
+              <Text style={{ color: '#706FD3', fontSize: 18, textAlign: 'center', fontWeight: 'bold', paddingBottom: 20 }}>
+                Drop a Letter
+              </Text>
+              <View style={styles.letters}>
+              {
+                this.props.satchel.map(letter => (
+                  <TouchableHighlight
+                    key={letter.id}
+                    style={{flexBasis: 60, flexGrow: 0, justifyContent: 'center', alignItems: 'center' }}
+                    onPress={async () => {
+                      console.log('letter pressed')
+                      await this.props.updateLetter(letter.id, { latitude: this.props.userLocation.latitude, longitude: this.props.userLocation.longitude })
+                      await this.props.getSatchel(this.props.user.id)
+                      // this.setState({dropDownVisible: !this.state.dropDownVisible})
+                    }}>
+                    <View style={{borderRadius: 10, borderColor: '#706FD3', borderWeight: 1, marginLeft: 25, flexDirection: 'row'  }}>
+                      <Text style={styles.letterTile}>{letter.letterCategory.name}</Text>
+                      <Text style={styles.letterSub}>{letter.letterCategory.points}</Text>
+                    </View>
+                  </TouchableHighlight>
+                ))}
+              </View>
+              <View style={{
+                borderBottomColor: '#706FD3',
+                opacity: 0.5,
+                borderBottomWidth: 1,
+              }} />
+              <TouchableHighlight
+                style={{ backgroundColor: '#706FD3', borderRadius: 20, width: width / 2 - 40, height: 40, marginLeft: 20, justifyContent: 'center', alignItems: 'center', marginTop: 20 }}
+                underlayColor={'#474787'}
+                activeOpacity={0.9}
+                onPress={() => {}}>
+                <Text style={{ color: '#FFFFFF', fontSize: 18, fontWeight: 'bold', textAlign: 'center'}}>
+                  Make a Word
+                </Text>
+              </TouchableHighlight>
+            </View>
           </View>
-        </View>
-=======
+        )}
         <TouchableHighlight
-          style={[styles.wordsButton, [
-            (!this.state.nearestWords || !this.state.nearestWords.length) &&
-            {backgroundColor: '#84817a'}
-          ]]}
+          style={[
+            styles.wordsButton,
+            [
+              (!this.state.nearestWords || !this.state.nearestWords.length) && {
+                backgroundColor: '#84817a'
+              }
+            ]
+          ]}
           underlayColor={'#474787'}
           activeOpacity={0.9}
           onPress={() => {
             if (this.state.nearestWords && this.state.nearestWords.length) {
               this.props.navigation.navigate('AR', {
-              nearestWords: this.state.nearestWords
-              }
-            )}
+                nearestWords: this.state.nearestWords
+              })
+            }
           }}
         >
           <Image
@@ -236,7 +267,6 @@ class Main extends Component {
             style={{ width: 32, height: 32 }}
           />
         </TouchableHighlight>
->>>>>>> 43d2e2d5c8d89e29d7369d7b50044ba660fd4724
         {this.state.shortestDistance < AR_RADIUS && (
           <TouchableHighlight
             style={styles.arButton}
@@ -249,7 +279,9 @@ class Main extends Component {
                   nearestLetter: this.state.nearestLetter
                 })
               } else {
-                alert('Your satchel is currently full. You must drop a letter before picking up another.')
+                alert(
+                  'Your satchel is currently full. You must drop a letter before picking up another.'
+                )
               }
             }}
           >
@@ -310,9 +342,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 20,
     bottom: 24,
-    shadowOffset: { width: 0, height: 2, },
+    shadowOffset: { width: 0, height: 2 },
     shadowColor: 'black',
-    shadowOpacity: 0.4,
+    shadowOpacity: 0.4
   },
   profileButton: {
     backgroundColor: '#706FD3',
@@ -344,32 +376,45 @@ const styles = StyleSheet.create({
   },
   satchelDropDown: {
     backgroundColor: '#FFFFFF',
-    height: 300,
     width: width / 2,
     borderRadius: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
     position: 'absolute',
     right: 20,
     top: 130,
     shadowOffset: { width: 4, height: 4 },
     shadowColor: 'black',
     shadowOpacity: 0.1
+  },
+  letters: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginLeft: 20,
+    marginBottom: 20,
+  },
+  letterTile: {
+    fontSize: 60,
+    fontWeight: 'bold',
+    color: '#706FD3',
+    textAlign: 'center',
+  },
+  letterSub: {
+    fontSize: 15,
+    color: '#706FD3',
+    alignSelf: 'flex-end',
   }
 })
 
-<<<<<<< HEAD
-const mapState = ({ user, userLocation, allHiddenLetters, satchel }) => ({
-  user,
-  userLocation,
-  allHiddenLetters,
-=======
-const mapState = ({ user, userLocation, allHiddenLetters, allWords, satchel }) => ({
+const mapState = ({
   user,
   userLocation,
   allHiddenLetters,
   allWords,
->>>>>>> 43d2e2d5c8d89e29d7369d7b50044ba660fd4724
+  satchel
+}) => ({
+  user,
+  userLocation,
+  allHiddenLetters,
+  allWords,
   satchel
 })
 
