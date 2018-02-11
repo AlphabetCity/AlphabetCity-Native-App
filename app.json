@@ -6,7 +6,7 @@
     "privacy": "public",
     "sdkVersion": "25.0.0",
     "version": "1.0.0",
-    "primaryColor": "#ccccf8",
+    "primaryColor": "#706FD3",
     "icon": "./assets/icons/app-icon.png",
     "loading": {
       "icon": "./assets/icons/loading-icon.png",
