@@ -5,7 +5,7 @@ import Satchel from './Satchel'
 import Auth from './Auth'
 import UserHome from './UserHome'
 import Highscores from './Highscores'
-import FormAWord from './FormAWord'
+import SortableHand from './SortableHand'
 import UserWords from './UserWords'
 import Update from './Update'
 import { ARContainer, ARLoading, AR, ARThreeView } from './AR'
@@ -17,7 +17,7 @@ export {
   Highscores,
   Auth,
   UserHome,
-  FormAWord,
+  SortableHand,
   UserWords,
   Update,
   ARContainer,
