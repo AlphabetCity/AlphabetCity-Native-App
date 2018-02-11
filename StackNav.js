@@ -143,7 +143,7 @@ const DrawerContent = (props) => (
     <View style={styles.header}>
       <Image
         style={styles.logo}
-        source={require('./assets/icons/app-icon.png')}
+        source={require('./assets/icons/app-icon-transparent.png')}
       />
     </View>
     <DrawerItems {...props}
