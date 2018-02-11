@@ -187,7 +187,7 @@ class Main extends Component {
           activeOpacity={0.9}
           onPress={() => {
             if (this.props.user && this.props.user.id) {
-              this.setState({dropDownVisible: !this.state.dropDownVisible})
+              this.setState({ dropDownVisible: !this.state.dropDownVisible })
             } else {
               this.props.navigation.navigate('Auth')
             }
@@ -199,57 +199,103 @@ class Main extends Component {
             style={{ width: 32, height: 32 }}
           />
         </TouchableHighlight>
-        {this.state.dropDownVisible && this.props.satchel && (
-          <View style={[styles.satchelDropDown, {height: this.props.satchel.length ? Math.ceil(this.props.satchel.length / 2) * 58.7 + 166.8 : 215 }]}>
-            <View style={{ flex: 1, marginTop: 30 }}>
-              {Boolean(this.props.satchel.length) &&
-              <Text style={{ color: '#706FD3', fontSize: 18, textAlign: 'center', fontWeight: 'bold', paddingBottom: 20 }}>
-                Drop a Letter
-              </Text>}
-              <View style={styles.letters}>
-              { this.props.satchel.length ?
-                this.props.satchel.map(letter => (
-                  <TouchableHighlight
-                    key={letter.id}
-                    style={{flexBasis: 60, flexGrow: 0, justifyContent: 'center', alignItems: 'center' }}
-                    underlayColor={'#FFFFFF'}
-                    onPress={async () => {
-                      await this.props.updateLetter(letter.id, { latitude: this.props.userLocation.latitude, longitude: this.props.userLocation.longitude })
-                      await this.props.getSatchel(this.props.user.id)
-                    }}>
-                    <View style={{borderRadius: 10, borderColor: '#706FD3', borderWeight: 1, marginLeft: 25, flexDirection: 'row'  }}>
-                      <Text style={styles.letterTile}>{letter.letterCategory.name}</Text>
-                      <Text style={styles.letterSub}>{letter.letterCategory.points}</Text>
+        {this.state.dropDownVisible &&
+          this.props.satchel && (
+            <View
+              style={[
+                styles.satchelDropDown,
+                {
+                  height: this.props.satchel.length
+                    ? Math.ceil(this.props.satchel.length / 2) * 58.7 + 166.8
+                    : 215
+                }
+              ]}
+            >
+              <View style={{ flex: 1, marginTop: 30 }}>
+                {Boolean(this.props.satchel.length) && (
+                  <Text style={styles.dropHeader}>Drop a Letter</Text>
+                )}
+                <View style={styles.letters}>
+                  {this.props.satchel.length ? (
+                    this.props.satchel.map(letter => (
+                      <TouchableHighlight
+                        key={letter.id}
+                        style={{
+                          flexBasis: 60,
+                          flexGrow: 0,
+                          justifyContent: 'center',
+                          alignItems: 'center'
+                        }}
+                        underlayColor={'#FFFFFF'}
+                        onPress={async () => {
+                          await this.props.updateLetter(letter.id, {
+                            latitude: this.props.userLocation.latitude,
+                            longitude: this.props.userLocation.longitude
+                          })
+                          await this.props.getSatchel(this.props.user.id)
+                        }}
+                      >
+                        <View
+                          style={{
+                            width: 50,
+                            marginLeft: 25,
+                            flexDirection: 'row'
+                          }}
+                        >
+                          <Text style={styles.letterTile}>
+                            {letter.letterCategory.name}
+                          </Text>
+                          <Text style={styles.letterSub}>
+                            {letter.letterCategory.points}
+                          </Text>
+                        </View>
+                      </TouchableHighlight>
+                    ))
+                  ) : (
+                    <View>
+                      <Text
+                        style={{
+                          fontSize: 20,
+                          color: '#706FD3',
+                          textAlign: 'center',
+                          marginRight: 20
+                        }}
+                      >
+                        You're out of letters! Walk around the world to find
+                        more.
+                      </Text>
                     </View>
-                  </TouchableHighlight>
-                ))
-                :
-                  <View>
-                    <Text style={{fontSize: 20, color: '#706FD3', textAlign: 'center', marginRight: 20}}>
-                      You're out of letters! Walk around the world to find more.
-                    </Text>
-                  </View>
-              }
+                  )}
+                </View>
+                <View
+                  style={{
+                    borderBottomColor: '#706FD3',
+                    opacity: 0.5,
+                    borderBottomWidth: 1
+                  }}
+                />
+                <TouchableHighlight
+                  style={styles.makeAWordLink}
+                  underlayColor={'#474787'}
+                  activeOpacity={0.9}
+                  onPress={() => {
+                    this._routeUser('SortableHand')
+                  }}
+                >
+                  <Text
+                    style={{
+                      color: '#FFFFFF',
+                      fontSize: 18,
+                      fontWeight: 'bold',
+                      textAlign: 'center'
+                    }}
+                  >
+                    Make a Word
+                  </Text>
+                </TouchableHighlight>
               </View>
-              <View style={{
-                borderBottomColor: '#706FD3',
-                opacity: 0.5,
-                borderBottomWidth: 1,
-              }} />
-              <TouchableHighlight
-                style={{ backgroundColor: '#706FD3', borderRadius: 20, width: width / 2 - 40, height: 40, marginLeft: 20, justifyContent: 'center', alignItems: 'center', marginTop: 20 }}
-                underlayColor={'#474787'}
-                activeOpacity={0.9}
-                onPress={() => {
-                  this._routeUser('SortableHand')
-                }}>
-                <Text style={{ color: '#FFFFFF', fontSize: 18, fontWeight: 'bold', textAlign: 'center'}}>
-                  Make a Word
-                </Text>
-              </TouchableHighlight>
             </View>
-          </View>
-        )}
+          )}
         <TouchableHighlight
           style={[
             styles.wordsButton,
@@ -393,22 +439,40 @@ const styles = StyleSheet.create({
     shadowColor: 'black',
     shadowOpacity: 0.1
   },
+  dropHeader: {
+    color: '#706FD3',
+    fontSize: 18,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    paddingBottom: 20
+  },
+  makeAWordLink: {
+    backgroundColor: '#706FD3',
+    borderRadius: 20,
+    width: width / 2 - 40,
+    height: 40,
+    marginLeft: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20
+  },
   letters: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     marginLeft: 20,
-    marginBottom: 20,
+    marginBottom: 20
   },
   letterTile: {
     fontSize: 55,
     fontWeight: 'bold',
     color: '#706FD3',
-    textAlign: 'center',
+    paddingLeft: 10
   },
   letterSub: {
     fontSize: 15,
     color: '#706FD3',
     alignSelf: 'flex-end',
+    marginRight: 10
   }
 })
 

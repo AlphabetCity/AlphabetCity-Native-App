@@ -36,7 +36,7 @@ const Stack = {
       title: 'Profile',
       headerLeft: (
         <Button
-          title='< Map'
+          title="Map"
           navigation={navigation}
           onPress={
             () => {navigation.navigate('Main')}
@@ -48,13 +48,13 @@ const Stack = {
   Highscores: {
     screen: Highscores,
     navigationOptions: {
-      title: 'Highscores',
+      title: 'High Scores',
     }
   },
   SortableHand: {
     screen: SortableHand,
     navigationOptions: {
-      title: 'Form A Word',
+      title: 'Make a Word'
     }
   },
   UserWords: {
@@ -91,7 +91,7 @@ const DrawerUserRoutes = {
   Highscores: {
     screen: StackNavigator(Stack, { initialRouteName: 'Highscores' }),
     navigationOptions: {
-      drawerLabel: 'Highscores',
+      drawerLabel: 'High Scores',
       header: null,
     }
   },
@@ -144,7 +144,7 @@ const DrawerContent = (props) => (
       inactiveTintColor='#40407a'
     />
   </View>
-);
+)
 
 let DrawerRoutes = loggedIn ? DrawerUserRoutes : DrawerGuestRoutes
 
