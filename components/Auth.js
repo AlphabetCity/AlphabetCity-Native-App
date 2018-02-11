@@ -133,13 +133,10 @@ const styles = {
     height: 60,
     width: width - 40,
     marginTop: 20,
-    backgroundColor: '#706FD3',
+    backgroundColor: '#474787',
     borderRadius: 30,
     justifyContent: 'center',
-    alignItems: 'center',
-    shadowOffset: { width: 0, height: 2 },
-    shadowColor: 'black',
-    shadowOpacity: 0.2
+    alignItems: 'center'
   },
   labelContainerStyle: {
     marginTop: 8

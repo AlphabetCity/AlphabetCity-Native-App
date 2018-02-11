@@ -167,6 +167,7 @@ class Main extends Component {
             markerPosition={region}
             initialRegion={region}
             allHiddenLetters={this.props.allHiddenLetters}
+            hideDropDown={() => this.setState({ dropDownVisible: false })}
           />
         ) : null}
         <TouchableHighlight
@@ -301,7 +302,7 @@ class Main extends Component {
             styles.wordsButton,
             [
               (!this.state.nearestWords || !this.state.nearestWords.length) && {
-                backgroundColor: '#84817a'
+                backgroundColor: '#747d8c'
               }
             ]
           ]}
@@ -364,13 +365,13 @@ class Main extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
   },
   textTitle: {
     fontSize: 20,
     fontWeight: 'bold',
     color: '#3B3B98',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   arButton: {
     backgroundColor: '#706FD3',
@@ -384,7 +385,7 @@ const styles = StyleSheet.create({
     bottom: 24,
     shadowOffset: { width: 0, height: 2 },
     shadowColor: 'black',
-    shadowOpacity: 0.2
+    shadowOpacity: 0.2,
   },
   wordsButton: {
     backgroundColor: '#706fd3',
@@ -398,7 +399,7 @@ const styles = StyleSheet.create({
     bottom: 24,
     shadowOffset: { width: 0, height: 2 },
     shadowColor: 'black',
-    shadowOpacity: 0.4
+    shadowOpacity: 0.4,
   },
   profileButton: {
     backgroundColor: '#706FD3',
@@ -412,7 +413,7 @@ const styles = StyleSheet.create({
     top: 50,
     shadowOffset: { width: 0, height: 2 },
     shadowColor: 'black',
-    shadowOpacity: 0.2
+    shadowOpacity: 0.2,
   },
   satchelButton: {
     backgroundColor: '#706FD3',
@@ -426,7 +427,7 @@ const styles = StyleSheet.create({
     top: 50,
     shadowOffset: { width: 0, height: 2 },
     shadowColor: 'black',
-    shadowOpacity: 0.2
+    shadowOpacity: 0.2,
   },
   satchelDropDown: {
     backgroundColor: '#FFFFFF',
@@ -437,14 +438,14 @@ const styles = StyleSheet.create({
     top: 130,
     shadowOffset: { width: 4, height: 4 },
     shadowColor: 'black',
-    shadowOpacity: 0.1
+    shadowOpacity: 0.1,
   },
   dropHeader: {
     color: '#706FD3',
     fontSize: 18,
     textAlign: 'center',
     fontWeight: 'bold',
-    paddingBottom: 20
+    paddingBottom: 20,
   },
   makeAWordLink: {
     backgroundColor: '#706FD3',
@@ -454,25 +455,25 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 20
+    marginTop: 20,
   },
   letters: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     marginLeft: 20,
-    marginBottom: 20
+    marginBottom: 20,
   },
   letterTile: {
     fontSize: 55,
     fontWeight: 'bold',
     color: '#706FD3',
-    paddingLeft: 10
+    paddingLeft: 10,
   },
   letterSub: {
     fontSize: 15,
     color: '#706FD3',
     alignSelf: 'flex-end',
-    marginRight: 10
+    marginRight: 10,
   }
 })
 

@@ -20,7 +20,8 @@ const Stack = {
   Auth: {
     screen: Auth,
     navigationOptions: {
-      title: 'Login or Sign up'
+      title: 'Login or Sign up',
+      headerTintColor: '#706FD3',
     }
   }
   ,
@@ -34,39 +35,45 @@ const Stack = {
     screen: UserHome,
     navigationOptions: ({navigation}) => ({
       title: 'Profile',
+      headerTintColor: '#706FD3',
       headerLeft: (
         <Button
           title="Map"
+          color="#706FD3"
           navigation={navigation}
           onPress={
             () => {navigation.navigate('Main')}
           }
         />
       )
-    })
+    }),
   },
   Highscores: {
     screen: Highscores,
     navigationOptions: {
       title: 'High Scores',
+      headerTintColor: '#706FD3',
     }
   },
   SortableHand: {
     screen: SortableHand,
     navigationOptions: {
-      title: 'Make a Word'
+      title: 'Make a Word',
+      headerTintColor: '#706FD3',
     }
   },
   UserWords: {
     screen: UserWords,
     navigationOptions: {
       title: 'My Words',
+      headerTintColor: '#706FD3',
     }
   },
   UpdateUser: {
     screen: Update,
     navigationOptions: {
       title: 'Update Profile',
+      headerTintColor: '#706FD3',
     }
   },
 }

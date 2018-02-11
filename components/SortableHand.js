@@ -1,7 +1,6 @@
 'use strict'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Button } from 'react-native-elements'
 import SortableGrid from 'react-native-sortable-grid'
 import { View, Text, TouchableHighlight, StyleSheet, Dimensions } from 'react-native'
 import { getSatchel, updateLetter } from '../store/satchel'
@@ -111,12 +110,31 @@ class SortableHand extends Component {
               }}
             >
               <View
-                style={styles.letterTile}
+                style={[
+                  styles.letterTile,
+                  this.state.inHand.includes(letter.id)
+                    ? { backgroundColor: '#dfe4ea', borderColor: '#747d8c' }
+                    : {}
+                ]}
               >
-                <Text style={styles.letterName}>
+                <Text
+                  style={[
+                    styles.letterName,
+                    this.state.inHand.includes(letter.id)
+                      ? { color: '#747d8c' }
+                      : {}
+                  ]}
+                >
                   {letter.letterCategory.name}
                 </Text>
-                <Text style={styles.letterSub}>
+                <Text
+                  style={[
+                    styles.letterSub,
+                    this.state.inHand.includes(letter.id)
+                      ? { color: '#747d8c' }
+                      : {}
+                  ]}
+                >
                   {letter.letterCategory.points}
                 </Text>
               </View>
@@ -146,10 +164,7 @@ class SortableHand extends Component {
             {this.props.satchel
               .filter(letter => this.state.inHand.includes(letter.id))
               .map(letter => (
-                <View
-                  style={styles.littleLetterTile}
-                  key={letter.id}
-                >
+                <View style={styles.littleLetterTile} key={letter.id}>
                   <Text style={styles.littleLetterName}>
                     {letter.letterCategory.name}
                   </Text>
@@ -160,13 +175,17 @@ class SortableHand extends Component {
           <View style={styles.sortableGrid} />
         )}
         <View>
-          <Text style={styles.value}>Points: {this.state.points}</Text>
+          <Text style={styles.value}>POINTS: {this.state.points}</Text>
           <TouchableHighlight
             underlayColor={'#f9f5ec'}
             style={styles.submitButton}
             onPress={this.handleWordSubmit}
           >
-            <Text style={{fontSize: 20, color: '#FFFFFF', fontWeight: 'bold'}}>Submit Word</Text>
+            <Text
+              style={{ fontSize: 20, color: '#FFFFFF', fontWeight: 'bold' }}
+            >
+              Submit Word
+            </Text>
           </TouchableHighlight>
         </View>
       </View>
@@ -193,34 +212,34 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: '#f9f5ec',
+    backgroundColor: '#f9f5ec'
   },
   textTitle: {
     fontSize: 30,
     fontWeight: 'bold',
     color: '#706FD3',
-    textAlign: 'center',
+    textAlign: 'center'
   },
   textSub: {
     fontSize: 15,
     color: '#706FD3',
-    textAlign: 'center',
+    textAlign: 'center'
   },
   instructionBlock: {
     margin: 50,
     marginBottom: 15,
-    flexGrow: 0,
+    flexGrow: 0
   },
   sortableGrid: {
     marginTop: 15,
     marginLeft: 20,
     marginRight: 20,
-    flexGrow: 2,
+    flexGrow: 2
   },
   hr: {
     opacity: 0.5,
     borderBottomColor: '#706FD3',
-    borderBottomWidth: 1,
+    borderBottomWidth: 1
   },
   letters: {
     flex: 1,
@@ -228,7 +247,7 @@ const styles = StyleSheet.create({
     paddingRight: 15,
     flexWrap: 'wrap',
     flexDirection: 'row',
-    flexGrow: 4,
+    flexGrow: 4
   },
   letterTile: {
     margin: 5,
@@ -237,18 +256,18 @@ const styles = StyleSheet.create({
     height: 80,
     borderRadius: 10,
     borderColor: '#706FD3',
-    borderWidth: 1,
+    borderWidth: 1
   },
   letterName: {
     fontSize: 50,
     fontWeight: 'bold',
     color: '#706FD3',
-    textAlign: 'center',
+    textAlign: 'center'
   },
   letterSub: {
     fontSize: 15,
     color: '#706FD3',
-    textAlign: 'center',
+    textAlign: 'center'
   },
   littleLetterTile: {
     backgroundColor: '#FFFFFF',
@@ -256,18 +275,20 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 5,
     borderColor: '#706FD3',
-    borderWidth: 1,
+    borderWidth: 1
   },
   littleLetterName: {
+    paddingTop: 5,
     fontSize: 30,
     fontWeight: 'bold',
     color: '#706FD3',
-    textAlign: 'center',
+    textAlign: 'center'
   },
   value: {
-    fontSize: 30,
+    fontSize: 15,
     color: '#706FD3',
-    textAlign: 'center'
+    textAlign: 'center',
+    letterSpacing: 3
   },
   submitButton: {
     height: 60,

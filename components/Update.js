@@ -91,19 +91,19 @@ const styles = {
     paddingTop: 40,
     padding: 20,
   },
-  containerInput:{
+  containerInput: {
     width: '90%'
   },
   input: {
     height: 35,
     backgroundColor: 'rgba(192,192,192,0.3)',
     marginBottom: 15,
-    width:'90%',
+    width: '90%',
   },
   containerButton: {
     padding: 10,
-    width:'100%',
-    marginTop:40,
+    width: '100%',
+    marginTop: 40,
   },
   labelContainerStyle: {
     marginTop: 8,
@@ -113,7 +113,7 @@ const styles = {
   },
   message: {
     color: '#FF5252',
-    padding:10
+    padding: 10
   }
 }
 
