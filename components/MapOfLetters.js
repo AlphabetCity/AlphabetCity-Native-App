@@ -21,6 +21,7 @@ const MapOfLetters = (props) => {
           bottom: 50,
           right: 50
         }}
+        onPress={props.hideDropDown}
       >
         {/* hidden letters' positions */}
         {

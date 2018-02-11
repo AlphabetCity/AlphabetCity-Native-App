@@ -1,12 +1,13 @@
 'use strict'
 import React, { Component } from 'react'
-import { View, StyleSheet } from 'react-native'
+import { View, TouchableHighlight, StyleSheet, Dimensions} from 'react-native'
 import { FormLabel, FormInput, Button, Text } from 'react-native-elements'
 import { connect } from 'react-redux'
 import { createUser, getUser } from '../store/user'
 
-class Auth extends Component {
+const { height, width } = Dimensions.get('window')
 
+class Auth extends Component {
   constructor(props) {
     super(props)
 
@@ -23,42 +24,40 @@ class Auth extends Component {
   }
 
   handleSignup() {
-    this.setState({message: ''})
+    this.setState({ message: '' })
     const { userName, email, password } = this.state
-    if(!this.state.userName
-      || !this.state.email
-      || !this.state.password
-    ){
-        this.setState({message: 'All fields required!'})
-      }else{
-        this.setState({message: ''})
-        this.props.createUser({ userName, email, password })
-        this.props.profileNav ?
-          this.props.profileNav.navigate('Profile')
-        :
-        this.props.navigation.navigate('Profile')
-      }
+    if (!this.state.userName || !this.state.email || !this.state.password) {
+      this.setState({ message: 'All fields required!' })
+    } else {
+      this.setState({ message: '' })
+      this.props.createUser({ userName, email, password })
+      this.props.profileNav
+        ? this.props.profileNav.navigate('Profile')
+        : this.props.navigation.navigate('Profile')
+    }
   }
 
   handleLogin() {
-    this.setState({message: ''})
+    this.setState({ message: '' })
     const { userName, email, password } = this.state
-    this.props.getUser({ userName, email, password })
-    .then(user => {
-      this.setState({user: user})
-    })
-    .then( () => {
-      if(!this.state.user
-        || !this.state.userName
-        || !this.state.email
-        || !this.state.password
-      ){
-        this.setState({message: 'user not found'})
-      }else{
-        this.setState({message: ''})
-        this.props.navigation.navigate('Profile')
-      }
-    })
+    this.props
+      .getUser({ userName, email, password })
+      .then(user => {
+        this.setState({ user: user })
+      })
+      .then(() => {
+        if (
+          !this.state.user ||
+          !this.state.userName ||
+          !this.state.email ||
+          !this.state.password
+        ) {
+          this.setState({ message: 'User not found.' })
+        } else {
+          this.setState({ message: '' })
+          this.props.navigation.navigate('Profile')
+        }
+      })
   }
 
   render = () => (
@@ -68,7 +67,9 @@ class Auth extends Component {
         style={styles.input}
         placeholder="Username"
         autoCapitalize="none"
-        onChangeText={text => this.setState({ userName: text.replace(/\s/g, '') })}
+        onChangeText={text =>
+          this.setState({ userName: text.replace(/\s/g, '') })
+        }
       />
       <FormInput
         containerStyle={styles.containerInput}
@@ -85,30 +86,23 @@ class Auth extends Component {
         autoCapitalize="none"
         onChangeText={text => this.setState({ password: text })}
       />
-      {this.state.message ?
-        <Text style={styles.message}>
-          {this.state.message}
-        </Text>
-      : null
-      }
-      <Button
-        containerViewStyle={styles.containerButtonTop}
-        backgroundColor='#474787'
-        borderRadius={30}
-        color='#f7f1e3'
-        small
+      {this.state.message ? (
+        <Text style={styles.message}>{this.state.message}</Text>
+      ) : null}
+      <TouchableHighlight
+        underlayColor={'#f9f5ec'}
+        style={styles.containerButton}
         onPress={this.handleLogin.bind(this)}
-        title="Login"
-      />
-      <Button
-        containerViewStyle={styles.containerButton}
-        backgroundColor='#474787'
-        borderRadius={30}
-        color='#f7f1e3'
-        small
+      >
+        <Text style={{fontSize: 20, color: '#FFFFFF', fontWeight: 'bold'}}>Login</Text>
+      </TouchableHighlight>
+      <TouchableHighlight
+        underlayColor={'#f9f5ec'}
+        style={styles.containerButton}
         onPress={this.handleSignup.bind(this)}
-        title="Sign Up"
-      />
+      >
+        <Text style={{fontSize: 20, color: '#FFFFFF', fontWeight: 'bold'}}>Sign Up</Text>
+      </TouchableHighlight>
     </View>
   )
 }
@@ -119,39 +113,45 @@ const styles = {
     backgroundColor: '#f9f5ec',
     alignItems: 'center',
     paddingTop: 40,
-    // justifyContent: 'center',
-    padding: 20,
+    padding: 20
   },
-  containerInput:{
+  containerInput: {
     width: '90%'
   },
   input: {
     height: 35,
     backgroundColor: 'rgba(192,192,192,0.3)',
     marginBottom: 25,
-    width:'90%',
+    width: '90%'
   },
   containerButtonTop: {
     padding: 10,
-    width:'100%',
-    marginTop:60,
+    width: '100%',
+    marginTop: 60
   },
   containerButton: {
-    padding: 10,
-    width:'100%',
+    height: 60,
+    width: width - 40,
+    marginTop: 20,
+    backgroundColor: '#474787',
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   labelContainerStyle: {
-    marginTop: 8,
+    marginTop: 8
   },
   formContainer: {
-    padding: 10,
+    padding: 10
   },
   message: {
     color: '#FF5252',
-    padding:10
+    fontSize: 15,
+    fontWeight: 'bold',
+    padding: 20
   }
 }
 
-const mapDispatch = ({ createUser, getUser })
+const mapDispatch = { createUser, getUser }
 
 export default connect(null, mapDispatch)(Auth)
