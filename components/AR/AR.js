@@ -1,3 +1,4 @@
+'use strict'
 import Expo from 'expo'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'

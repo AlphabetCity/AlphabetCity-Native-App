@@ -1,3 +1,4 @@
+'use strict'
 import { Image } from 'react-native'
 import { Asset, Font } from 'expo'
 

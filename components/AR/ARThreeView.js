@@ -1,3 +1,4 @@
+'use strict'
 import Expo from 'expo'
 import React from 'react'
 import { Platform, View, Text, StyleSheet } from 'react-native'

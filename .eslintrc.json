@@ -5,7 +5,7 @@
 	"rules": {
     "semi": ["error", "never"],
     "complexity": ["error", 200],
-    "new-cap": [1, { "capIsNewExceptions": ["StackNavigator"] }],
+    "new-cap": [1, { "capIsNewExceptions": ["StackNavigator", "DrawerNavigator"] }],
     "react/jsx-pascal-case": [1, {"allowAllCaps": true}],
     "no-use-before-define": "off",
     "class-methods-use-this": "off",

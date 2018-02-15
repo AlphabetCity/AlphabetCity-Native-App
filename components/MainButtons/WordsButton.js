@@ -1,3 +1,4 @@
+'use strict'
 import React from 'react'
 import { TouchableHighlight, Image, StyleSheet } from 'react-native'
 

@@ -1,7 +1,7 @@
 'use strict'
 import React from 'react'
 import { StackNavigator, DrawerNavigator, DrawerItems } from 'react-navigation'
-import { Main, ARContainer, Satchel, Auth, UserHome, Highscores, UserWords, Update, SortableHand } from './components'
+import { Main, ARContainer, Auth, UserHome, Highscores, UserWords, Update, SortableHand } from './components'
 import { View, Button, Image } from 'react-native'
 
 const Stack = {
@@ -139,9 +139,10 @@ const DrawerContent = (props) => (
         source={require('./assets/icons/app-icon-transparent.png')}
       />
     </View>
-    <DrawerItems {...props}
-      activeTintColor='#706fd3'
-      inactiveTintColor='#40407a'
+    <DrawerItems
+      {...props}
+      activeTintColor="#706fd3"
+      inactiveTintColor="#40407a"
     />
   </View>
 )

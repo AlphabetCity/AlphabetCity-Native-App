@@ -1,3 +1,4 @@
+'use strict'
 // AR letter code adapted from https://github.com/EvanBacon/expo-three-text
 // by Evan Bacon
 export default function arrayFromObject(object) {

@@ -1,3 +1,4 @@
+'use strict'
 export default {
   icons: {
       'app-icon': require(`./assets/icons/app-icon.png`),

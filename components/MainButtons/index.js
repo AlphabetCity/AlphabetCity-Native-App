@@ -1,3 +1,4 @@
+'use strict'
 import ProfileButton from './ProfileButton'
 import SatchelButton from './SatchelButton'
 import WordsButton from './WordsButton'
