@@ -23,13 +23,6 @@ const Stack = {
       title: 'Login or Sign up',
       headerTintColor: '#706FD3',
     }
-  }
-  ,
-  Satchel: {
-    screen: Satchel,
-    navigationOptions: {
-      title: 'Satchel'
-    }
   },
   Profile: {
     screen: UserHome,

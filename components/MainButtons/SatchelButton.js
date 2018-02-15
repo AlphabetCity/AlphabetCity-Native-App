@@ -1,16 +1,15 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import { TouchableHighlight, Image, StyleSheet } from 'react-native'
 
-const ProfileButton = props => (
+const SatchelButton = props => (
   <TouchableHighlight
-    style={styles.profileButton}
+    style={styles.satchelButton}
     underlayColor={'#474787'}
     activeOpacity={0.9}
-    onPress={() => props.navigation.navigate('DrawerOpen')}
+    onPress={props.onPress}
   >
     <Image
-      source={require('../../assets/icons/user.png')}
+      source={require('../../assets/icons/packIcon.png')}
       fadeDuration={0}
       style={{ width: 32, height: 32 }}
     />
@@ -18,7 +17,7 @@ const ProfileButton = props => (
 )
 
 const styles = StyleSheet.create({
-  profileButton: {
+  satchelButton: {
     backgroundColor: '#706FD3',
     height: 60,
     width: 60,
@@ -26,7 +25,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
-    left: 20,
+    right: 20,
     top: 50,
     shadowOffset: { width: 0, height: 2 },
     shadowColor: 'black',
@@ -34,4 +33,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default connect()(ProfileButton)
+export default SatchelButton
