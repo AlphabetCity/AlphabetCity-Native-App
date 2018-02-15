@@ -12,61 +12,81 @@ import { connect } from 'react-redux'
 import { Location, Permissions } from 'expo'
 import { getAllHiddenLetters } from '../store/allHiddenLetters'
 import { getWords } from '../store/allWords'
-import { MapOfLetters } from './'
+import { MapOfLetters, ProfileButton } from './'
 import { setUserLocation } from '../store/userLocation'
 import { getSatchel, updateLetter } from '../store/satchel'
 import { updateUser } from '../store/user'
 import geolib from 'geolib'
 
+// Screen dimensions for responsive styling
 const { height, width } = Dimensions.get('window')
 
+// Constants
+// How much of the map to display
 const LATITUDE_DELTA = 0.002
 const LONGITUDE_DELTA = 0.002
-const DEFAULT_DISTANCE = Infinity
-const AR_RADIUS = 40
-const NEARBY_RADIUS = 100
+
+// How often to update location
+const TIME_INTERVAL = 1000
+const DISTANCE_INTERVAL = 10
+
+const DEFAULT_DISTANCE = Infinity // Comparator for shortestDistance
+const AR_RADIUS = 40 // Meter proximity to letter to render AR button
 
 class Main extends Component {
   constructor(props) {
     super(props)
 
-    this.location = Location.getCurrentPositionAsync()
-      .then(position => {
-        this.props.setUserLocation({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude
-        })
-      })
-      .then(() => {
-        this.props.getAllHiddenLetters()
-        this.props.getWords()
-      })
-      .then(this._getShortestDistance)
-      .then(this._getLocationAsync)
-      .catch(console.error)
+    this._getInitialLocationAsync()
 
     this.state = {
-      hiddenLettersFetched: false,
       shortestDistance: DEFAULT_DISTANCE,
       dropDownVisible: false,
       nearestLetter: null,
-      nearestWordsMaxDistance: NEARBY_RADIUS,
       nearestWords: []
     }
   }
 
   componentDidMount() {
-    if (this.props.user.id) this.props.getSatchel(this.props.user.id)
+    const { id } = this.props.user
+    if (id) this.props.getSatchel(id)
   }
 
-  _getLocationAsync = async () => {
-    let { status } = await Permissions.askAsync(Permissions.LOCATION)
-    if (status !== 'granted') {
-      this.props.setUserLocation({})
-    }
+  _getInitialLocationAsync = async () => {
+    try {
+      // Get iOS permissions to track Location
+      let { status } = await Permissions.askAsync(Permissions.LOCATION)
+      if (status !== 'granted') {
+        this.props.setUserLocation({})
+      }
 
+      // Get the user's location upon opening the app
+      // and set initial state and props
+      const position = await Location.getCurrentPositionAsync()
+      this.props.setUserLocation({
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
+      })
+      this.props.getAllHiddenLetters()
+      await this.props.getWords()
+
+      // Find nearest letters and words to track
+      await this._getShortestDistance()
+
+      // Begin watching location
+      await this._watchLocationAsync()
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  _watchLocationAsync = async () => {
     this.watchId = Location.watchPositionAsync(
-      { enableHighAccuracy: true, timeInterval: 1000, distanceInterval: 10 },
+      {
+        enableHighAccuracy: true,
+        timeInterval: TIME_INTERVAL,
+        distanceInterval: DISTANCE_INTERVAL
+      },
       position => {
         this.props.setUserLocation({
           latitude: position.coords.latitude,
@@ -84,6 +104,7 @@ class Main extends Component {
       let currentLocLng = this.props.userLocation.longitude
       let shortestDistance = DEFAULT_DISTANCE
 
+      // Find nearest letter and its distance from user
       if (this.props.allHiddenLetters) {
         let nearestLetter
         this.props.allHiddenLetters.forEach(letter => {
@@ -101,6 +122,7 @@ class Main extends Component {
         this.setState({ shortestDistance, nearestLetter })
       }
 
+      // Find five closest words
       if (this.props.allWords && this.props.allWords.length) {
         let nearestWords = await this.props.allWords.map(word => {
           let distance = geolib.getDistance(
@@ -141,12 +163,6 @@ class Main extends Component {
     }
   }
 
-  componentDidMount() {
-    if (this.props.user && this.props.user.id) {
-      this.props.getSatchel(this.props.user.id)
-    }
-  }
-
   componentWillUnmount() {
     delete this.watchId
   }
@@ -170,18 +186,7 @@ class Main extends Component {
             hideDropDown={() => this.setState({ dropDownVisible: false })}
           />
         ) : null}
-        <TouchableHighlight
-          style={styles.profileButton}
-          underlayColor={'#474787'}
-          activeOpacity={0.9}
-          onPress={() => this.props.navigation.navigate('DrawerOpen')}
-        >
-          <Image
-            source={require('../assets/icons/user.png')}
-            fadeDuration={0}
-            style={{ width: 32, height: 32 }}
-          />
-        </TouchableHighlight>
+        <ProfileButton />
         <TouchableHighlight
           style={styles.satchelButton}
           underlayColor={'#474787'}
@@ -365,13 +370,13 @@ class Main extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'flex-end',
+    justifyContent: 'flex-end'
   },
   textTitle: {
     fontSize: 20,
     fontWeight: 'bold',
     color: '#3B3B98',
-    textAlign: 'center',
+    textAlign: 'center'
   },
   arButton: {
     backgroundColor: '#706FD3',
@@ -385,7 +390,7 @@ const styles = StyleSheet.create({
     bottom: 24,
     shadowOffset: { width: 0, height: 2 },
     shadowColor: 'black',
-    shadowOpacity: 0.2,
+    shadowOpacity: 0.2
   },
   wordsButton: {
     backgroundColor: '#706fd3',
@@ -399,21 +404,7 @@ const styles = StyleSheet.create({
     bottom: 24,
     shadowOffset: { width: 0, height: 2 },
     shadowColor: 'black',
-    shadowOpacity: 0.4,
-  },
-  profileButton: {
-    backgroundColor: '#706FD3',
-    height: 60,
-    width: 60,
-    borderRadius: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'absolute',
-    left: 20,
-    top: 50,
-    shadowOffset: { width: 0, height: 2 },
-    shadowColor: 'black',
-    shadowOpacity: 0.2,
+    shadowOpacity: 0.4
   },
   satchelButton: {
     backgroundColor: '#706FD3',
@@ -427,7 +418,7 @@ const styles = StyleSheet.create({
     top: 50,
     shadowOffset: { width: 0, height: 2 },
     shadowColor: 'black',
-    shadowOpacity: 0.2,
+    shadowOpacity: 0.2
   },
   satchelDropDown: {
     backgroundColor: '#FFFFFF',
@@ -438,14 +429,14 @@ const styles = StyleSheet.create({
     top: 130,
     shadowOffset: { width: 4, height: 4 },
     shadowColor: 'black',
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.1
   },
   dropHeader: {
     color: '#706FD3',
     fontSize: 18,
     textAlign: 'center',
     fontWeight: 'bold',
-    paddingBottom: 20,
+    paddingBottom: 20
   },
   makeAWordLink: {
     backgroundColor: '#706FD3',
@@ -455,25 +446,25 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: 20
   },
   letters: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     marginLeft: 20,
-    marginBottom: 20,
+    marginBottom: 20
   },
   letterTile: {
     fontSize: 55,
     fontWeight: 'bold',
     color: '#706FD3',
-    paddingLeft: 10,
+    paddingLeft: 10
   },
   letterSub: {
     fontSize: 15,
     color: '#706FD3',
     alignSelf: 'flex-end',
-    marginRight: 10,
+    marginRight: 10
   }
 })
 

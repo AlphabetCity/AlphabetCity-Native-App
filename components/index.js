@@ -9,10 +9,12 @@ import SortableHand from './SortableHand'
 import UserWords from './UserWords'
 import Update from './Update'
 import { ARContainer, ARLoading, AR, ARThreeView } from './AR'
+import { ProfileButton } from './MainButtons'
 
 export {
   Main,
   MapOfLetters,
+  ProfileButton,
   Satchel,
   Highscores,
   Auth,
