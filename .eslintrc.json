@@ -10,6 +10,8 @@
     "no-use-before-define": "off",
     "class-methods-use-this": "off",
     "no-return-assign": "off",
-    "react/prefer-stateless-function": "off"
+    "react/prefer-stateless-function": "off",
+    "no-shadow": "off",
+    "no-alert": "off"
 	}
 }

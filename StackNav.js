@@ -31,7 +31,7 @@ const Stack = {
       headerTintColor: '#706FD3',
       headerLeft: (
         <Button
-          title="Map"
+          title="   Map"
           color="#706FD3"
           navigation={navigation}
           onPress={
