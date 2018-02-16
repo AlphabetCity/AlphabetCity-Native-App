@@ -9,17 +9,22 @@ import SortableHand from './SortableHand'
 import UserWords from './UserWords'
 import Update from './Update'
 import { ARContainer, ARLoading, AR, ARThreeView } from './AR'
+import { ProfileButton, SatchelButton, WordsButton, LetterButton } from './MainButtons'
 
 export {
   Main,
   MapOfLetters,
+  ProfileButton,
+  SatchelButton,
+  WordsButton,
+  LetterButton,
   Satchel,
-  Highscores,
+  SortableHand,
   Auth,
   UserHome,
-  SortableHand,
-  UserWords,
   Update,
+  UserWords,
+  Highscores,
   ARContainer,
   ARLoading,
   AR,
