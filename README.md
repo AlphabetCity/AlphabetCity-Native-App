@@ -11,7 +11,7 @@ Alphabet City is a location-based mobile game featuring augmented reality. Think
 
 ## Game Logic
 
-Users play by wandering around their city to find letters they can pick up in AR. Once a user forms a valid word, they earn points and their word is added to the map their current location.
+Users play by wandering around their city to find letters they can pick up in AR. Once a user forms a valid word, they earn points and their word is added to the map at their current location.
 
 Play against your friends to see who can rack up the most points and view each other's words in AR.
 
