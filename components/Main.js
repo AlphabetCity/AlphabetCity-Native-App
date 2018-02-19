@@ -97,6 +97,7 @@ class Main extends Component {
 
   _getShortestDistance = async () => {
     const { userLocation, allHiddenLetters, allWords } = this.props
+
     if (userLocation.latitude && userLocation.longitude) {
       let currentLocLat = userLocation.latitude
       let currentLocLng = userLocation.longitude
@@ -106,15 +107,17 @@ class Main extends Component {
       if (allHiddenLetters) {
         let nearestLetter
         allHiddenLetters.forEach(letter => {
-          let compareDist = geolib.getDistance(
-            { latitude: currentLocLat, longitude: currentLocLng },
-            { latitude: letter.latitude, longitude: letter.longitude },
-            1,
-            1
-          )
-          if (compareDist < shortestDistance) {
-            shortestDistance = compareDist
-            nearestLetter = letter
+          if (letter.latitude && letter.longitude) {
+            let compareDist = geolib.getDistance(
+              { latitude: currentLocLat, longitude: currentLocLng },
+              { latitude: letter.latitude, longitude: letter.longitude },
+              1,
+              1
+            )
+            if (compareDist < shortestDistance) {
+              shortestDistance = compareDist
+              nearestLetter = letter
+            }
           }
         })
         this.setState({ shortestDistance, nearestLetter })
@@ -123,14 +126,18 @@ class Main extends Component {
       // Find five closest words
       if (allWords && allWords.length) {
         let nearestWords = await allWords.map(word => {
-          let distance = geolib.getDistance(
-            { latitude: currentLocLat, longitude: currentLocLng },
-            { latitude: word.latitude, longitude: word.longitude },
-            1,
-            1
-          )
-          word.distance = distance
-          return word
+          if (word.latitude && word.longitude) {
+            let distance = geolib.getDistance(
+              { latitude: currentLocLat, longitude: currentLocLng },
+              { latitude: word.latitude, longitude: word.longitude },
+              1,
+              1
+            )
+            word.distance = distance
+            return word
+          } else {
+            return Infinity
+          }
         })
         nearestWords = nearestWords
           .sort((a, b) => a.distance - b.distance)
