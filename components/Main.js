@@ -97,9 +97,7 @@ class Main extends Component {
 
   _getShortestDistance = async () => {
     const { userLocation, allHiddenLetters, allWords } = this.props
-    console.log('userLocation', userLocation)
-    // console.log('allHiddenLetters', allHiddenLetters)
-    console.log('allWords', allWords)
+
     if (userLocation.latitude && userLocation.longitude) {
       let currentLocLat = userLocation.latitude
       let currentLocLng = userLocation.longitude
