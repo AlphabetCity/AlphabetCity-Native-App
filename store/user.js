@@ -10,7 +10,7 @@ const EDIT_USER = 'EDIT_USER'
 // Action Creators
 const signupUser = user => ({ type: SIGNUP_USER, user })
 const loginUser = user => ({ type: LOGIN_USER, user })
-export const removeUser = () => ({ type: REMOVE_USER, user:{} })
+export const removeUser = () => ({ type: REMOVE_USER })
 const editUser = user => ({ type: EDIT_USER, user })
 
 // Thunks
@@ -35,15 +35,6 @@ export const getUser = user => async dispatch => {
   }
 }
 
-export const deleteUser = userId => async dispatch => {
-  try {
-    await axios.delete(`https://alphabetcity.herokuapp.com/api/users/${userId}`)
-    dispatch(removeUser())
-  } catch (error) {
-    console.warn(error)
-  }
-}
-
 export const updateUser = (userId, changes) => async dispatch => {
   try {
     const res = await axios.put(`https://alphabetcity.herokuapp.com/api/users/${userId}`, changes)
@@ -51,6 +42,15 @@ export const updateUser = (userId, changes) => async dispatch => {
     dispatch(editUser(userData))
   } catch (error) {
     console.error(error)
+  }
+}
+
+export const deleteUser = (userId) => async dispatch => {
+  try {
+    await axios.delete(`https://alphabetcity.herokuapp.com/api/users/${userId}`)
+    dispatch(removeUser())
+  } catch (error) {
+    console.warn(error)
   }
 }
 
@@ -62,7 +62,7 @@ const reducer = (state = {}, action) => {
     case LOGIN_USER:
       return action.user
     case REMOVE_USER:
-      return action.user
+      return {}
     case EDIT_USER:
       return action.user
     default:

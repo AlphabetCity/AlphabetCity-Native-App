@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 // Action Type
-const SET_WORDS = 'SET_WORD'
+const SET_WORDS = 'SET_WORDS'
 const ADD_WORD = 'ADD_WORD'
 
 // Action Creators
