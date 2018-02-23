@@ -157,7 +157,7 @@ class Main extends Component {
     })
     await getAllHiddenLetters()
     this._getShortestDistance()
-    getSatchel(user.id)
+    // getSatchel(user.id)
   }
 
   _routeUser = (screen, cb, props) => {
@@ -223,7 +223,7 @@ class Main extends Component {
                   latitude: userLocation.latitude,
                   longitude: userLocation.longitude
                 })
-                await getSatchel(user.id)
+                // await getSatchel(user.id)
               }}
               makeAWord={() => {
                 this._routeUser('SortableHand')

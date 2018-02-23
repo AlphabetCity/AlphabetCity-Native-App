@@ -56,10 +56,12 @@ const reducer = (state = [], action) => {
     case SET_SATCHEL:
       return action.satchel
     case UPDATE_LETTER:
-      return [
-        ...state.filter(letter => letter.id !== action.letter.id),
-        action.letter
-      ]
+      return action.letter.latitude && action.letter.longitude
+        ? [...state.filter(letter => letter.id !== action.letter.id)]
+        : [
+            ...state.filter(letter => letter.id !== action.letter.id),
+            action.letter
+          ]
     default:
       return state
   }
