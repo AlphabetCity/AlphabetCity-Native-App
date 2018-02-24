@@ -34,12 +34,12 @@ describe('Action creators', () => {
 describe('Thunks', () => {
   // prepare
   const expected = [
-    { type: 'GET_NEW_WORD' },
+    { type: 'GET_NEW_WORD', word: testWord },
     { type: 'RESET_NEW_WORD'}
   ]
 
   // mock axios methods w/ mocked return values
-  axios.post = jest.fn(() => testWord)
+  axios.post = jest.fn(() => ({ data: testWord }))
 
   // mock dispatch functions from redux-thunk
   const dispatch = jest.fn()

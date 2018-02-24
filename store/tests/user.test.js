@@ -1,5 +1,5 @@
 import axios from 'axios'
-import reducer, {createUser, getUser, deleteUser, updateUser} from '../user'
+import reducer, { createUser, getUser, deleteUser, updateUser } from '../user'
 import { createStore } from 'redux'
 
 let testStore
@@ -40,15 +40,15 @@ describe('Action creators', () => {
 describe('Thunks', () => {
   // prepare
   const expected = [
-    { type: 'SIGNUP_USER' },
-    { type: 'LOGIN_USER' },
-    { type: 'EDIT_USER' },
+    { type: 'SIGNUP_USER', user: testUser },
+    { type: 'LOGIN_USER', user: testUser },
+    { type: 'EDIT_USER', user: testUser },
     { type: 'REMOVE_USER' }
   ]
 
   // mock axios methods w/ mocked return values
-  axios.post = jest.fn(() => testUser)
-  axios.put = jest.fn(() => testUser)
+  axios.post = jest.fn(() => ({ data: testUser }))
+  axios.put = jest.fn(() => ({ data: testUser }))
   axios.delete = jest.fn()
 
   // mock dispatch functions from redux-thunk

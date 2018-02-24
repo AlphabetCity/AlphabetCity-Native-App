@@ -25,7 +25,6 @@ const testWords = [
     userId: 4
   }
 ]
-
 const testWord = {
   id: 12,
   latitude: 40.704551,
@@ -69,13 +68,13 @@ describe('Action creators', () => {
 describe('Thunks', () => {
   // prepare
   const expected = [
-    { type: 'SET_WORDS' },
-    { type: 'ADD_WORD' }
+    { type: 'SET_WORDS', words: testWords },
+    { type: 'ADD_WORD', word: testWord }
   ]
 
   // mock axios methods w/ mocked return values
-  axios.get = jest.fn(() => ({word: 'razzledazzle'}))
-  axios.post = jest.fn(word => testWord)
+  axios.get = jest.fn(() => ({ data: testWords }))
+  axios.post = jest.fn(word => ({ data: testWord }))
 
   // mock dispatch functions from redux-thunk
   const dispatch = jest.fn()

@@ -12,16 +12,7 @@ const testSatchel = [
     createdAt: '2018-02-11T05:39:48.801Z',
     updatedAt: '2018-02-11T05:39:48.801Z',
     letterCategoryId: 2,
-    userId: 14,
-    letterCategory: {
-      id: 2,
-      name: 'B',
-      points: 3,
-      modelUrl: null,
-      emoji: null,
-      createdAt: '2018-02-11T05:12:03.726Z',
-      updatedAt: '2018-02-11T05:12:03.726Z'
-    }
+    userId: 14
   },
   {
     hidden: false,
@@ -31,16 +22,7 @@ const testSatchel = [
     createdAt: '2018-02-11T05:39:48.800Z',
     updatedAt: '2018-02-11T05:39:48.800Z',
     letterCategoryId: 4,
-    userId: 14,
-    letterCategory: {
-      id: 4,
-      name: 'D',
-      points: 2,
-      modelUrl: null,
-      emoji: null,
-      createdAt: '2018-02-11T05:12:03.729Z',
-      updatedAt: '2018-02-11T05:12:03.729Z'
-    }
+    userId: 14
   },
   {
     hidden: false,
@@ -50,18 +32,32 @@ const testSatchel = [
     createdAt: '2018-02-11T05:39:48.801Z',
     updatedAt: '2018-02-11T05:39:48.801Z',
     letterCategoryId: 15,
-    userId: 14,
-    letterCategory: {
-      id: 15,
-      name: 'O',
-      points: 1,
-      modelUrl: null,
-      emoji: null,
-      createdAt: '2018-02-11T05:12:03.740Z',
-      updatedAt: '2018-02-11T05:12:03.740Z'
-    }
+    userId: 14
   }
 ]
+const testSatchelWithoutLetter = [
+  {
+    hidden: false,
+    id: 97,
+    latitude: null,
+    longitude: null,
+    createdAt: '2018-02-11T05:39:48.801Z',
+    updatedAt: '2018-02-11T05:39:48.801Z',
+    letterCategoryId: 2,
+    userId: 14
+  },
+  {
+    hidden: false,
+    id: 94,
+    latitude: null,
+    longitude: null,
+    createdAt: '2018-02-11T05:39:48.800Z',
+    updatedAt: '2018-02-11T05:39:48.800Z',
+    letterCategoryId: 4,
+    userId: 14
+  }
+]
+
 const testLetter = {
   hidden: false,
   id: 98,
@@ -70,16 +66,27 @@ const testLetter = {
   createdAt: '2018-02-11T05:39:48.801Z',
   updatedAt: '2018-02-11T05:39:48.801Z',
   letterCategoryId: 18,
-  userId: 14,
-  letterCategory: {
-    id: 18,
-    name: 'S',
-    points: 1,
-    modelUrl: null,
-    emoji: null,
-    createdAt: '2018-02-11T05:12:03.742Z',
-    updatedAt: '2018-02-11T05:12:03.742Z'
-  }
+  userId: 14
+}
+const testLetterInSatchel = {
+  hidden: false,
+  id: 96,
+  latitude: null,
+  longitude: null,
+  createdAt: '2018-02-11T05:39:48.801Z',
+  updatedAt: '2018-02-11T05:39:48.801Z',
+  letterCategoryId: 15,
+  userId: 14
+}
+const testLetterWithCoords = {
+  hidden: false,
+  id: 96,
+  latitude: 40.1234,
+  longitude: -73.1234,
+  createdAt: '2018-02-11T05:39:48.801Z',
+  updatedAt: '2018-02-11T05:39:48.801Z',
+  letterCategoryId: 15,
+  userId: 14
 }
 
 beforeEach(() => {
@@ -96,19 +103,34 @@ describe('Action creators', () => {
     expect(testStore.getState()).toBe(testSatchel)
   })
 
-  test('updateSatchel updates a letter in the satchel', () => {
-    testStore.dispatch({ type: 'UPDATE_LETTER', letter: testLetter })
+  test('addLetter adss a letter to the satchel', () => {
+    testStore.dispatch({ type: 'ADD_LETTER', letter: testLetter })
     expect(testStore.getState()).toEqual([testLetter])
+  })
+
+  test('removeLetter removes a letter from the satchel', () => {
+    testStore.dispatch({ type: 'SET_SATCHEL', satchel: testSatchel })
+    testStore.dispatch({ type: 'REMOVE_LETTER', letter: testLetterInSatchel })
+    expect(testStore.getState()).toEqual(testSatchelWithoutLetter)
   })
 })
 
 describe('Thunks', () => {
   // prepare
-  const expected = [{ type: 'SET_SATCHEL' }, { type: 'UPDATE_LETTER' }]
+  const expected = [
+    { type: 'SET_SATCHEL', satchel: testSatchel },
+    { type: 'ADD_LETTER', letter: testLetter },
+    { type: 'REMOVE_LETTER', letter: testLetterWithCoords }
+  ]
 
   // mock axios methods w/ mocked return values
-  axios.get = jest.fn(() => testSatchel)
-  axios.put = jest.fn(() => testLetter)
+  axios.get = jest.fn(() => ({ data: testSatchel }))
+  axios.put = jest.fn(
+    (id, changes) =>
+      (changes.latitude !== null && changes.longitude !== null
+        ? { data: testLetterWithCoords }
+        : { data: testLetter })
+  )
 
   // mock dispatch functions from redux-thunk
   const dispatch = jest.fn()
@@ -118,9 +140,20 @@ describe('Thunks', () => {
     expect(dispatch.mock.calls[0][0]).toEqual(expected[0])
   })
 
-  test('getSatchel called with correct action creator', async () => {
+  test('providing null to updateLetter uses addLetter action creator', async () => {
     const testUserLetterId = 1
-    await updateLetter(testUserLetterId)(dispatch)
+    await updateLetter(testUserLetterId, { latitude: null, longitude: null })(
+      dispatch
+    )
     expect(dispatch.mock.calls[1][0]).toEqual(expected[1])
+  })
+
+  test('providing lat/long to updateLetter uses removeLetter action creator', async () => {
+    const testUserLetterId = 1
+    await updateLetter(testUserLetterId, {
+      latitude: 40.1234,
+      longitude: -73.1234
+    })(dispatch)
+    expect(dispatch.mock.calls[2][0]).toEqual(expected[2])
   })
 })
