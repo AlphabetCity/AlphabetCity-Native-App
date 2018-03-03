@@ -149,7 +149,7 @@ class Main extends Component {
   }
 
   _pickUpLetter = async () => {
-    const { user, updateLetter, getAllHiddenLetters, getSatchel } = this.props
+    const { user, updateLetter, getAllHiddenLetters } = this.props
     updateLetter(this.state.nearestLetter.id, {
       userId: user.id,
       latitude: null,
@@ -157,7 +157,6 @@ class Main extends Component {
     })
     await getAllHiddenLetters()
     this._getShortestDistance()
-    getSatchel(user.id)
   }
 
   _routeUser = (screen, cb, props) => {
@@ -181,7 +180,6 @@ class Main extends Component {
       allHiddenLetters,
       satchel,
       navigation,
-      getSatchel,
       updateLetter
     } = this.props
     let region = {
@@ -223,7 +221,6 @@ class Main extends Component {
                   latitude: userLocation.latitude,
                   longitude: userLocation.longitude
                 })
-                await getSatchel(user.id)
               }}
               makeAWord={() => {
                 this._routeUser('SortableHand')
@@ -239,17 +236,13 @@ class Main extends Component {
         {this.state.shortestDistance < AR_RADIUS &&
           user.id && (
             <LetterButton
-              onPress={async () => {
-                await getSatchel(user.id)
-                if (satchel.length < 7) {
-                  this._routeUser('AR', this._pickUpLetter, {
-                    nearestLetter: this.state.nearestLetter
-                  })
-                } else {
-                  alert(
-                    'Your satchel is currently full. You must drop a letter before picking up another.'
-                  )
-                }
+              onPress={() => {
+                satchel.length < 7
+                  ? this._routeUser('AR', this._pickUpLetter, {
+                      nearestLetter: this.state.nearestLetter
+                    })
+                  : alert('Your satchel is currently full. You must drop a ' +
+                          'letter before picking up another.')
               }}
             />
           )}
