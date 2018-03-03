@@ -8,7 +8,6 @@
     "eslint-config-fullstack": "^3.0.0",
     "eslint-plugin-react": "^7.6.1",
     "jest-expo": "25.0.0",
-    "mocha": "^5.0.1",
     "react-native-scripts": "1.11.1",
     "react-test-renderer": "16.2.0"
   },
