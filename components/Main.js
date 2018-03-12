@@ -1,6 +1,6 @@
 'use strict'
 import React, { Component } from 'react'
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, Image } from 'react-native'
 import { connect } from 'react-redux'
 import { Location, Permissions } from 'expo'
 import { getAllHiddenLetters } from '../store/allHiddenLetters'
@@ -19,10 +19,6 @@ import { getSatchel, updateLetter } from '../store/satchel'
 import geolib from 'geolib'
 
 // Constants
-// How much of the map to display
-const LATITUDE_DELTA = 0.002
-const LONGITUDE_DELTA = 0.002
-
 // How often to update user location
 const TIME_INTERVAL = 1000
 const DISTANCE_INTERVAL = 10
@@ -97,7 +93,6 @@ class Main extends Component {
 
   _getShortestDistance = async () => {
     const { userLocation, allHiddenLetters, allWords } = this.props
-
     if (userLocation.latitude && userLocation.longitude) {
       let currentLocLat = userLocation.latitude
       let currentLocLng = userLocation.longitude
@@ -150,7 +145,7 @@ class Main extends Component {
 
   _pickUpLetter = async () => {
     const { user, updateLetter, getAllHiddenLetters } = this.props
-    updateLetter(this.state.nearestLetter.id, {
+    await updateLetter(this.state.nearestLetter.id, {
       userId: user.id,
       latitude: null,
       longitude: null
@@ -169,59 +164,37 @@ class Main extends Component {
     }
   }
 
+  _toggleDropdown = (user, navigation) => {
+    if (user && user.id) {
+      this.setState({ dropDownVisible: !this.state.dropDownVisible })
+    } else {
+      navigation.navigate('Auth')
+    }
+  }
+
   componentWillUnmount() {
     delete this.watchId
   }
 
   render() {
-    const {
-      user,
-      userLocation,
-      allHiddenLetters,
-      satchel,
-      navigation,
-      updateLetter
-    } = this.props
-    let region = {
-      latitude: userLocation.latitude,
-      longitude: userLocation.longitude,
-      latitudeDelta: LATITUDE_DELTA,
-      longitudeDelta: LONGITUDE_DELTA
-    }
+    const { user, userLocation, satchel, navigation } = this.props
     return (
       <View style={styles.container}>
         {/* Map View */}
-        {userLocation.latitude &&
-        userLocation.longitude &&
-        allHiddenLetters.length ? (
+        {userLocation.latitude && userLocation.longitude ? (
           <MapOfLetters
-            markerPosition={region}
-            initialRegion={region}
-            allHiddenLetters={allHiddenLetters}
             hideDropDown={() => this.setState({ dropDownVisible: false })}
           />
-        ) : null}
+        ) : (
+          <Image source={require('../assets/icons/loading-icon.png')} />
+        )}
         {/* Profile Drawer View Button */}
         <ProfileButton navigation={navigation} />
         {/* Satchel Button and Dropdown */}
-        <SatchelButton
-          onPress={() => {
-            if (user && user.id) {
-              this.setState({ dropDownVisible: !this.state.dropDownVisible })
-            } else {
-              navigation.navigate('Auth')
-            }
-          }}
-        />
+        <SatchelButton onPress={() => this._toggleDropdown(user, navigation)} />
         {this.state.dropDownVisible &&
           satchel && (
             <Satchel
-              dropLetter={async letter => {
-                await updateLetter(letter.id, {
-                  latitude: userLocation.latitude,
-                  longitude: userLocation.longitude
-                })
-              }}
               makeAWord={() => {
                 this._routeUser('SortableHand')
               }}
@@ -241,8 +214,10 @@ class Main extends Component {
                   ? this._routeUser('AR', this._pickUpLetter, {
                       nearestLetter: this.state.nearestLetter
                     })
-                  : alert('Your satchel is currently full. You must drop a ' +
-                          'letter before picking up another.')
+                  : alert(
+                      'Your satchel is currently full. You must drop a ' +
+                        'letter before picking up another.'
+                    )
               }}
             />
           )}
