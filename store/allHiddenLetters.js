@@ -9,7 +9,7 @@ const setHiddenLetters = allHiddenLetters => ({ type: SET_HIDDEN_LETTERS, allHid
 // Thunks
 export const getAllHiddenLetters = () => async dispatch => {
   try {
-    const res = await axios.get('https://alphabetcity.herokuapp.com/api/letters', {
+    const res = await axios.get('http://192.168.0.183:8080/api/letters', {
       params: {
         hidden: 'true'
       }

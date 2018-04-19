@@ -1,4 +1,5 @@
 import axios from 'axios'
+import API_URL from '../utils/apiUrl'
 
 // Action Type
 const GET_USER_WORDS = 'GET_USER_WORDS'
@@ -10,7 +11,7 @@ const getUserWords = words => ({ type: GET_USER_WORDS, words })
 export const loadUserWords = userId => async dispatch => {
   try {
     const res = await axios.get(
-      `https://alphabetcity.herokuapp.com/api/users/${userId}/words`
+      `${API_URL}/api/users/${userId}/words`
     )
     const words = res.data
     dispatch(getUserWords(words))

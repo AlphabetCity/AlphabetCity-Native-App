@@ -1,5 +1,6 @@
 'use strict'
 import axios from 'axios'
+import API_URL from '../utils/apiUrl'
 
 // Action Type
 const SIGNUP_USER = 'SIGNUP_USER'
@@ -14,10 +15,11 @@ export const removeUser = () => ({ type: REMOVE_USER })
 const editUser = user => ({ type: EDIT_USER, user })
 
 // Thunks
-export const createUser = user => async dispatch => {
+export const createUser = (user, location) => async dispatch => {
   try {
-    const res = await axios.post('https://alphabetcity.herokuapp.com/auth/signup', user)
+    const res = await axios.post(`${API_URL}/auth/signup`, user)
     const userData = await res.data
+    await axios.post(`${API_URL}/api/letters`, location)
     dispatch(signupUser(userData))
   } catch (error) {
     console.warn(error)
@@ -26,7 +28,7 @@ export const createUser = user => async dispatch => {
 
 export const getUser = user => async dispatch => {
   try {
-    const res = await axios.post('https://alphabetcity.herokuapp.com/auth/login', user)
+    const res = await axios.post(`${API_URL}/auth/login`, user)
     const userData = await res.data
     dispatch(loginUser(userData))
     return userData
@@ -37,7 +39,7 @@ export const getUser = user => async dispatch => {
 
 export const updateUser = (userId, changes) => async dispatch => {
   try {
-    const res = await axios.put(`https://alphabetcity.herokuapp.com/api/users/${userId}`, changes)
+    const res = await axios.put(`${API_URL}/api/users/${userId}`, changes)
     const userData = await res.data
     dispatch(editUser(userData))
   } catch (error) {
@@ -47,7 +49,7 @@ export const updateUser = (userId, changes) => async dispatch => {
 
 export const deleteUser = (userId) => async dispatch => {
   try {
-    await axios.delete(`https://alphabetcity.herokuapp.com/api/users/${userId}`)
+    await axios.delete(`${API_URL}/api/users/${userId}`)
     dispatch(removeUser())
   } catch (error) {
     console.warn(error)

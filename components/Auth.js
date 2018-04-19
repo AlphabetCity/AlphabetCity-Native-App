@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { View, TouchableHighlight, StyleSheet, Dimensions} from 'react-native'
 import { FormLabel, FormInput, Button, Text } from 'react-native-elements'
 import { connect } from 'react-redux'
+import { userLocation } from '../store/userLocation'
 import { createUser, getUser } from '../store/user'
 
 const { height, width } = Dimensions.get('window')
@@ -26,11 +27,13 @@ class Auth extends Component {
   handleSignup() {
     this.setState({ message: '' })
     const { userName, email, password } = this.state
-    if (!this.state.userName || !this.state.email || !this.state.password) {
+    const { createUser, userLocation} = this.props
+    const user = { userName, email, password}
+    if (!userName || !email || !password) {
       this.setState({ message: 'All fields required!' })
     } else {
       this.setState({ message: '' })
-      this.props.createUser({ userName, email, password })
+      createUser(user, userLocation)
       this.props.profileNav
         ? this.props.profileNav.navigate('Profile')
         : this.props.navigation.navigate('Profile')
@@ -152,6 +155,8 @@ const styles = {
   }
 }
 
+const mapState = ({ userLocation }) => ({ userLocation })
+
 const mapDispatch = { createUser, getUser }
 
-export default connect(null, mapDispatch)(Auth)
+export default connect(mapState, mapDispatch)(Auth)

@@ -1,4 +1,5 @@
 import axios from 'axios'
+import API_URL from '../utils/apiUrl'
 
 // Action Type
 const SET_WORDS = 'SET_WORDS'
@@ -11,7 +12,7 @@ const setWord = word => ({ type: ADD_WORD, word })
 // Thunks
 export const getWords = () => async dispatch => {
   try {
-    const res = await axios.get('https://alphabetcity.herokuapp.com/api/words')
+    const res = await axios.get(`${API_URL}/api/words`)
     const words = await res.data
     dispatch(setWords(words))
   } catch (error) {
@@ -21,7 +22,7 @@ export const getWords = () => async dispatch => {
 
 export const addWord = () => async dispatch => {
   try {
-    const res = await axios.post('https://alphabetcity.herokuapp.com/api/words')
+    const res = await axios.post(`${API_URL}/api/words`)
     const word = await res.data
     dispatch(setWord(word))
   } catch (error) {

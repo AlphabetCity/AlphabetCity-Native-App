@@ -1,4 +1,5 @@
 import axios from 'axios'
+import API_URL from '../utils/apiUrl'
 
 // Action Type
 const GET_HIGHSCORES = 'GET_HIGHSCORES'
@@ -9,7 +10,7 @@ const getHighscores = highscores => ({ type: GET_HIGHSCORES, highscores })
 // Thunks
 export const loadHighscores = () => async dispatch => {
   try {
-    const res = await axios.get(`https://alphabetcity.herokuapp.com/api/users?limit=10`)
+    const res = await axios.get(`${API_URL}/api/users?limit=10`)
     const highscores = res.data
     dispatch(getHighscores(highscores))
   } catch (error) {
