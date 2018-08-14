@@ -1,4 +1,5 @@
 import axios from 'axios'
+import API_URL from '../utils/apiUrl'
 
 // Action Type
 const SET_SATCHEL = 'SET_SATCHEL'
@@ -14,7 +15,7 @@ const removeLetter = letter => ({ type: REMOVE_LETTER, letter })
 export const getSatchel = userId => async dispatch => {
   try {
     const res = await axios.get(
-      `https://alphabetcity.herokuapp.com/api/users/${userId}/letters`,
+      `${API_URL}/api/users/${userId}/letters`,
       {
         params: {
           hidden: 'false'
@@ -31,7 +32,7 @@ export const getSatchel = userId => async dispatch => {
 export const updateLetter = (userLetterId, changes) => async dispatch => {
   try {
     const res = await axios.put(
-      `https://alphabetcity.herokuapp.com/api/Letters/${userLetterId}`,
+      `${API_URL}/api/Letters/${userLetterId}`,
       changes
     )
     if (res.data && res.data.latitude && res.data.longitude) {

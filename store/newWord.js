@@ -1,5 +1,5 @@
-
 import axios from 'axios'
+import API_URL from '../utils/apiUrl'
 
 // Action Type
 const GET_NEW_WORD = 'GET_NEW_WORD'
@@ -13,7 +13,7 @@ export const resetNewWord = () => ({type: RESET_NEW_WORD})
 
 export const createNewWord = (wordDataObj) => async dispatch => {
   try {
-    const res = await axios.post('https://alphabetcity.herokuapp.com/api/words', wordDataObj)
+    const res = await axios.post(`${API_URL}/api/words`, wordDataObj)
     const wordObj = res.data
     dispatch(getNewWord(wordObj))
   } catch (error) {

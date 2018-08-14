@@ -1,4 +1,5 @@
 import axios from 'axios'
+import API_URL from '../utils/apiUrl'
 
 // Action Type
 const SET_HIDDEN_LETTERS = 'SET_HIDDEN_LETTERS'
@@ -9,7 +10,7 @@ const setHiddenLetters = allHiddenLetters => ({ type: SET_HIDDEN_LETTERS, allHid
 // Thunks
 export const getAllHiddenLetters = () => async dispatch => {
   try {
-    const res = await axios.get('https://alphabetcity.herokuapp.com/api/letters', {
+    const res = await axios.get(`${API_URL}/api/letters`, {
       params: {
         hidden: 'true'
       }
